@@ -88,8 +88,37 @@
             <int:header name="fetchFilenames" expression="payload"/>
         </int:header-enricher>
         <int:splitter expression="payload.filenames"/>
+
         <int:service-activator ref="fetchLogfileMessagingGateway"
                                method="logOneFilename" />
+        <int:service-activator ref="downloadFilePipeline"
+                               method="downloadFile" />
+        <int:service-activator ref="downloadFilePipeline"
+                               method="unzip" />
+        <int:service-activator ref="downloadFilePipeline"
+                               method="importLogfile" />
+        <int:header-enricher>
+            <int:header name="filename" expression="payload"/>
+        </int:header-enricher>
+
+        <int:splitter ref="downloadFilePipeline"
+                      method="splitLogfileIntoLines" />
+
+
+        <int:service-activator ref="downloadFilePipeline"
+                               method="logLine" />
+
+        <int:aggregator
+                ref="downloadFilePipeline"
+                method="aggregateLines"
+                correlation-strategy="downloadFilePipeline"
+                correlation-strategy-method="correlateLines"
+                release-strategy="downloadFilePipeline"
+                release-strategy-method="releaseLines" />
+
+        <int:service-activator ref="fetchLogfileMessagingGateway"
+                               method="logOneFilename" />
+
         <int:aggregator
                 ref="fetchLogfileMessagingGateway"
                 method="aggregateFilenames"
