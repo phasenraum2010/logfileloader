@@ -42,7 +42,6 @@ public class FetchLogfileMessagingGateway {
     private String httpPassword;
 
     public TriggerStartupEvent fetchFilesnames(TriggerStartupEvent e){
-        LOGGER.info("Startup Event Received.");
         DefaultHttpClient httpclient = new DefaultHttpClient();
         HttpGet httpget = new HttpGet(httpgetRequest);
         try {
@@ -51,7 +50,6 @@ public class FetchLogfileMessagingGateway {
                     new AuthScope(host),
                     new UsernamePasswordCredentials(httpUser, httpPassword));
             HttpResponse response1 = httpclient.execute(httpget);
-            LOGGER.info(response1.getStatusLine().toString());
             HttpEntity entity1 = response1.getEntity();
             InputStream instream = entity1.getContent();
             BufferedReader in = new BufferedReader(new InputStreamReader(instream));
