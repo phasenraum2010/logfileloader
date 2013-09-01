@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-twitter="http://www.springframework.org/schema/integration/twitter"
+	xmlns:int-mongodb="http://www.springframework.org/schema/integration/mongodb"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+  	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration
+		http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration/mongodb
+		http://www.springframework.org/schema/integration/mongodb/spring-integration-mongodb.xsd
+		http://www.springframework.org/schema/integration/twitter
+		http://www.springframework.org/schema/integration/twitter/spring-integration-twitter.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jdbc 
+		http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/data/jpa
+        http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+    <context:property-placeholder location="classpath:/logfileloader.properties" />
+    
+	<bean id="mongoDbFactory"
+		class="org.springframework.data.mongodb.core.SimpleMongoDbFactory">
+		<constructor-arg>
+			<bean class="com.mongodb.Mongo" />
+		</constructor-arg>
+		<constructor-arg value="test" />
+	</bean>
+
+	<bean id="mongoDbMessageStore"
+		class="org.springframework.integration.mongodb.store.MongoDbMessageStore">
+		<constructor-arg ref="mongoDbFactory" />
+	</bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${javax.persistence.jdbc.driver}"/> 
+		<property name="url" value="${javax.persistence.jdbc.url}"/> 
+		<property name="username" value="${javax.persistence.jdbc.username}"/>
+		<property name="password" value="${javax.persistence.jdbc.password}"/>
+	</bean>
+	
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+  		<property name="dataSource" ref="dataSource"/>
+  		<property name="persistenceUnitName" value="twitterclient"/>
+ 	</bean>
+
+	<!-- JPA Configuration -->
+	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+	<bean
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	<bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="jpaDialect" ref="jpaDialect" />
+	</bean>
+
+	<!-- Transactions -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<int:poller default="true" fixed-rate="500" />
+
+	<jpa:repositories base-package="org.woehlke" />
+	 
+	<context:component-scan base-package="org.woehlke" />
+
+	<int:logging-channel-adapter id="logger"
+		level="INFO"
+		expression="'Id:' + payload.id + '; Date:' + payload.createdAt + '; FromUser: ' + payload.fromUser" />
+
+    <int:channel id="manualStartupChannel">
+        <int:queue message-store="mongoDbMessageStore" />
+    </int:channel>
+
+    <int:service-activator input-channel="manualStartupChannel"
+                           id="fetchLogfileActivator" output-channel="nullChannel" ref="fetchLogfileMessagingGateway"
+                           method="fetchFilesnames" />
+
+</beans>

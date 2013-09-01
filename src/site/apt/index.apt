@@ -1,0 +1,21 @@
+Twitterwall
+
+    A very Simple Twitterwall based on Java, Spring Frameworks and JavaScript.
+
+    Github: {{{https://github.com/phasenraum2010/twitterwall}https://github.com/phasenraum2010/twitterwall}}
+
+* Motivation
+
+    Some experimental Work with Spring Integration and STS.
+
+* Runtime
+
+    Runs on cloudfoundry.com or on a local tomcat servlet container.
+
+* Runtime Dependencies
+
+    Uses MySQL and MongoDB as Service.
+
+* Screen
+
+[images/screen.png] Figure Screen
