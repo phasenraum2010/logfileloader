@@ -2,7 +2,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:int="http://www.springframework.org/schema/integration"
-	xmlns:int-twitter="http://www.springframework.org/schema/integration/twitter"
 	xmlns:int-mongodb="http://www.springframework.org/schema/integration/mongodb"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
@@ -14,8 +13,6 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/integration/mongodb
 		http://www.springframework.org/schema/integration/mongodb/spring-integration-mongodb.xsd
-		http://www.springframework.org/schema/integration/twitter
-		http://www.springframework.org/schema/integration/twitter/spring-integration-twitter.xsd
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/jdbc 
@@ -49,7 +46,7 @@
 	
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
   		<property name="dataSource" ref="dataSource"/>
-  		<property name="persistenceUnitName" value="twitterclient"/>
+  		<property name="persistenceUnitName" value="logfileloader"/>
  	</bean>
 
 	<!-- JPA Configuration -->
@@ -73,15 +70,37 @@
 	<context:component-scan base-package="org.woehlke" />
 
 	<int:logging-channel-adapter id="logger"
-		level="INFO"
-		expression="'Id:' + payload.id + '; Date:' + payload.createdAt + '; FromUser: ' + payload.fromUser" />
+		level="INFO" />
 
     <int:channel id="manualStartupChannel">
         <int:queue message-store="mongoDbMessageStore" />
     </int:channel>
 
-    <int:service-activator input-channel="manualStartupChannel"
-                           id="fetchLogfileActivator" output-channel="nullChannel" ref="fetchLogfileMessagingGateway"
-                           method="fetchFilesnames" />
+    <int:chain input-channel="manualStartupChannel"
+               output-channel="nullChannel" id="fetchLogfileChain">
+        <int:service-activator ref="fetchLogfileMessagingGateway"
+                               method="fetchFilesnames" />
+        <int:filter ref="fetchLogfileMessagingGateway" method="isHttpRequestOk" />
+        <int:service-activator ref="fetchLogfileMessagingGateway"
+                               method="extractFilesnames" />
+        <int:filter ref="fetchLogfileMessagingGateway" method="hasFilenames" />
+        <int:header-enricher>
+            <int:header name="fetchFilenames" expression="payload"/>
+        </int:header-enricher>
+        <int:splitter expression="payload.filenames"/>
+        <int:service-activator ref="fetchLogfileMessagingGateway"
+                               method="logOneFilename" />
+        <int:aggregator
+                ref="fetchLogfileMessagingGateway"
+                method="aggregateFilenames"
+                correlation-strategy="fetchLogfileMessagingGateway"
+                correlation-strategy-method="correlateFilenames"
+                release-strategy="fetchLogfileMessagingGateway"
+                release-strategy-method="releaseFilenames"/>
+        <int:service-activator ref="fetchLogfileMessagingGateway"
+                               method="logFilename" />
+    </int:chain>
+
+
 
 </beans>
