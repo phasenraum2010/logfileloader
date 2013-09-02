@@ -78,12 +78,14 @@
 
     <int:chain input-channel="manualStartupChannel"
                output-channel="nullChannel" id="fetchLogfileChain">
+
         <int:service-activator ref="fetchLogfileMessagingGateway"
                                method="fetchFilesnames" />
         <int:filter ref="fetchLogfileMessagingGateway" method="isHttpRequestOk" />
         <int:service-activator ref="fetchLogfileMessagingGateway"
                                method="extractFilesnames" />
         <int:filter ref="fetchLogfileMessagingGateway" method="hasFilenames" />
+
         <int:header-enricher>
             <int:header name="fetchFilenames" expression="payload"/>
         </int:header-enricher>
@@ -100,10 +102,8 @@
         <int:header-enricher>
             <int:header name="filename" expression="payload"/>
         </int:header-enricher>
-
         <int:splitter ref="downloadFilePipeline"
                       method="splitLogfileIntoLines" />
-
 
         <int:service-activator ref="downloadFilePipeline"
                                method="logLine" />
