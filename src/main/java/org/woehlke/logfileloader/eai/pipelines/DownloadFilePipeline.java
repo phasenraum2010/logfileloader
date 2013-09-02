@@ -15,8 +15,11 @@ import org.springframework.integration.annotation.Aggregator;
 import org.springframework.integration.annotation.CorrelationStrategy;
 import org.springframework.integration.annotation.MessageEndpoint;
 import org.springframework.integration.annotation.Splitter;
+import org.woehlke.logfileloader.core.entities.LogfileLine;
+import org.woehlke.logfileloader.core.services.LogfileLineService;
 import org.woehlke.logfileloader.eai.events.ImportLogfileEvent;
 
+import javax.inject.Inject;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +41,9 @@ public class DownloadFilePipeline {
 
     @Value("${http.password}")
     private String httpPassword;
+
+    @Inject
+    private LogfileLineService logfileLineService;
 
     public String downloadFile(String filename){
         DefaultHttpClient httpclient = new DefaultHttpClient();
@@ -130,6 +136,13 @@ public class DownloadFilePipeline {
 
     public String logLine(String line) {
         LOGGER.info(line);
+        return line;
+    }
+
+    public String pushToDatabase(String line){
+        LogfileLine logfileLine = new LogfileLine();
+        logfileLine.setLine(line);
+        logfileLineService.createIfNotExists(logfileLine);
         return line;
     }
 }

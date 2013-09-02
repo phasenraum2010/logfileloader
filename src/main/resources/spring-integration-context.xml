@@ -107,6 +107,8 @@
 
         <int:service-activator ref="downloadFilePipeline"
                                method="logLine" />
+        <int:service-activator ref="downloadFilePipeline"
+                               method="pushToDatabase" />
 
         <int:aggregator
                 ref="downloadFilePipeline"
