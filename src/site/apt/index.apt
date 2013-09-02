@@ -16,10 +16,6 @@ logfileloader
 
     Uses MySQL as local Database and MongoDB as Message Store Service for EAI.
 
-* Screen
-
-[images/screen.png] Figure Screen
-
 * Install
 
 ** Setup MySQL
