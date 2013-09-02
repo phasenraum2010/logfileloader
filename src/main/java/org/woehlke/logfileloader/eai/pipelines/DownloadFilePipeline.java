@@ -45,6 +45,13 @@ public class DownloadFilePipeline {
     @Inject
     private LogfileLineService logfileLineService;
 
+    private String getTempDirectory(){
+        if(System.getProperty("os.name").startsWith("Windows")){
+            return "C:\\TEMP\\";
+        }
+        return "/tmp/";
+    }
+
     public String downloadFile(String filename){
         DefaultHttpClient httpclient = new DefaultHttpClient();
         HttpGet httpget = new HttpGet(httpgetRequest+"/"+filename);
@@ -56,7 +63,7 @@ public class DownloadFilePipeline {
             HttpResponse response1 = httpclient.execute(httpget);
             HttpEntity entity1 = response1.getEntity();
             InputStream instream = entity1.getContent();
-            File file = new File("/tmp/"+filename);
+            File file = new File(getTempDirectory()+filename);
             FileOutputStream  out = new FileOutputStream(file);
             while(instream.available()>0){
                 out.write(instream.read());
@@ -71,8 +78,8 @@ public class DownloadFilePipeline {
     }
 
     public String unzip(String filename) {
-        File fileOut = new File("/tmp/"+filename+".txt");
-        File fileIn = new File("/tmp/"+filename);
+        File fileOut = new File(getTempDirectory()+filename+".txt");
+        File fileIn = new File(getTempDirectory()+filename);
         try {
             FileOutputStream out = new FileOutputStream(fileOut);
             GZIPInputStream in = new GZIPInputStream(new FileInputStream(fileIn));
@@ -90,7 +97,7 @@ public class DownloadFilePipeline {
     }
 
     public ImportLogfileEvent importLogfile(String filename) {
-        File file = new File("/tmp/"+filename+".txt");
+        File file = new File(getTempDirectory()+filename+".txt");
         List<String> lines = new ArrayList<String>();
         try {
             BufferedReader fileReader = new BufferedReader(new FileReader(file));

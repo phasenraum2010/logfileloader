@@ -17,7 +17,7 @@ public class LogfileLine {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, unique = true, length=1000)
+    @Column(nullable = false, columnDefinition="Text(1000)")
     private String line;
 
     public Long getId() {
