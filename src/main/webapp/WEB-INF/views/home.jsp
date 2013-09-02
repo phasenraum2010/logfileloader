@@ -3,7 +3,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Twitterwall</title>
+        <title>Logfileloader</title>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <link rel="stylesheet" href="<c:url value='/css/bootstrap.min.css'/>" media="screen">
         <link rel="stylesheet" href="<c:url value='/css/main.css'/>"  type="text/css">
@@ -12,7 +12,8 @@
     </head>
     <body>
     	<div class="container">
-        <a href="/start">Start Logfile Download</a>
+            <a href="/start">Start Logfile Download</a> <br />
+            <a href="/process">Start Logfile Processing</a>
 		</div>
         <script type="text/javascript">
             $(window).load(function(){

@@ -10,4 +10,6 @@ package org.woehlke.logfileloader.eai.service;
 public interface ManualStartupService {
 
     public void start();
+
+    void processLogfileLines();
 }

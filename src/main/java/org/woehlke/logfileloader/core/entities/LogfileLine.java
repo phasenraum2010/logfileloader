@@ -66,4 +66,13 @@ public class LogfileLine {
         result = 31 * result + line.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "LogfileLine{" +
+                "id=" + id +
+                ", line='" + line + '\'' +
+                ", processed=" + processed +
+                '}';
+    }
 }

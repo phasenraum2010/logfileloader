@@ -43,8 +43,8 @@ public class LogfileLineServiceImpl implements LogfileLineService {
         return logfileLineRepository.findByProcessed(processed, pageable);
     }
 
-    public void setProcessed(LogfileLine logfileLine){
+    public LogfileLine setProcessed(LogfileLine logfileLine){
         logfileLine.setProcessed(true);
-        logfileLineRepository.saveAndFlush(logfileLine);
+        return logfileLineRepository.saveAndFlush(logfileLine);
     }
 }

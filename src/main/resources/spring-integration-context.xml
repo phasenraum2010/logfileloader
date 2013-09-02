@@ -81,7 +81,7 @@
     </int:channel>
 
     <int:chain input-channel="manualStartupChannel"
-               output-channel="processLogfileLinesChannel" id="fetchLogfileChain">
+               output-channel="nullChannel" id="fetchLogfileChain">
 
         <int:service-activator ref="fetchLogfileMessagingGateway"
                                method="fetchFilesnames" />
@@ -124,7 +124,6 @@
 
         <int:service-activator ref="fetchLogfileMessagingGateway"
                                method="logOneFilename" />
-
         <int:aggregator
                 ref="fetchLogfileMessagingGateway"
                 method="aggregateFilenames"
@@ -139,6 +138,8 @@
     <int:chain input-channel="processLogfileLinesChannel"
                output-channel="nullChannel" id="processLogfileLinesChain">
 
+        <int:service-activator ref="processLogfileLinesPipeline"
+                               method="log" />
     </int:chain>
 
 

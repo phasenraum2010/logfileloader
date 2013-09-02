@@ -16,5 +16,5 @@ public interface LogfileLineService {
 
     Page<LogfileLine> getNextUnprocessedLines();
 
-    void setProcessed(LogfileLine logfileLine);
+    LogfileLine setProcessed(LogfileLine logfileLine);
 }

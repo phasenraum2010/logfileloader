@@ -39,4 +39,16 @@ public class HomeController {
         manualStartupService.start();
         return "started";
     }
+
+    /**
+     * Simply selects the home view to render by returning its name.
+     */
+    @RequestMapping(value="/process")
+    public String process(Model model) {
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("HTTP-Request for /process");
+        }
+        manualStartupService.processLogfileLines();
+        return "process";
+    }
 }
