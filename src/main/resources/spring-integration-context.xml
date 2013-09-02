@@ -76,8 +76,12 @@
         <int:queue message-store="mongoDbMessageStore" />
     </int:channel>
 
+    <int:channel id="processLogfileLinesChannel">
+        <int:queue message-store="mongoDbMessageStore" />
+    </int:channel>
+
     <int:chain input-channel="manualStartupChannel"
-               output-channel="nullChannel" id="fetchLogfileChain">
+               output-channel="processLogfileLinesChannel" id="fetchLogfileChain">
 
         <int:service-activator ref="fetchLogfileMessagingGateway"
                                method="fetchFilesnames" />
@@ -130,6 +134,11 @@
                 release-strategy-method="releaseFilenames"/>
         <int:service-activator ref="fetchLogfileMessagingGateway"
                                method="logFilename" />
+    </int:chain>
+
+    <int:chain input-channel="processLogfileLinesChannel"
+               output-channel="nullChannel" id="processLogfileLinesChain">
+
     </int:chain>
 
 

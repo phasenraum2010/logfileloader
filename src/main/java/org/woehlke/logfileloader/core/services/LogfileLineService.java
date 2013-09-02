@@ -1,5 +1,6 @@
 package org.woehlke.logfileloader.core.services;
 
+import org.springframework.data.domain.Page;
 import org.woehlke.logfileloader.core.entities.LogfileLine;
 
 /**
@@ -12,4 +13,8 @@ import org.woehlke.logfileloader.core.entities.LogfileLine;
 public interface LogfileLineService {
 
     void createIfNotExists(LogfileLine logfileLine);
+
+    Page<LogfileLine> getNextUnprocessedLines();
+
+    void setProcessed(LogfileLine logfileLine);
 }

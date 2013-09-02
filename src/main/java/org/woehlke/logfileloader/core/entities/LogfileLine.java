@@ -20,6 +20,9 @@ public class LogfileLine {
     @Column(nullable = false, columnDefinition="Text(1000)")
     private String line;
 
+    @Column
+    private boolean processed;
+
     public Long getId() {
         return id;
     }
@@ -34,6 +37,14 @@ public class LogfileLine {
 
     public void setLine(String line) {
         this.line = line;
+    }
+
+    public boolean isProcessed() {
+        return processed;
+    }
+
+    public void setProcessed(boolean processed) {
+        this.processed = processed;
     }
 
     @Override
