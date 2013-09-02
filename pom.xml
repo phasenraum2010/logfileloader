@@ -300,23 +300,23 @@
 
 	<organization>
 		<name>Thomas Woehlke</name>
-		<url>https://github.com/phasenraum2010/twitterwall</url>
+		<url>https://github.com/phasenraum2010/logfileloader</url>
 	</organization>
 	<inceptionYear>2013</inceptionYear>
-	<description>A very Simple Twitterwall based on Java, Spring Frameworks and JavaScript.  Some experimental Work with Spring Integration and STS.  Runs on cloudfoundry.com or on an local tomcat servlet container. Uses MySQL and MongoDB as Service.</description>
+	<description>Runs on cloud Services like cloudfoundry.com or on a local tomcat servlet container.</description>
     <scm>
-        <url>https://github.com/phasenraum2010/twitterwall.git</url>
-        <connection>scm:git:https://github.com/phasenraum2010/twitterwall.git</connection>
-        <developerConnection>scm:git:https://github.com/phasenraum2010/twitterwall.git</developerConnection>
+        <url>https://github.com/phasenraum2010/logfileloader.git</url>
+        <connection>scm:git:https://github.com/phasenraum2010/logfileloader.git</connection>
+        <developerConnection>scm:git:https://github.com/phasenraum2010/logfileloader.git</developerConnection>
 	</scm>
 	<issueManagement>
-		<url>https://github.com/phasenraum2010/twitterwall/issues</url>
+		<url>https://github.com/phasenraum2010/logfileloader/issues</url>
 		<system>GitHub Issues</system>
 	</issueManagement>
 	<distributionManagement>
 		<site>
-			<id>twitterwall.shadowfax.fritz.box</id>
-			<url>file:///opt/local/apache2/htdocs/p/twitterwall</url>
+			<id>logfileloader.shadowfax.fritz.box</id>
+			<url>file:///opt/local/apache2/htdocs/p/logfileloader</url>
 		</site>
 	</distributionManagement>
 
@@ -496,15 +496,6 @@
                 <version>2.8</version>
             </plugin>
 
-            <!-- This Plugin looks up SVN -->
-            <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-changelog-plugin</artifactId>
-                <version>2.2</version> </plugin> -->
-
-
-
-            <!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.5.2</version> </plugin> -->
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -534,31 +525,24 @@
                 <version>2.7</version>
             </plugin>
 
-            <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId>
-                   <version>2.5.1</version> <configuration> <source>1.6</source> <target>1.6</target>
-                   <encoding>${encoding}</encoding> </configuration> </plugin> -->
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.9.1</version>
                 <configuration>
-                    <!-- <links> <link>http://java.sun.com/javase/6/docs/api/</link> <link>http://static.springframework.org/spring/docs/3.0.x/api/</link>
-                             <link>http://static.springframework.org/spring-webflow/docs/2.1.x/javadoc-api/</link>
-                             <link>http://static.springframework.org/spring-security/site/apidocs/</link>
-                             <link>http://tiles.apache.org/2.1/framework/apidocs/index.html</link> <link>http://www.hibernate.org/hib_docs/v3/api/</link>
-                             <link>http://docs.jboss.org/hibernate/stable/annotations/api/</link> <link>http://docs.jboss.org/hibernate/stable/entitymanager/api/</link>
-                             </links> -->
+                    <links>
+                        <link>http://static.springsource.org/spring/docs/3.2.x/javadoc-api/</link>
+                        <link>http://static.springsource.org/spring-integration/api/</link>
+                        <link>http://hc.apache.org/httpclient-3.x/apidocs/</link>
+                        <link>http://docs.oracle.com/javase/6/docs/api/</link>
+                    </links>
                     <linksource>true</linksource>
                     <maxmemory>1024m</maxmemory>
                     <source>1.6</source>
                     <encoding>${encoding}</encoding>
                 </configuration>
             </plugin>
-            <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-plugin</artifactId>
-                   <version>2.2</version> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId>
-                   <artifactId>maven-surefire-report-plugin</artifactId> <version>2.0</version>
-                   </plugin> -->
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
