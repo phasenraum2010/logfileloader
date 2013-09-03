@@ -139,7 +139,23 @@
                output-channel="nullChannel" id="processLogfileLinesChain">
 
         <int:service-activator ref="processLogfileLinesPipeline"
+                               method="getIpNumber" />
+
+        <int:service-activator ref="processLogfileLinesPipeline"
+                               method="getRequestString" />
+
+        <int:service-activator ref="processLogfileLinesPipeline"
+                               method="getHttpCode" />
+
+        <int:service-activator ref="processLogfileLinesPipeline"
+                               method="getBrowser" />
+
+        <int:service-activator ref="processLogfileLinesPipeline"
+                               method="pushIntoDatabase" />
+
+        <int:service-activator ref="processLogfileLinesPipeline"
                                method="log" />
+
     </int:chain>
 
 

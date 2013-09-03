@@ -8,6 +8,11 @@
 	<persistence-unit name="logfileloader">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <class>org.woehlke.logfileloader.core.entities.LogfileLine</class>
+        <class>org.woehlke.logfileloader.core.entities.Browser</class>
+        <class>org.woehlke.logfileloader.core.entities.HttpCode</class>
+        <class>org.woehlke.logfileloader.core.entities.Ip</class>
+        <class>org.woehlke.logfileloader.core.entities.LogfileLineItem</class>
+        <class>org.woehlke.logfileloader.core.entities.Request</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
 
