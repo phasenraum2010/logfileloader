@@ -10,6 +10,6 @@ import org.woehlke.logfileloader.core.entities.Browser;
  * Time: 15:49
  * To change this template use File | Settings | File Templates.
  */
-public interface BrowserRepository extends JpaRepository<Browser,Long> {
+public interface BrowserRepository extends JpaRepository<Browser, Long> {
     Browser findByBrowser(String browser);
 }

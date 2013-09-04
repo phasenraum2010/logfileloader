@@ -27,7 +27,7 @@ public class ProcessLogfileLinesPipeline {
     @Inject
     private LogfileLineItemService logfileLineItemService;
 
-    public ProcessLogfileLinesEvent log(ProcessLogfileLinesEvent event){
+    public ProcessLogfileLinesEvent log(ProcessLogfileLinesEvent event) {
         LOGGER.info(event.toString());
         return event;
     }
@@ -44,15 +44,15 @@ public class ProcessLogfileLinesPipeline {
         String rest = line.split("\\[")[1];
         String datetimeString = rest.split("\\]")[0].split(" ")[0];
         LOGGER.info(datetimeString);
-        String timezoneString =  rest.split("\\]")[0].split(" ")[1];
+        String timezoneString = rest.split("\\]")[0].split(" ")[1];
         LOGGER.info(timezoneString);
-        SimpleDateFormat parserSDF=new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss");
+        SimpleDateFormat parserSDF = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss");
         try {
             int timezone = Integer.parseInt(timezoneString);
             Date datetime = parserSDF.parse(datetimeString);
             timezone -= 100; //CEST
-            timezone *= 60*1000;
-            event.setDatetime(new Date(datetime.getTime()+timezone));
+            timezone *= 60 * 1000;
+            event.setDatetime(new Date(datetime.getTime() + timezone));
         } catch (NumberFormatException u) {
             u.printStackTrace();
         } catch (ParseException e) {
@@ -67,8 +67,8 @@ public class ProcessLogfileLinesPipeline {
         String requestLine = "UNDEFINED";
         try {
             requestLine = line.split("\"")[1].split(" ")[1];
-        } catch (ArrayIndexOutOfBoundsException e){
-           e.printStackTrace();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            e.printStackTrace();
         }
         event.setRequestLine(requestLine);
         LOGGER.info(requestLine);
@@ -80,7 +80,7 @@ public class ProcessLogfileLinesPipeline {
         String httpCode = "UNDEFINED";
         try {
             httpCode = line.split("\"")[2].split(" ")[1];
-        } catch (ArrayIndexOutOfBoundsException e){
+        } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
         event.setHttpCode(httpCode);
@@ -93,7 +93,7 @@ public class ProcessLogfileLinesPipeline {
         String browser = "UNDEFINED";
         try {
             browser = line.split("\"")[5];
-        } catch (ArrayIndexOutOfBoundsException e){
+        } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
         event.setBrowser(browser);

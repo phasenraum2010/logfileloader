@@ -28,42 +28,42 @@ public class ReportsController {
     @Inject
     private ReportsService reportsService;
 
-    @RequestMapping(value="/reports/listIpNumbers")
+    @RequestMapping(value = "/reports/listIpNumbers")
     public String listIpNumbers(Model model) {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("HTTP-Request for /reports/listIpNumbers");
         }
         List<IpNumbersReportItem> ipNumbersReport = reportsService.listIpNumbers();
-        for(IpNumbersReportItem ipNumbersReportItem:ipNumbersReport){
+        for (IpNumbersReportItem ipNumbersReportItem : ipNumbersReport) {
             LOGGER.info(ipNumbersReportItem.toString());
         }
-        model.addAttribute("ipNumbersReport",ipNumbersReport);
+        model.addAttribute("ipNumbersReport", ipNumbersReport);
         return "reports/listIpNumbers";
     }
 
-    @RequestMapping(value="/reports/listBrowser")
+    @RequestMapping(value = "/reports/listBrowser")
     public String listBrowser(Model model) {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("HTTP-Request for /reports/listBrowser");
         }
         List<BrowserReportItem> listBrowser = reportsService.listBrowser();
-        for(BrowserReportItem ipNumbersReportItem:listBrowser){
+        for (BrowserReportItem ipNumbersReportItem : listBrowser) {
             LOGGER.info(ipNumbersReportItem.toString());
         }
-        model.addAttribute("listBrowser",listBrowser);
+        model.addAttribute("listBrowser", listBrowser);
         return "reports/listBrowser";
     }
 
-    @RequestMapping(value="/reports/listPages")
+    @RequestMapping(value = "/reports/listPages")
     public String listPages(Model model) {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("HTTP-Request for /reports/listPages");
         }
         List<PageReportItem> listPages = reportsService.listPages();
-        for(PageReportItem ipNumbersReportItem:listPages){
+        for (PageReportItem ipNumbersReportItem : listPages) {
             LOGGER.info(ipNumbersReportItem.toString());
         }
-        model.addAttribute("listPages",listPages);
+        model.addAttribute("listPages", listPages);
         return "reports/listPages";
     }
 }

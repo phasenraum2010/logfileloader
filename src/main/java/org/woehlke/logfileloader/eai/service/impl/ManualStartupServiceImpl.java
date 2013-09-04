@@ -41,14 +41,14 @@ public class ManualStartupServiceImpl implements ManualStartupService {
     }
 
     @Override
-    public void processLogfileLines(){
+    public void processLogfileLines() {
         boolean goOn = true;
         final MessagingTemplate m = new MessagingTemplate();
-        while(goOn){
+        while (goOn) {
             Page<LogfileLine> lines = logfileLineService.getNextUnprocessedLines();
             goOn = lines.hasNextPage();
-            for(LogfileLine line:lines.getContent()){
-                line=logfileLineService.setProcessed(line);
+            for (LogfileLine line : lines.getContent()) {
+                line = logfileLineService.setProcessed(line);
                 ProcessLogfileLinesEvent e = new ProcessLogfileLinesEvent();
                 e.setLine(line);
                 Message<ProcessLogfileLinesEvent> message = MessageBuilder

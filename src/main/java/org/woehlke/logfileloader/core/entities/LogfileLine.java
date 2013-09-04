@@ -10,14 +10,14 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="LINE")
+@Table(name = "LINE")
 public class LogfileLine {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, columnDefinition="Text(1000)")
+    @Column(nullable = false, columnDefinition = "Text(1000)")
     private String line;
 
     @Column

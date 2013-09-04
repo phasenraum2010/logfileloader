@@ -28,10 +28,10 @@ public class LogfileLineServiceImpl implements LogfileLineService {
     private LogfileLineRepository logfileLineRepository;
 
     @Override
-    @Transactional(propagation= Propagation.REQUIRES_NEW, readOnly=false)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = false)
     public void createIfNotExists(LogfileLine logfileLine) {
         LogfileLine found = logfileLineRepository.findByLine(logfileLine.getLine());
-        if(found==null){
+        if (found == null) {
             logfileLineRepository.saveAndFlush(logfileLine);
         }
     }
@@ -39,11 +39,11 @@ public class LogfileLineServiceImpl implements LogfileLineService {
     @Override
     public Page<LogfileLine> getNextUnprocessedLines() {
         boolean processed = false;
-        Pageable pageable = new PageRequest(0,50);
+        Pageable pageable = new PageRequest(0, 50);
         return logfileLineRepository.findByProcessed(processed, pageable);
     }
 
-    public LogfileLine setProcessed(LogfileLine logfileLine){
+    public LogfileLine setProcessed(LogfileLine logfileLine) {
         logfileLine.setProcessed(true);
         return logfileLineRepository.saveAndFlush(logfileLine);
     }

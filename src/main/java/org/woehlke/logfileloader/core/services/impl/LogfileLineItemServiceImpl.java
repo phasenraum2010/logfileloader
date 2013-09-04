@@ -35,25 +35,25 @@ public class LogfileLineItemServiceImpl implements LogfileLineItemService {
     private RequestRepository requestRepository;
 
     @Override
-    @Transactional(propagation= Propagation.REQUIRES_NEW, readOnly=false)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = false)
     public void save(LogfileLineItem logfileLineItem) {
         Browser browser = browserRepository.findByBrowser(logfileLineItem.getBrowser().getBrowser());
-        if(browser == null){
+        if (browser == null) {
             browser = browserRepository.saveAndFlush(logfileLineItem.getBrowser());
         }
         logfileLineItem.setBrowser(browser);
         HttpCode httpCode = httpCodeRepository.findByCode(logfileLineItem.getHttpCode().getCode());
-        if(httpCode == null){
+        if (httpCode == null) {
             httpCode = httpCodeRepository.saveAndFlush(logfileLineItem.getHttpCode());
         }
         logfileLineItem.setHttpCode(httpCode);
         Ip ip = ipRepository.findByIp(logfileLineItem.getIp().getIp());
-        if(ip == null){
+        if (ip == null) {
             ip = ipRepository.saveAndFlush(logfileLineItem.getIp());
         }
         logfileLineItem.setIp(ip);
         Request request = requestRepository.findByRequest(logfileLineItem.getRequest().getRequest());
-        if(request == null){
+        if (request == null) {
             request = requestRepository.saveAndFlush(logfileLineItem.getRequest());
         }
         logfileLineItem.setRequest(request);

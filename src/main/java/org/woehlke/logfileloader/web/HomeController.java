@@ -20,7 +20,7 @@ public class HomeController {
     /**
      * Simply selects the home view to render by returning its name.
      */
-    @RequestMapping(value="/")
+    @RequestMapping(value = "/")
     public String home(Model model) {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("HTTP-Request for /");
@@ -31,7 +31,7 @@ public class HomeController {
     /**
      * Simply selects the home view to render by returning its name.
      */
-    @RequestMapping(value="/start")
+    @RequestMapping(value = "/start")
     public String start(Model model) {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("HTTP-Request for /start");
@@ -43,7 +43,7 @@ public class HomeController {
     /**
      * Simply selects the home view to render by returning its name.
      */
-    @RequestMapping(value="/process")
+    @RequestMapping(value = "/process")
     public String process(Model model) {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("HTTP-Request for /process");

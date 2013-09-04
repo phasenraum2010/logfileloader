@@ -26,11 +26,11 @@ public class TriggerStartupEvent implements Serializable {
     }
 
     public boolean isSatisfiedBy(List<String> listOfFilenames) {
-        if ( filenames.size()!=listOfFilenames.size() ){
+        if (filenames.size() != listOfFilenames.size()) {
             return false;
         }
-        for(String filename:filenames){
-            if(!listOfFilenames.contains(filename)){
+        for (String filename : filenames) {
+            if (!listOfFilenames.contains(filename)) {
                 return false;
             }
         }

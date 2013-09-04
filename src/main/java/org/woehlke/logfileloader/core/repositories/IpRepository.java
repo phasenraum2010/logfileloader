@@ -10,6 +10,6 @@ import org.woehlke.logfileloader.core.entities.Ip;
  * Time: 15:51
  * To change this template use File | Settings | File Templates.
  */
-public interface IpRepository extends JpaRepository<Ip,Long> {
+public interface IpRepository extends JpaRepository<Ip, Long> {
     Ip findByIp(String ip);
 }

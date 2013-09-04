@@ -45,16 +45,16 @@ public class DownloadFilePipeline {
     @Inject
     private LogfileLineService logfileLineService;
 
-    private String getTempDirectory(){
-        if(System.getProperty("os.name").startsWith("Windows")){
+    private String getTempDirectory() {
+        if (System.getProperty("os.name").startsWith("Windows")) {
             return "C:\\TEMP\\";
         }
         return "/tmp/";
     }
 
-    public String downloadFile(String filename){
+    public String downloadFile(String filename) {
         DefaultHttpClient httpclient = new DefaultHttpClient();
-        HttpGet httpget = new HttpGet(httpgetRequest+"/"+filename);
+        HttpGet httpget = new HttpGet(httpgetRequest + "/" + filename);
         try {
             HttpHost host = new HttpHost(httpHost);
             httpclient.getCredentialsProvider().setCredentials(
@@ -63,9 +63,9 @@ public class DownloadFilePipeline {
             HttpResponse response1 = httpclient.execute(httpget);
             HttpEntity entity1 = response1.getEntity();
             InputStream instream = entity1.getContent();
-            File file = new File(getTempDirectory()+filename);
-            FileOutputStream  out = new FileOutputStream(file);
-            while(instream.available()>0){
+            File file = new File(getTempDirectory() + filename);
+            FileOutputStream out = new FileOutputStream(file);
+            while (instream.available() > 0) {
                 out.write(instream.read());
             }
             out.close();
@@ -78,17 +78,18 @@ public class DownloadFilePipeline {
     }
 
     public String unzip(String filename) {
-        File fileOut = new File(getTempDirectory()+filename+".txt");
-        File fileIn = new File(getTempDirectory()+filename);
+        File fileOut = new File(getTempDirectory() + filename + ".txt");
+        File fileIn = new File(getTempDirectory() + filename);
         try {
             FileOutputStream out = new FileOutputStream(fileOut);
             GZIPInputStream in = new GZIPInputStream(new FileInputStream(fileIn));
-            while(in.available()>0){
+            while (in.available() > 0) {
                 out.write(in.read());
             }
             out.close();
             in.close();
         } catch (java.io.EOFException eofe) {
+            eofe.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,11 +98,11 @@ public class DownloadFilePipeline {
     }
 
     public ImportLogfileEvent importLogfile(String filename) {
-        File file = new File(getTempDirectory()+filename+".txt");
+        File file = new File(getTempDirectory() + filename + ".txt");
         List<String> lines = new ArrayList<String>();
         try {
             BufferedReader fileReader = new BufferedReader(new FileReader(file));
-            while(fileReader.ready()){
+            while (fileReader.ready()) {
                 lines.add(fileReader.readLine());
             }
         } catch (FileNotFoundException e) {
@@ -117,7 +118,7 @@ public class DownloadFilePipeline {
     }
 
     @Splitter
-    public List<String> splitLogfileIntoLines(ImportLogfileEvent e){
+    public List<String> splitLogfileIntoLines(ImportLogfileEvent e) {
         return e.getLines();
     }
 
@@ -135,7 +136,7 @@ public class DownloadFilePipeline {
     public boolean releaseLines(List<Message<String>> lines) {
         ImportLogfileEvent event = (ImportLogfileEvent) lines.get(0).getHeaders().get("filename");
         List<String> listOfLines = new ArrayList<String>();
-        for(Message<String> line :lines){
+        for (Message<String> line : lines) {
             listOfLines.add(line.getPayload());
         }
         return event.isSatisfiedBy(listOfLines);
@@ -146,7 +147,7 @@ public class DownloadFilePipeline {
         return line;
     }
 
-    public String pushToDatabase(String line){
+    public String pushToDatabase(String line) {
         LogfileLine logfileLine = new LogfileLine();
         logfileLine.setLine(line);
         logfileLineService.createIfNotExists(logfileLine);

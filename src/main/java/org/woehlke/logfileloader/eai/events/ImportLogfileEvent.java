@@ -25,11 +25,11 @@ public class ImportLogfileEvent implements Serializable {
     }
 
     public boolean isSatisfiedBy(List<String> listOfLines) {
-        if ( lines.size()!=listOfLines.size() ){
+        if (lines.size() != listOfLines.size()) {
             return false;
         }
-        for(String line:lines){
-            if(!listOfLines.contains(line)){
+        for (String line : lines) {
+            if (!listOfLines.contains(line)) {
                 return false;
             }
         }

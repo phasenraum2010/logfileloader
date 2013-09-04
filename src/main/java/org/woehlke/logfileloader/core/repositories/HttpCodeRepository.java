@@ -10,6 +10,6 @@ import org.woehlke.logfileloader.core.entities.HttpCode;
  * Time: 15:49
  * To change this template use File | Settings | File Templates.
  */
-public interface HttpCodeRepository extends JpaRepository<HttpCode,Long> {
+public interface HttpCodeRepository extends JpaRepository<HttpCode, Long> {
     HttpCode findByCode(String code);
 }

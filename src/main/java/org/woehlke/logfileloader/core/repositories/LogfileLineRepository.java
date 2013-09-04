@@ -12,9 +12,9 @@ import org.woehlke.logfileloader.core.entities.LogfileLine;
  * Time: 08:59
  * To change this template use File | Settings | File Templates.
  */
-public interface LogfileLineRepository extends JpaRepository<LogfileLine,Long> {
+public interface LogfileLineRepository extends JpaRepository<LogfileLine, Long> {
 
     LogfileLine findByLine(String line);
 
-    Page<LogfileLine> findByProcessed(boolean processed,Pageable pageable);
+    Page<LogfileLine> findByProcessed(boolean processed, Pageable pageable);
 }

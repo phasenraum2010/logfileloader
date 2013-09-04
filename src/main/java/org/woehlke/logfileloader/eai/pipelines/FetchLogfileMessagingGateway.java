@@ -41,7 +41,7 @@ public class FetchLogfileMessagingGateway {
     @Value("${http.password}")
     private String httpPassword;
 
-    public TriggerStartupEvent fetchFilesnames(TriggerStartupEvent e){
+    public TriggerStartupEvent fetchFilesnames(TriggerStartupEvent e) {
         DefaultHttpClient httpclient = new DefaultHttpClient();
         HttpGet httpget = new HttpGet(httpgetRequest);
         try {
@@ -54,7 +54,7 @@ public class FetchLogfileMessagingGateway {
             InputStream instream = entity1.getContent();
             BufferedReader in = new BufferedReader(new InputStreamReader(instream));
             StringBuilder sb = new StringBuilder();
-            while(in.ready()){
+            while (in.ready()) {
                 sb.append(in.readLine());
                 sb.append('\n');
             }
@@ -68,36 +68,36 @@ public class FetchLogfileMessagingGateway {
     }
 
     @Filter
-    public boolean isHttpRequestOk(TriggerStartupEvent e){
-        return e.getDirectoryContentHtml()!=null;
+    public boolean isHttpRequestOk(TriggerStartupEvent e) {
+        return e.getDirectoryContentHtml() != null;
     }
 
     private final static String pattern = "access.log.[0-9.]*.gz";
 
-    public TriggerStartupEvent extractFilesnames(TriggerStartupEvent e){
+    public TriggerStartupEvent extractFilesnames(TriggerStartupEvent e) {
         List<String> filenames = new ArrayList<String>();
         String html = e.getDirectoryContentHtml();
         String[] lines = html.split("\n");
-        for(String line:lines){
-                Matcher matcher = Pattern.compile(pattern).matcher(line);
-                if(matcher.find()){
-                    filenames.add(matcher.group().toString());
-                }
+        for (String line : lines) {
+            Matcher matcher = Pattern.compile(pattern).matcher(line);
+            if (matcher.find()) {
+                filenames.add(matcher.group().toString());
+            }
         }
         e.setFilenames(filenames);
         return e;
     }
 
     @Filter
-    public boolean hasFilenames(TriggerStartupEvent e){
-        return e.getFilenames()!=null && e.getFilenames().size()>0;
+    public boolean hasFilenames(TriggerStartupEvent e) {
+        return e.getFilenames() != null && e.getFilenames().size() > 0;
     }
 
     @Aggregator
     public TriggerStartupEvent aggregateFilenames(List<Message<String>> filenames) {
         TriggerStartupEvent event = (TriggerStartupEvent) filenames.get(0).getHeaders().get("fetchFilenames");
         for (Message<String> filename : filenames) {
-            LOGGER.info("aggregateFilenames: "+filename.getPayload());
+            LOGGER.info("aggregateFilenames: " + filename.getPayload());
         }
         return event;
     }
@@ -110,7 +110,7 @@ public class FetchLogfileMessagingGateway {
     public boolean releaseFilenames(List<Message<String>> filenames) {
         TriggerStartupEvent event = (TriggerStartupEvent) filenames.get(0).getHeaders().get("fetchFilenames");
         List<String> listOfFilenames = new ArrayList<String>();
-        for(Message<String> filename :filenames){
+        for (Message<String> filename : filenames) {
             listOfFilenames.add(filename.getPayload());
         }
         return event.isSatisfiedBy(listOfFilenames);
@@ -118,13 +118,13 @@ public class FetchLogfileMessagingGateway {
 
     public TriggerStartupEvent logFilename(TriggerStartupEvent e) {
         for (String filename : e.getFilenames()) {
-            LOGGER.info("logFilename: "+filename);
+            LOGGER.info("logFilename: " + filename);
         }
         return e;
     }
 
     public String logOneFilename(String filename) {
-        LOGGER.info("logOneFilename: "+filename);
+        LOGGER.info("logOneFilename: " + filename);
         return filename;
     }
 }

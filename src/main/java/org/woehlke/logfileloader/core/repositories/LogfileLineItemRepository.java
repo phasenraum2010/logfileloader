@@ -10,5 +10,5 @@ import org.woehlke.logfileloader.core.entities.LogfileLineItem;
  * Time: 15:50
  * To change this template use File | Settings | File Templates.
  */
-public interface LogfileLineItemRepository extends JpaRepository<LogfileLineItem,Long> {
+public interface LogfileLineItemRepository extends JpaRepository<LogfileLineItem, Long> {
 }

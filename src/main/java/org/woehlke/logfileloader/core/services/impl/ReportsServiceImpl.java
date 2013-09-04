@@ -20,7 +20,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Service
-@Transactional(propagation= Propagation.REQUIRED, readOnly=true)
+@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public class ReportsServiceImpl implements ReportsService {
 
     @Inject

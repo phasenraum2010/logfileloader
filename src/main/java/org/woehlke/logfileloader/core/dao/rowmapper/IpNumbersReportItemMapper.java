@@ -14,6 +14,7 @@ import java.sql.SQLException;
  * To change this template use File | Settings | File Templates.
  */
 public class IpNumbersReportItemMapper implements RowMapper<IpNumbersReportItem> {
+
     @Override
     public IpNumbersReportItem mapRow(ResultSet rs, int rowNum) throws SQLException {
         IpNumbersReportItem ip = new IpNumbersReportItem();
