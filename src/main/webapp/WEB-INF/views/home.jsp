@@ -13,7 +13,11 @@
     <body>
     	<div class="container">
             <a href="/start">Start Logfile Download</a> <br />
-            <a href="/process">Start Logfile Processing</a>
+            <a href="/process">Start Logfile Processing</a> <br />
+            <br />
+            <a href="/reports/listIpNumbers">/reports/listIpNumbers</a> <br />
+            <a href="/reports/listBrowser">/reports/listBrowser</a> <br />
+            <a href="/reports/listPages">/reports/listPages</a> <br />
 		</div>
         <script type="text/javascript">
             $(window).load(function(){
