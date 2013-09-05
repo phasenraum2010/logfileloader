@@ -48,4 +48,10 @@ public class ReportsDaoImpl implements ReportsDao {
         String sql = "select REQUEST.id as id,request,count(request) as nr from REQUEST,LINEITEM where LINEITEM.request_id=REQUEST.id group by request,id order by nr DESC";
         return jdbcTemplate.query(sql, new PageReportItemMapper());
     }
+
+    @Override
+    public List<PageReportItem> listUrlsForBrowser(long browserId) {
+        String sql = "select REQUEST.id as id,request,count(request) as nr from REQUEST,LINEITEM where LINEITEM.request_id=REQUEST.id and LINEITEM.browser_id=? group by request,id order by nr DESC";
+        return jdbcTemplate.query(sql, new PageReportItemMapper(), browserId);
+    }
 }

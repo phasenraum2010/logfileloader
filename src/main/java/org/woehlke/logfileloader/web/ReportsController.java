@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
 import org.woehlke.logfileloader.core.dao.model.IpNumbersReportItem;
@@ -34,9 +35,6 @@ public class ReportsController {
             LOGGER.info("HTTP-Request for /reports/listIpNumbers");
         }
         List<IpNumbersReportItem> ipNumbersReport = reportsService.listIpNumbers();
-        for (IpNumbersReportItem ipNumbersReportItem : ipNumbersReport) {
-            LOGGER.info(ipNumbersReportItem.toString());
-        }
         model.addAttribute("ipNumbersReport", ipNumbersReport);
         return "reports/listIpNumbers";
     }
@@ -47,9 +45,6 @@ public class ReportsController {
             LOGGER.info("HTTP-Request for /reports/listBrowser");
         }
         List<BrowserReportItem> listBrowser = reportsService.listBrowser();
-        for (BrowserReportItem ipNumbersReportItem : listBrowser) {
-            LOGGER.info(ipNumbersReportItem.toString());
-        }
         model.addAttribute("listBrowser", listBrowser);
         return "reports/listBrowser";
     }
@@ -60,10 +55,17 @@ public class ReportsController {
             LOGGER.info("HTTP-Request for /reports/listPages");
         }
         List<PageReportItem> listPages = reportsService.listPages();
-        for (PageReportItem ipNumbersReportItem : listPages) {
-            LOGGER.info(ipNumbersReportItem.toString());
-        }
         model.addAttribute("listPages", listPages);
         return "reports/listPages";
+    }
+
+    @RequestMapping(value = "/reports/listBrowser/{browserId}/url")
+    public String listUrlsForBrowser(@PathVariable long browserId, Model model) {
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("HTTP-Request for /reports/listBrowser/"+browserId+"/url");
+        }
+        List<PageReportItem> listPages = reportsService.listUrlsForBrowser(browserId);
+        model.addAttribute("listPages", listPages);
+        return "reports/listUrlsForBrowser";
     }
 }

@@ -7,6 +7,7 @@ import org.woehlke.logfileloader.core.dao.ReportsDao;
 import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
 import org.woehlke.logfileloader.core.dao.model.IpNumbersReportItem;
 import org.woehlke.logfileloader.core.dao.model.PageReportItem;
+import org.woehlke.logfileloader.core.repositories.BrowserRepository;
 import org.woehlke.logfileloader.core.services.ReportsService;
 
 import javax.inject.Inject;
@@ -39,5 +40,10 @@ public class ReportsServiceImpl implements ReportsService {
     @Override
     public List<PageReportItem> listPages() {
         return reportsDao.listPages();
+    }
+
+    @Override
+    public List<PageReportItem> listUrlsForBrowser(long browserId) {
+        return reportsDao.listUrlsForBrowser(browserId);
     }
 }

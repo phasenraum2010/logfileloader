@@ -20,4 +20,6 @@ public interface ReportsService {
     List<BrowserReportItem> listBrowser();
 
     List<PageReportItem> listPages();
+
+    List<PageReportItem> listUrlsForBrowser(long browserId);
 }
