@@ -20,6 +20,7 @@ public class IpNumbersReportItemMapper implements RowMapper<IpNumbersReportItem>
         IpNumbersReportItem ip = new IpNumbersReportItem();
         ip.setIp(rs.getString("ip"));
         ip.setNr(rs.getInt("nr"));
+        ip.setId(rs.getLong("id"));
         return ip;
     }
 }

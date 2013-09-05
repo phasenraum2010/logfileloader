@@ -28,7 +28,7 @@ import java.util.zip.GZIPInputStream;
 @MessageEndpoint("downloadFilePipeline")
 public class DownloadFilePipeline {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(DownloadFilePipeline.class);
+    //private final static Logger LOGGER = LoggerFactory.getLogger(DownloadFilePipeline.class);
 
     @Value("${http.getRequest}")
     private String httpgetRequest;
@@ -132,7 +132,6 @@ public class DownloadFilePipeline {
         return line.getHeaders().get("filename");
     }
 
-
     public boolean releaseLines(List<Message<String>> lines) {
         ImportLogfileEvent event = (ImportLogfileEvent) lines.get(0).getHeaders().get("filename");
         List<String> listOfLines = new ArrayList<String>();
@@ -143,7 +142,7 @@ public class DownloadFilePipeline {
     }
 
     public String logLine(String line) {
-        LOGGER.info(line);
+        //LOGGER.info(line);
         return line;
     }
 

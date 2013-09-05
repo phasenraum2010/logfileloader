@@ -20,6 +20,7 @@ public class BrowserReportItemMapper implements RowMapper<BrowserReportItem> {
         BrowserReportItem b = new BrowserReportItem();
         b.setBrowser(rs.getString("browser"));
         b.setNr(rs.getShort("nr"));
+        b.setId(rs.getLong("id"));
         return b;
     }
 }

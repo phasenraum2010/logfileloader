@@ -33,19 +33,19 @@ public class ReportsDaoImpl implements ReportsDao {
 
     @Override
     public List<IpNumbersReportItem> listIpNumbers() {
-        String sql = "select ip,count(ip) as nr from IP,LINEITEM where LINEITEM.ip_id=IP.id group by ip order by nr DESC";
+        String sql = "select IP.id as id,ip,count(ip) as nr from IP,LINEITEM where LINEITEM.ip_id=IP.id group by ip,id order by nr DESC";
         return jdbcTemplate.query(sql, new IpNumbersReportItemMapper());
     }
 
     @Override
     public List<BrowserReportItem> listBrowser() {
-        String sql = "select browser,count(browser) as nr from BROWSER,LINEITEM where LINEITEM.browser_id=BROWSER.id group by browser order by nr DESC";
+        String sql = "select BROWSER.id as id,browser,count(browser) as nr from BROWSER,LINEITEM where LINEITEM.browser_id=BROWSER.id group by browser,id order by nr DESC";
         return jdbcTemplate.query(sql, new BrowserReportItemMapper());
     }
 
     @Override
     public List<PageReportItem> listPages() {
-        String sql = "select request,count(request) as nr from REQUEST,LINEITEM where LINEITEM.request_id=REQUEST.id group by request order by nr DESC";
+        String sql = "select REQUEST.id as id,request,count(request) as nr from REQUEST,LINEITEM where LINEITEM.request_id=REQUEST.id group by request,id order by nr DESC";
         return jdbcTemplate.query(sql, new PageReportItemMapper());
     }
 }

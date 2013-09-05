@@ -11,6 +11,7 @@ import java.io.Serializable;
  */
 public class IpNumbersReportItem implements Serializable {
 
+    private long id;
     private String ip;
     private int nr;
 
@@ -30,13 +31,22 @@ public class IpNumbersReportItem implements Serializable {
         this.nr = nr;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof IpNumbersReportItem)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         IpNumbersReportItem that = (IpNumbersReportItem) o;
 
+        if (id != that.id) return false;
         if (nr != that.nr) return false;
         if (!ip.equals(that.ip)) return false;
 
@@ -45,7 +55,8 @@ public class IpNumbersReportItem implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = ip.hashCode();
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + ip.hashCode();
         result = 31 * result + nr;
         return result;
     }
@@ -53,7 +64,8 @@ public class IpNumbersReportItem implements Serializable {
     @Override
     public String toString() {
         return "IpNumbersReportItem{" +
-                "ip='" + ip + '\'' +
+                "id=" + id +
+                ", ip='" + ip + '\'' +
                 ", nr=" + nr +
                 '}';
     }

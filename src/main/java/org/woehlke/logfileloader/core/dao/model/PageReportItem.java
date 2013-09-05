@@ -9,6 +9,7 @@ package org.woehlke.logfileloader.core.dao.model;
  */
 public class PageReportItem {
 
+    private long id;
     private String request;
     private int nr;
 
@@ -28,13 +29,22 @@ public class PageReportItem {
         this.nr = nr;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PageReportItem)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         PageReportItem that = (PageReportItem) o;
 
+        if (id != that.id) return false;
         if (nr != that.nr) return false;
         if (!request.equals(that.request)) return false;
 
@@ -43,7 +53,8 @@ public class PageReportItem {
 
     @Override
     public int hashCode() {
-        int result = request.hashCode();
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + request.hashCode();
         result = 31 * result + nr;
         return result;
     }
@@ -51,7 +62,8 @@ public class PageReportItem {
     @Override
     public String toString() {
         return "PageReportItem{" +
-                "request='" + request + '\'' +
+                "id=" + id +
+                ", request='" + request + '\'' +
                 ", nr=" + nr +
                 '}';
     }

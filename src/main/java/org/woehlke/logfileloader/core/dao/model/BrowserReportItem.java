@@ -11,8 +11,17 @@ import java.io.Serializable;
  */
 public class BrowserReportItem implements Serializable {
 
+    private long id;
     private String browser;
     private int nr;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getBrowser() {
         return browser;
@@ -33,10 +42,11 @@ public class BrowserReportItem implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof BrowserReportItem)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         BrowserReportItem that = (BrowserReportItem) o;
 
+        if (id != that.id) return false;
         if (nr != that.nr) return false;
         if (!browser.equals(that.browser)) return false;
 
@@ -45,7 +55,8 @@ public class BrowserReportItem implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = browser.hashCode();
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + browser.hashCode();
         result = 31 * result + nr;
         return result;
     }
@@ -53,7 +64,8 @@ public class BrowserReportItem implements Serializable {
     @Override
     public String toString() {
         return "BrowserReportItem{" +
-                "browser='" + browser + '\'' +
+                "id=" + id +
+                ", browser='" + browser + '\'' +
                 ", nr=" + nr +
                 '}';
     }

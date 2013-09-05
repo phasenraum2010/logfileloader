@@ -20,6 +20,7 @@ public class PageReportItemMapper implements RowMapper<PageReportItem> {
         PageReportItem p = new PageReportItem();
         p.setRequest(rs.getString("request"));
         p.setNr(rs.getInt("nr"));
+        p.setId(rs.getLong("id"));
         return p;
     }
 }

@@ -15,7 +15,7 @@
     <table class="table table-striped table-condensed table-bordered">
         <tr><th>browser</th><th>nr</th></tr>
         <c:forEach items="${listBrowser}" var="ip">
-            <tr><td>${ip.browser}</td><td>${ip.nr}</td></tr>
+            <tr><td><a href="/reports/listBrowser/${ip.id}/url">${ip.browser}</a></td><td>${ip.nr}</td></tr>
         </c:forEach>
     </table>
 </div>

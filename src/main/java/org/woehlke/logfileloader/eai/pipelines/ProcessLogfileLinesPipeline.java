@@ -22,13 +22,13 @@ import java.util.Date;
 @MessageEndpoint("processLogfileLinesPipeline")
 public class ProcessLogfileLinesPipeline {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ProcessLogfileLinesPipeline.class);
+    //private final static Logger LOGGER = LoggerFactory.getLogger(ProcessLogfileLinesPipeline.class);
 
     @Inject
     private LogfileLineItemService logfileLineItemService;
 
     public ProcessLogfileLinesEvent log(ProcessLogfileLinesEvent event) {
-        LOGGER.info(event.toString());
+        //LOGGER.info(event.toString());
         return event;
     }
 
@@ -43,9 +43,9 @@ public class ProcessLogfileLinesPipeline {
         String line = event.getLine().getLine();
         String rest = line.split("\\[")[1];
         String datetimeString = rest.split("\\]")[0].split(" ")[0];
-        LOGGER.info(datetimeString);
+        //LOGGER.info(datetimeString);
         String timezoneString = rest.split("\\]")[0].split(" ")[1];
-        LOGGER.info(timezoneString);
+        //LOGGER.info(timezoneString);
         SimpleDateFormat parserSDF = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss");
         try {
             int timezone = Integer.parseInt(timezoneString);
@@ -58,7 +58,7 @@ public class ProcessLogfileLinesPipeline {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        LOGGER.info(event.toString());
+        //LOGGER.info(event.toString());
         return event;
     }
 
@@ -71,7 +71,7 @@ public class ProcessLogfileLinesPipeline {
             e.printStackTrace();
         }
         event.setRequestLine(requestLine);
-        LOGGER.info(requestLine);
+        //LOGGER.info(requestLine);
         return event;
     }
 
@@ -84,7 +84,7 @@ public class ProcessLogfileLinesPipeline {
             e.printStackTrace();
         }
         event.setHttpCode(httpCode);
-        LOGGER.info(httpCode);
+        //LOGGER.info(httpCode);
         return event;
     }
 
@@ -97,7 +97,7 @@ public class ProcessLogfileLinesPipeline {
             e.printStackTrace();
         }
         event.setBrowser(browser);
-        LOGGER.info(browser);
+        //LOGGER.info(browser);
         return event;
     }
 
