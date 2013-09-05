@@ -12,7 +12,8 @@
 <body>
 <div class="container">
     <h1>List Browser</h1>
-    <table>
+    <table class="table table-striped table-condensed table-bordered">
+        <tr><th>browser</th><th>nr</th></tr>
         <c:forEach items="${listBrowser}" var="ip">
             <tr><td>${ip.browser}</td><td>${ip.nr}</td></tr>
         </c:forEach>

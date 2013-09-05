@@ -12,7 +12,8 @@
 <body>
 <div class="container">
     <h1>List Pages</h1>
-    <table>
+    <table class="table table-striped table-condensed table-bordered">
+        <tr><th>url</th><th>nr</th></tr>
         <c:forEach items="${listPages}" var="ip">
             <tr><td>${ip.request}</td><td>${ip.nr}</td></tr>
         </c:forEach>
