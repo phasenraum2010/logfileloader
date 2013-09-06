@@ -68,4 +68,10 @@ public class ReportsDaoImpl implements ReportsDao {
         String sql = "select HTTPCODE.id as id,code,count(code) as nr from HTTPCODE,LINEITEM where LINEITEM.httpcode_id=HTTPCODE.id group by code,id order by nr DESC";
         return jdbcTemplate.query(sql, new HttpCodeReportItemMapper());
     }
+
+    @Override
+    public List<PageReportItem> listUrlsForHttpCodes(long httpCodeId) {
+        String sql = "select REQUEST.id as id,request,count(request) as nr from REQUEST,LINEITEM where LINEITEM.request_id=REQUEST.id and LINEITEM.httpcode_id=? group by request,id order by nr DESC";
+        return jdbcTemplate.query(sql, new PageReportItemMapper(), httpCodeId);
+    }
 }

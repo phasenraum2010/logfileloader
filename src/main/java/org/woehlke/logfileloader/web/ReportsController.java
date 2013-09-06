@@ -70,6 +70,18 @@ public class ReportsController {
         return "reports/listHttpCodes";
     }
 
+    @RequestMapping(value = "/reports/listHttpCodes/{httpCodeId}/url")
+    public String listUrlsForHttpCodes(@PathVariable long httpCodeId,Model model) {
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("HTTP-Request for /reports/listHttpCodes/"+httpCodeId+"/url");
+        }
+        List<PageReportItem> listPages = reportsService.listUrlsForHttpCodes(httpCodeId);
+        model.addAttribute("listPages", listPages);
+        return "reports/listUrlsForHttpCodes";
+    }
+
+
+
     @RequestMapping(value = "/reports/listBrowser/{browserId}/url")
     public String listUrlsForBrowser(@PathVariable long browserId, Model model) {
         if (LOGGER.isInfoEnabled()) {
