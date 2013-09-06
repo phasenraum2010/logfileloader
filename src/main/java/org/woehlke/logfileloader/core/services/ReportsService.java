@@ -29,4 +29,6 @@ public interface ReportsService {
     List<HttpCodeReportItem> listHttpCodes();
 
     List<PageReportItem> listUrlsForHttpCodes(long httpCodeId);
+
+    List<BrowserReportItem> listBrowserForHttpCodes(long httpCodeId);
 }

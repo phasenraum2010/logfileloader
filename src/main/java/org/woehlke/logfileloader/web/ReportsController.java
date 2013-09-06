@@ -80,7 +80,15 @@ public class ReportsController {
         return "reports/listUrlsForHttpCodes";
     }
 
-
+    @RequestMapping(value = "/reports/listHttpCodes/{httpCodeId}/browser")
+    public String listBrowserForHttpCodes(@PathVariable long httpCodeId,Model model) {
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("HTTP-Request for /reports/listHttpCodes/"+httpCodeId+"/browser");
+        }
+        List<BrowserReportItem> listBrowser = reportsService.listBrowserForHttpCodes(httpCodeId);
+        model.addAttribute("listBrowser", listBrowser);
+        return "reports/listBrowserForHttpCodes";
+    }
 
     @RequestMapping(value = "/reports/listBrowser/{browserId}/url")
     public String listUrlsForBrowser(@PathVariable long browserId, Model model) {

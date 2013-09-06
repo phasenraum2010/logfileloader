@@ -74,4 +74,10 @@ public class ReportsDaoImpl implements ReportsDao {
         String sql = "select REQUEST.id as id,request,count(request) as nr from REQUEST,LINEITEM where LINEITEM.request_id=REQUEST.id and LINEITEM.httpcode_id=? group by request,id order by nr DESC";
         return jdbcTemplate.query(sql, new PageReportItemMapper(), httpCodeId);
     }
+
+    @Override
+    public List<BrowserReportItem> listBrowserForHttpCodes(long httpCodeId) {
+        String sql = "select BROWSER.id as id,browser,count(browser) as nr from BROWSER,LINEITEM where LINEITEM.browser_id=BROWSER.id and LINEITEM.httpcode_id=? group by browser,id order by nr DESC;";
+        return jdbcTemplate.query(sql, new BrowserReportItemMapper(),httpCodeId);
+    }
 }

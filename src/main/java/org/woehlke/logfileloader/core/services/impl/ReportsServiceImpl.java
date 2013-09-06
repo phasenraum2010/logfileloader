@@ -62,4 +62,9 @@ public class ReportsServiceImpl implements ReportsService {
     public List<PageReportItem> listUrlsForHttpCodes(long httpCodeId) {
         return reportsDao.listUrlsForHttpCodes(httpCodeId);
     }
+
+    @Override
+    public List<BrowserReportItem> listBrowserForHttpCodes(long httpCodeId) {
+        return reportsDao.listBrowserForHttpCodes(httpCodeId);
+    }
 }
