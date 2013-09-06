@@ -46,4 +46,9 @@ public class ReportsServiceImpl implements ReportsService {
     public List<PageReportItem> listUrlsForBrowser(long browserId) {
         return reportsDao.listUrlsForBrowser(browserId);
     }
+
+    @Override
+    public List<BrowserReportItem> listBrowserForUrls(long urlId) {
+        return reportsDao.listBrowserForUrls(urlId);
+    }
 }

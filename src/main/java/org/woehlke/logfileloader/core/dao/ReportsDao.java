@@ -22,4 +22,6 @@ public interface ReportsDao {
     List<PageReportItem> listPages();
 
     List<PageReportItem> listUrlsForBrowser(long browserId);
+
+    List<BrowserReportItem> listBrowserForUrls(long urlId);
 }

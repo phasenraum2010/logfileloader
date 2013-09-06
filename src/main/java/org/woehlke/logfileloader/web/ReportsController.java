@@ -68,4 +68,14 @@ public class ReportsController {
         model.addAttribute("listPages", listPages);
         return "reports/listUrlsForBrowser";
     }
+
+    @RequestMapping(value = "/reports/listPages/{urlId}/browser")
+    public String listBrowserForUrls(@PathVariable long urlId, Model model) {
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("HTTP-Request for /reports/listPages/"+urlId+"/browser");
+        }
+        List<BrowserReportItem> listBrowser = reportsService.listBrowserForUrls(urlId);
+        model.addAttribute("listBrowser", listBrowser);
+        return "reports/listBrowserForUrls";
+    }
 }
