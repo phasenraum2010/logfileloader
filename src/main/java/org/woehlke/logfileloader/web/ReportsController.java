@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
+import org.woehlke.logfileloader.core.dao.model.HttpCodeReportItem;
 import org.woehlke.logfileloader.core.dao.model.IpNumbersReportItem;
 import org.woehlke.logfileloader.core.dao.model.PageReportItem;
 import org.woehlke.logfileloader.core.services.ReportsService;
@@ -57,6 +58,16 @@ public class ReportsController {
         List<PageReportItem> listPages = reportsService.listPages();
         model.addAttribute("listPages", listPages);
         return "reports/listPages";
+    }
+
+    @RequestMapping(value = "/reports/listHttpCodes")
+    public String listHttpCodes(Model model) {
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("HTTP-Request for /reports/listPages");
+        }
+        List<HttpCodeReportItem> listHttpCodes = reportsService.listHttpCodes();
+        model.addAttribute("listHttpCodes", listHttpCodes);
+        return "reports/listHttpCodes";
     }
 
     @RequestMapping(value = "/reports/listBrowser/{browserId}/url")

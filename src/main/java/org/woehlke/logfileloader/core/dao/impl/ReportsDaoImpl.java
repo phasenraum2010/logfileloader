@@ -5,9 +5,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.woehlke.logfileloader.core.dao.ReportsDao;
 import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
+import org.woehlke.logfileloader.core.dao.model.HttpCodeReportItem;
 import org.woehlke.logfileloader.core.dao.model.IpNumbersReportItem;
 import org.woehlke.logfileloader.core.dao.model.PageReportItem;
 import org.woehlke.logfileloader.core.dao.rowmapper.BrowserReportItemMapper;
+import org.woehlke.logfileloader.core.dao.rowmapper.HttpCodeReportItemMapper;
 import org.woehlke.logfileloader.core.dao.rowmapper.IpNumbersReportItemMapper;
 import org.woehlke.logfileloader.core.dao.rowmapper.PageReportItemMapper;
 
@@ -59,5 +61,11 @@ public class ReportsDaoImpl implements ReportsDao {
     public List<BrowserReportItem> listBrowserForUrls(long urlId) {
         String sql = "select BROWSER.id as id,browser,count(browser) as nr from BROWSER,LINEITEM where LINEITEM.browser_id=BROWSER.id and LINEITEM.request_id=? group by browser,id order by nr DESC";
         return jdbcTemplate.query(sql, new BrowserReportItemMapper(),urlId);
+    }
+
+    @Override
+    public List<HttpCodeReportItem> listHttpCodes() {
+        String sql = "select HTTPCODE.id as id,code,count(code) as nr from HTTPCODE,LINEITEM where LINEITEM.httpcode_id=HTTPCODE.id group by code,id order by nr DESC";
+        return jdbcTemplate.query(sql, new HttpCodeReportItemMapper());
     }
 }

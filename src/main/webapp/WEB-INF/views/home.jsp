@@ -18,6 +18,7 @@
             <a href="/reports/listIpNumbers">/reports/listIpNumbers</a> <br />
             <a href="/reports/listBrowser">/reports/listBrowser</a> <br />
             <a href="/reports/listPages">/reports/listPages</a> <br />
+            <a href="/reports/listHttpCodes">/reports/listHttpCodes</a> <br />
 		</div>
         <script type="text/javascript">
             $(window).load(function(){

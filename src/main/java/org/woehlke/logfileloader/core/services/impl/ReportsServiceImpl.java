@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.woehlke.logfileloader.core.dao.ReportsDao;
 import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
+import org.woehlke.logfileloader.core.dao.model.HttpCodeReportItem;
 import org.woehlke.logfileloader.core.dao.model.IpNumbersReportItem;
 import org.woehlke.logfileloader.core.dao.model.PageReportItem;
 import org.woehlke.logfileloader.core.repositories.BrowserRepository;
@@ -50,5 +51,10 @@ public class ReportsServiceImpl implements ReportsService {
     @Override
     public List<BrowserReportItem> listBrowserForUrls(long urlId) {
         return reportsDao.listBrowserForUrls(urlId);
+    }
+
+    @Override
+    public List<HttpCodeReportItem> listHttpCodes() {
+        return reportsDao.listHttpCodes();
     }
 }

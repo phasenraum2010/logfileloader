@@ -1,6 +1,7 @@
 package org.woehlke.logfileloader.core.dao;
 
 import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
+import org.woehlke.logfileloader.core.dao.model.HttpCodeReportItem;
 import org.woehlke.logfileloader.core.dao.model.IpNumbersReportItem;
 import org.woehlke.logfileloader.core.dao.model.PageReportItem;
 
@@ -24,4 +25,6 @@ public interface ReportsDao {
     List<PageReportItem> listUrlsForBrowser(long browserId);
 
     List<BrowserReportItem> listBrowserForUrls(long urlId);
+
+    List<HttpCodeReportItem> listHttpCodes();
 }
