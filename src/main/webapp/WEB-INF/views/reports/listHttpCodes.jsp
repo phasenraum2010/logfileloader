@@ -13,9 +13,9 @@
 <div class="container">
     <h1>List HTTP-Codes</h1>
     <table class="table table-striped table-condensed table-bordered">
-        <tr><th>HTTP Code</th><th>nr</th></tr>
+        <tr><th>HTTP Code</th><th>nr</th><th>&nbsp;</th><th>&nbsp;</th></tr>
         <c:forEach items="${listHttpCodes}" var="ip">
-            <tr><td>${ip.httpCode}</td><td>${ip.nr}</td></tr>
+            <tr><td>${ip.httpCode}</td><td>${ip.nr}</td><td>URL</td><td>Browser</td></tr>
         </c:forEach>
     </table>
 </div>
