@@ -82,4 +82,9 @@ public class ReportsServiceImpl implements ReportsService {
     public List<IpNumbersReportItem> listIpNumbersForHttpCodes(long httpCodeId) {
         return reportsDao.listIpNumbersForHttpCodes(httpCodeId);
     }
+
+    @Override
+    public List<PageReportItem> listUrlsForIpNumber(long ipNumberId) {
+        return reportsDao.listUrlsForIpNumber(ipNumberId);
+    }
 }

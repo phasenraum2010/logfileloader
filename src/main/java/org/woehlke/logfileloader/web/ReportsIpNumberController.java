@@ -4,8 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.woehlke.logfileloader.core.dao.model.IpNumbersReportItem;
+import org.woehlke.logfileloader.core.dao.model.PageReportItem;
 import org.woehlke.logfileloader.core.services.ReportsService;
 
 import javax.inject.Inject;
@@ -34,5 +36,15 @@ public class ReportsIpNumberController {
         List<IpNumbersReportItem> ipNumbersReport = reportsService.listIpNumbers();
         model.addAttribute("ipNumbersReport", ipNumbersReport);
         return "reports/listIpNumbers";
+    }
+
+    @RequestMapping(value = "/reports/listIpNumbers/{ipNumberId}/url")
+    public String listUrlsForIpNumber(@PathVariable long ipNumberId,Model model) {
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("HTTP-Request for /reports/listIpNumbers/"+ipNumberId+"/url");
+        }
+        List<PageReportItem> listPages = reportsService.listUrlsForIpNumber(ipNumberId);
+        model.addAttribute("listPages", listPages);
+        return "reports/listUrlsForIpNumber";
     }
 }

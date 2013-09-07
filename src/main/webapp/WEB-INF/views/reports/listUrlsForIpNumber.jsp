@@ -11,11 +11,11 @@
 </head>
 <body>
 <div class="container">
-    <h1>List Browser</h1>
+    <h1>List URLs for IP Number</h1>
     <table class="table table-striped table-condensed table-bordered">
-        <tr><th>browser</th><th>nr</th><th>&nbsp;</th></tr>
-        <c:forEach items="${listBrowser}" var="ip">
-            <tr><td>${ip.browser}</td><td>${ip.nr}</td><td><a href="/reports/listBrowser/${ip.id}/url">URL</a></td></tr>
+        <tr><th>URL</th><th>nr</th></tr>
+        <c:forEach items="${listPages}" var="ip">
+            <tr><td>${ip.request}</td><td>${ip.nr}</td></tr>
         </c:forEach>
     </table>
 </div>

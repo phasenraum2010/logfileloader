@@ -86,4 +86,10 @@ public class ReportsDaoImpl implements ReportsDao {
         String sql = "select IP.id as id,ip,count(ip) as nr from IP,LINEITEM where LINEITEM.ip_id=IP.id and LINEITEM.httpcode_id=? group by ip,id order by nr DESC";
         return jdbcTemplate.query(sql, new IpNumbersReportItemMapper(),httpCodeId);
     }
+
+    @Override
+    public List<PageReportItem> listUrlsForIpNumber(long ipNumberId) {
+        String sql = "select REQUEST.id as id,request,count(request) as nr from REQUEST,LINEITEM where LINEITEM.request_id=REQUEST.id and LINEITEM.ip_id=? group by request,id order by nr DESC";
+        return jdbcTemplate.query(sql, new PageReportItemMapper(),ipNumberId);
+    }
 }

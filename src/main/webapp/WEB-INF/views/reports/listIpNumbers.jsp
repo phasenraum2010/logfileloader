@@ -13,9 +13,9 @@
 <div class="container">
     <h1>List IP-Numbers</h1>
     <table class="table table-striped table-condensed table-bordered">
-        <tr><th>ip</th><th>nr</th></tr>
+        <tr><th>ip</th><th>nr</th><th>&nbsp;</th></tr>
         <c:forEach items="${ipNumbersReport}" var="ip">
-            <tr><td><a href="/reports/listIpNumbers/${ip.id}/url">${ip.ip}</a></td><td>${ip.nr}</td></tr>
+            <tr><td>${ip.ip}</td><td>${ip.nr}</td><td><a href="/reports/listIpNumbers/${ip.id}/url">URL</a></td></tr>
         </c:forEach>
     </table>
 </div>

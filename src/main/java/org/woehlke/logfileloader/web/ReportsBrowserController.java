@@ -28,7 +28,6 @@ public class ReportsBrowserController {
     @Inject
     private ReportsService reportsService;
 
-
     @RequestMapping(value = "/reports/listBrowser")
     public String listBrowser(Model model) {
         if (LOGGER.isInfoEnabled()) {

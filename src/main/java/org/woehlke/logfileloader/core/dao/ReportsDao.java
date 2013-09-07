@@ -33,4 +33,6 @@ public interface ReportsDao {
     List<BrowserReportItem> listBrowserForHttpCodes(long httpCodeId);
 
     List<IpNumbersReportItem> listIpNumbersForHttpCodes(long httpCodeId);
+
+    List<PageReportItem> listUrlsForIpNumber(long ipNumberId);
 }

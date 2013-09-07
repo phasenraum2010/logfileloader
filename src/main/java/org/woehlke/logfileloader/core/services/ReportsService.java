@@ -36,4 +36,6 @@ public interface ReportsService {
     HttpCode findHttpCodeById(long httpCodeId);
 
     List<IpNumbersReportItem> listIpNumbersForHttpCodes(long httpCodeId);
+
+    List<PageReportItem> listUrlsForIpNumber(long ipNumberId);
 }

@@ -13,9 +13,9 @@
 <div class="container">
     <h1>List Pages</h1>
     <table class="table table-striped table-condensed table-bordered">
-        <tr><th>url</th><th>nr</th></tr>
+        <tr><th>url</th><th>nr</th><th>&nbsp;</th></tr>
         <c:forEach items="${listPages}" var="ip">
-            <tr><td><a href="/reports/listPages/${ip.id}/browser">${ip.request}</a></td><td>${ip.nr}</td></tr>
+            <tr><td>${ip.request}</td><td>${ip.nr}</td><td><a href="/reports/listPages/${ip.id}/browser">Browser</a></td></tr>
         </c:forEach>
     </table>
 </div>
