@@ -1,5 +1,7 @@
 package org.woehlke.logfileloader.core.services.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,8 +60,8 @@ public class ReportsServiceImpl implements ReportsService {
     }
 
     @Override
-    public List<PageReportItem> listPages() {
-        return reportsDao.listPages();
+    public Page<PageReportItem> listPages(Pageable pageable) {
+        return reportsDao.listPages(pageable);
     }
 
     @Override

@@ -1,6 +1,9 @@
 package org.woehlke.logfileloader.core.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.woehlke.logfileloader.core.dao.ReportsDao;
@@ -46,9 +49,14 @@ public class ReportsDaoImpl implements ReportsDao {
     }
 
     @Override
-    public List<PageReportItem> listPages() {
-        String sql = "select REQUEST.id as id,request,count(request) as nr from REQUEST,LINEITEM where LINEITEM.request_id=REQUEST.id group by request,id order by nr DESC";
-        return jdbcTemplate.query(sql, new PageReportItemMapper());
+    public Page<PageReportItem> listPages(Pageable pageable) {
+        String sql1 = "select REQUEST.id as id,request,count(request) as nr from REQUEST,LINEITEM where LINEITEM.request_id=REQUEST.id group by request,id order by nr DESC";
+        String sql2 = "select count(nr) from ("+sql1+") as COUNT";
+        long total = jdbcTemplate.queryForLong(sql2);
+        List<PageReportItem> list = jdbcTemplate.query(sql1, new PageReportItemMapper());
+        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        Page<PageReportItem> page = new PageImpl<PageReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
+        return page;
     }
 
     @Override

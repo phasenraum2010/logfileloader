@@ -1,5 +1,7 @@
 package org.woehlke.logfileloader.core.dao;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
 import org.woehlke.logfileloader.core.dao.model.HttpCodeReportItem;
 import org.woehlke.logfileloader.core.dao.model.IpNumbersReportItem;
@@ -20,7 +22,7 @@ public interface ReportsDao {
 
     List<BrowserReportItem> listBrowser();
 
-    List<PageReportItem> listPages();
+    Page<PageReportItem> listPages(Pageable pageable);
 
     List<PageReportItem> listUrlsForBrowser(long browserId);
 
