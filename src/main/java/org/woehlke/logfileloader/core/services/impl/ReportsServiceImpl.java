@@ -8,7 +8,9 @@ import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
 import org.woehlke.logfileloader.core.dao.model.HttpCodeReportItem;
 import org.woehlke.logfileloader.core.dao.model.IpNumbersReportItem;
 import org.woehlke.logfileloader.core.dao.model.PageReportItem;
+import org.woehlke.logfileloader.core.entities.HttpCode;
 import org.woehlke.logfileloader.core.repositories.BrowserRepository;
+import org.woehlke.logfileloader.core.repositories.HttpCodeRepository;
 import org.woehlke.logfileloader.core.services.ReportsService;
 
 import javax.inject.Inject;
@@ -27,6 +29,9 @@ public class ReportsServiceImpl implements ReportsService {
 
     @Inject
     private ReportsDao reportsDao;
+
+    @Inject
+    private HttpCodeRepository httpCodeRepository;
 
     @Override
     public List<IpNumbersReportItem> listIpNumbers() {
@@ -66,5 +71,15 @@ public class ReportsServiceImpl implements ReportsService {
     @Override
     public List<BrowserReportItem> listBrowserForHttpCodes(long httpCodeId) {
         return reportsDao.listBrowserForHttpCodes(httpCodeId);
+    }
+
+    @Override
+    public HttpCode findHttpCodeById(long httpCodeId) {
+        return httpCodeRepository.findOne(httpCodeId);
+    }
+
+    @Override
+    public List<IpNumbersReportItem> listIpNumbersForHttpCodes(long httpCodeId) {
+        return reportsDao.listIpNumbersForHttpCodes(httpCodeId);
     }
 }

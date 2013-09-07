@@ -10,6 +10,7 @@ import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
 import org.woehlke.logfileloader.core.dao.model.HttpCodeReportItem;
 import org.woehlke.logfileloader.core.dao.model.IpNumbersReportItem;
 import org.woehlke.logfileloader.core.dao.model.PageReportItem;
+import org.woehlke.logfileloader.core.entities.HttpCode;
 import org.woehlke.logfileloader.core.services.ReportsService;
 
 import javax.inject.Inject;
@@ -18,47 +19,17 @@ import java.util.List;
 /**
  * Created with IntelliJ IDEA.
  * User: tw
- * Date: 04.09.13
- * Time: 12:13
+ * Date: 07.09.13
+ * Time: 08:44
  * To change this template use File | Settings | File Templates.
  */
 @Controller
-public class ReportsController {
+public class ReportsHttpCodeController {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ReportsController.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ReportsHttpCodeController.class);
 
     @Inject
     private ReportsService reportsService;
-
-    @RequestMapping(value = "/reports/listIpNumbers")
-    public String listIpNumbers(Model model) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/listIpNumbers");
-        }
-        List<IpNumbersReportItem> ipNumbersReport = reportsService.listIpNumbers();
-        model.addAttribute("ipNumbersReport", ipNumbersReport);
-        return "reports/listIpNumbers";
-    }
-
-    @RequestMapping(value = "/reports/listBrowser")
-    public String listBrowser(Model model) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/listBrowser");
-        }
-        List<BrowserReportItem> listBrowser = reportsService.listBrowser();
-        model.addAttribute("listBrowser", listBrowser);
-        return "reports/listBrowser";
-    }
-
-    @RequestMapping(value = "/reports/listPages")
-    public String listPages(Model model) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/listPages");
-        }
-        List<PageReportItem> listPages = reportsService.listPages();
-        model.addAttribute("listPages", listPages);
-        return "reports/listPages";
-    }
 
     @RequestMapping(value = "/reports/listHttpCodes")
     public String listHttpCodes(Model model) {
@@ -77,6 +48,8 @@ public class ReportsController {
         }
         List<PageReportItem> listPages = reportsService.listUrlsForHttpCodes(httpCodeId);
         model.addAttribute("listPages", listPages);
+        HttpCode httpCode = reportsService.findHttpCodeById(httpCodeId);
+        model.addAttribute("httpCode", httpCode);
         return "reports/listUrlsForHttpCodes";
     }
 
@@ -87,26 +60,22 @@ public class ReportsController {
         }
         List<BrowserReportItem> listBrowser = reportsService.listBrowserForHttpCodes(httpCodeId);
         model.addAttribute("listBrowser", listBrowser);
+        HttpCode httpCode = reportsService.findHttpCodeById(httpCodeId);
+        model.addAttribute("httpCode", httpCode);
         return "reports/listBrowserForHttpCodes";
     }
 
-    @RequestMapping(value = "/reports/listBrowser/{browserId}/url")
-    public String listUrlsForBrowser(@PathVariable long browserId, Model model) {
+    @RequestMapping(value = "/reports/listHttpCodes/{httpCodeId}/ip")
+    public String listIpNumbersForHttpCodes(@PathVariable long httpCodeId,Model model) {
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/listBrowser/"+browserId+"/url");
+            LOGGER.info("HTTP-Request for /reports/listHttpCodes/"+httpCodeId+"/browser");
         }
-        List<PageReportItem> listPages = reportsService.listUrlsForBrowser(browserId);
-        model.addAttribute("listPages", listPages);
-        return "reports/listUrlsForBrowser";
+        List<IpNumbersReportItem> ipNumbersReport =  reportsService.listIpNumbersForHttpCodes(httpCodeId);
+        model.addAttribute("ipNumbersReport", ipNumbersReport);
+        HttpCode httpCode = reportsService.findHttpCodeById(httpCodeId);
+        model.addAttribute("httpCode", httpCode);
+        return "reports/listIpNumbersForHttpCodes";
     }
 
-    @RequestMapping(value = "/reports/listPages/{urlId}/browser")
-    public String listBrowserForUrls(@PathVariable long urlId, Model model) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/listPages/"+urlId+"/browser");
-        }
-        List<BrowserReportItem> listBrowser = reportsService.listBrowserForUrls(urlId);
-        model.addAttribute("listBrowser", listBrowser);
-        return "reports/listBrowserForUrls";
-    }
+
 }

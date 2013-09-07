@@ -4,6 +4,7 @@ import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
 import org.woehlke.logfileloader.core.dao.model.HttpCodeReportItem;
 import org.woehlke.logfileloader.core.dao.model.IpNumbersReportItem;
 import org.woehlke.logfileloader.core.dao.model.PageReportItem;
+import org.woehlke.logfileloader.core.entities.HttpCode;
 
 import java.util.List;
 
@@ -31,4 +32,8 @@ public interface ReportsService {
     List<PageReportItem> listUrlsForHttpCodes(long httpCodeId);
 
     List<BrowserReportItem> listBrowserForHttpCodes(long httpCodeId);
+
+    HttpCode findHttpCodeById(long httpCodeId);
+
+    List<IpNumbersReportItem> listIpNumbersForHttpCodes(long httpCodeId);
 }
