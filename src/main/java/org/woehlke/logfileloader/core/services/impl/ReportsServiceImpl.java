@@ -8,9 +8,14 @@ import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
 import org.woehlke.logfileloader.core.dao.model.HttpCodeReportItem;
 import org.woehlke.logfileloader.core.dao.model.IpNumbersReportItem;
 import org.woehlke.logfileloader.core.dao.model.PageReportItem;
+import org.woehlke.logfileloader.core.entities.Browser;
 import org.woehlke.logfileloader.core.entities.HttpCode;
+import org.woehlke.logfileloader.core.entities.Ip;
+import org.woehlke.logfileloader.core.entities.Request;
 import org.woehlke.logfileloader.core.repositories.BrowserRepository;
 import org.woehlke.logfileloader.core.repositories.HttpCodeRepository;
+import org.woehlke.logfileloader.core.repositories.IpRepository;
+import org.woehlke.logfileloader.core.repositories.RequestRepository;
 import org.woehlke.logfileloader.core.services.ReportsService;
 
 import javax.inject.Inject;
@@ -32,6 +37,15 @@ public class ReportsServiceImpl implements ReportsService {
 
     @Inject
     private HttpCodeRepository httpCodeRepository;
+
+    @Inject
+    private BrowserRepository browserRepository;
+
+    @Inject
+    private IpRepository ipRepository;
+
+    @Inject
+    private RequestRepository requestRepository;
 
     @Override
     public List<IpNumbersReportItem> listIpNumbers() {
@@ -86,5 +100,20 @@ public class ReportsServiceImpl implements ReportsService {
     @Override
     public List<PageReportItem> listUrlsForIpNumber(long ipNumberId) {
         return reportsDao.listUrlsForIpNumber(ipNumberId);
+    }
+
+    @Override
+    public Browser findBrowserById(long browserId) {
+        return browserRepository.findOne(browserId);
+    }
+
+    @Override
+    public Ip findIpById(long ipNumberId) {
+        return ipRepository.findOne(ipNumberId);
+    }
+
+    @Override
+    public Request findRequestById(long urlId) {
+        return requestRepository.findOne(urlId);
     }
 }

@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>List URLs for Browser</h1>
+    <h1>List URLs for Browser ${browser.browser}</h1>
     <table class="table table-striped table-condensed table-bordered">
         <tr><th>URL</th><th>nr</th></tr>
         <c:forEach items="${listPages}" var="ip">

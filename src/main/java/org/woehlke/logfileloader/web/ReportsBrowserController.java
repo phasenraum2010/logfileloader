@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
 import org.woehlke.logfileloader.core.dao.model.PageReportItem;
+import org.woehlke.logfileloader.core.entities.Browser;
 import org.woehlke.logfileloader.core.services.ReportsService;
 
 import javax.inject.Inject;
@@ -45,16 +46,8 @@ public class ReportsBrowserController {
         }
         List<PageReportItem> listPages = reportsService.listUrlsForBrowser(browserId);
         model.addAttribute("listPages", listPages);
+        Browser browser =reportsService.findBrowserById(browserId);
+        model.addAttribute("browser", browser);
         return "reports/listUrlsForBrowser";
-    }
-
-    @RequestMapping(value = "/reports/listPages/{urlId}/browser")
-    public String listBrowserForUrls(@PathVariable long urlId, Model model) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/listPages/"+urlId+"/browser");
-        }
-        List<BrowserReportItem> listBrowser = reportsService.listBrowserForUrls(urlId);
-        model.addAttribute("listBrowser", listBrowser);
-        return "reports/listBrowserForUrls";
     }
 }
