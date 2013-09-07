@@ -76,6 +76,10 @@
         <int:queue message-store="mongoDbMessageStore" />
     </int:channel>
 
+    <int:channel id="manualTriggerProcessLogfileLinesChannel">
+        <int:queue message-store="mongoDbMessageStore" />
+    </int:channel>
+
     <int:channel id="processLogfileLinesChannel">
         <int:queue message-store="mongoDbMessageStore" />
     </int:channel>
@@ -134,6 +138,13 @@
         <int:service-activator ref="fetchLogfileMessagingGateway"
                                method="logFilename" />
     </int:chain>
+
+    <int:service-activator
+            id="triggerProcessLogfileLinesPipelineServiceActivator"
+            input-channel="manualTriggerProcessLogfileLinesChannel"
+            output-channel="nullChannel"
+            ref="triggerProcessLogfileLinesPipeline"
+            method="processLogfileLines" />
 
     <int:chain input-channel="processLogfileLinesChannel"
                output-channel="nullChannel" id="processLogfileLinesChain">

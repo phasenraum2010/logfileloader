@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.woehlke.logfileloader.core.entities.LogfileLine;
 import org.woehlke.logfileloader.core.services.LogfileLineService;
 import org.woehlke.logfileloader.eai.events.ProcessLogfileLinesEvent;
+import org.woehlke.logfileloader.eai.events.TriggerProcessLogfileLinesEvent;
 import org.woehlke.logfileloader.eai.events.TriggerStartupEvent;
 import org.woehlke.logfileloader.eai.service.ManualStartupService;
 
@@ -25,11 +26,8 @@ public class ManualStartupServiceImpl implements ManualStartupService {
     private QueueChannel manualStartupChannel;
 
     @Autowired
-    @Qualifier("processLogfileLinesChannel")
-    private QueueChannel processLogfileLinesChannel;
-
-    @Inject
-    private LogfileLineService logfileLineService;
+    @Qualifier("manualTriggerProcessLogfileLinesChannel")
+    private QueueChannel manualTriggerProcessLogfileLinesChannel;
 
     @Override
     public void start() {
@@ -42,19 +40,11 @@ public class ManualStartupServiceImpl implements ManualStartupService {
 
     @Override
     public void processLogfileLines() {
-        boolean goOn = true;
         final MessagingTemplate m = new MessagingTemplate();
-        while (goOn) {
-            Page<LogfileLine> lines = logfileLineService.getNextUnprocessedLines();
-            goOn = lines.hasNextPage();
-            for (LogfileLine line : lines.getContent()) {
-                line = logfileLineService.setProcessed(line);
-                ProcessLogfileLinesEvent e = new ProcessLogfileLinesEvent();
-                e.setLine(line);
-                Message<ProcessLogfileLinesEvent> message = MessageBuilder
-                        .withPayload(e).build();
-                m.send(processLogfileLinesChannel, message);
-            }
-        }
+        TriggerProcessLogfileLinesEvent e = new TriggerProcessLogfileLinesEvent();
+        Message<TriggerProcessLogfileLinesEvent> message = MessageBuilder
+                .withPayload(e).build();
+        m.send(manualTriggerProcessLogfileLinesChannel, message);
     }
+
 }
