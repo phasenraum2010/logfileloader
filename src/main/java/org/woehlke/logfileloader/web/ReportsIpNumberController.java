@@ -2,6 +2,9 @@ package org.woehlke.logfileloader.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefaults;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,11 +33,13 @@ public class ReportsIpNumberController {
     private ReportsService reportsService;
 
     @RequestMapping(value = "/reports/listIpNumbers")
-    public String listIpNumbers(Model model) {
+    public String listIpNumbers(
+            Model model,
+            @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable) {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("HTTP-Request for /reports/listIpNumbers");
         }
-        List<IpNumbersReportItem> ipNumbersReport = reportsService.listIpNumbers();
+        Page<IpNumbersReportItem> ipNumbersReport = reportsService.listIpNumbers(pageable);
         model.addAttribute("ipNumbersReport", ipNumbersReport);
         return "reports/listIpNumbers";
     }

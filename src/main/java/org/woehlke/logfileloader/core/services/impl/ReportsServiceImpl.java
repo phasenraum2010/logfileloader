@@ -50,13 +50,13 @@ public class ReportsServiceImpl implements ReportsService {
     private RequestRepository requestRepository;
 
     @Override
-    public List<IpNumbersReportItem> listIpNumbers() {
-        return reportsDao.listIpNumbers();
+    public Page<IpNumbersReportItem> listIpNumbers(Pageable pageable) {
+        return reportsDao.listIpNumbers(pageable);
     }
 
     @Override
-    public List<BrowserReportItem> listBrowser() {
-        return reportsDao.listBrowser();
+    public Page<BrowserReportItem> listBrowser(Pageable pageable) {
+        return reportsDao.listBrowser(pageable);
     }
 
     @Override

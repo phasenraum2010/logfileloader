@@ -37,15 +37,25 @@ public class ReportsDaoImpl implements ReportsDao {
     }
 
     @Override
-    public List<IpNumbersReportItem> listIpNumbers() {
-        String sql = "select IP.id as id,ip,count(ip) as nr from IP,LINEITEM where LINEITEM.ip_id=IP.id group by ip,id order by nr DESC";
-        return jdbcTemplate.query(sql, new IpNumbersReportItemMapper());
+    public Page<IpNumbersReportItem> listIpNumbers(Pageable pageable) {
+        String sql1 = "select IP.id as id,ip,count(ip) as nr from IP,LINEITEM where LINEITEM.ip_id=IP.id group by ip,id order by nr DESC";
+        String sql2 = "select count(nr) from ("+sql1+") as COUNT";
+        long total = jdbcTemplate.queryForLong(sql2);
+        List<IpNumbersReportItem> list = jdbcTemplate.query(sql1, new IpNumbersReportItemMapper());
+        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        Page<IpNumbersReportItem> page =new PageImpl<IpNumbersReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
+        return page;
     }
 
     @Override
-    public List<BrowserReportItem> listBrowser() {
-        String sql = "select BROWSER.id as id,browser,count(browser) as nr from BROWSER,LINEITEM where LINEITEM.browser_id=BROWSER.id group by browser,id order by nr DESC";
-        return jdbcTemplate.query(sql, new BrowserReportItemMapper());
+    public Page<BrowserReportItem> listBrowser(Pageable pageable) {
+        String sql1 = "select BROWSER.id as id,browser,count(browser) as nr from BROWSER,LINEITEM where LINEITEM.browser_id=BROWSER.id group by browser,id order by nr DESC";
+        String sql2 = "select count(nr) from ("+sql1+") as COUNT";
+        long total = jdbcTemplate.queryForLong(sql2);
+        List<BrowserReportItem> list = jdbcTemplate.query(sql1, new BrowserReportItemMapper());
+        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        Page<BrowserReportItem> page = new PageImpl<BrowserReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
+        return page;
     }
 
     @Override

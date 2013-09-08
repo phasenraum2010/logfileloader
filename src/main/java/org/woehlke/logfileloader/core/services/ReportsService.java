@@ -22,9 +22,9 @@ import java.util.List;
  */
 public interface ReportsService {
 
-    List<IpNumbersReportItem> listIpNumbers();
+    Page<IpNumbersReportItem> listIpNumbers(Pageable pageable);
 
-    List<BrowserReportItem> listBrowser();
+    Page<BrowserReportItem> listBrowser(Pageable pageable);
 
     Page<PageReportItem> listPages(Pageable pageable);
 
