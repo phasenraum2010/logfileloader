@@ -14,7 +14,7 @@
     <h1>List URLs for IP Number ${ipNumber.ip}</h1>
     <table class="table table-striped table-condensed table-bordered">
         <tr><th>URL</th><th>nr</th></tr>
-        <c:forEach items="${listPages}" var="ip">
+        <c:forEach items="${listPages.content}" var="ip">
             <tr><td>${ip.request}</td><td>${ip.nr}</td></tr>
         </c:forEach>
     </table>

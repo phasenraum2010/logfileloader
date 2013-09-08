@@ -28,21 +28,21 @@ public interface ReportsService {
 
     Page<PageReportItem> listPages(Pageable pageable);
 
-    List<PageReportItem> listUrlsForBrowser(long browserId);
+    Page<PageReportItem> listUrlsForBrowser(long browserId, Pageable pageable);
 
-    List<BrowserReportItem> listBrowserForUrls(long urlId);
+    Page<BrowserReportItem> listBrowserForUrls(long urlId, Pageable pageable);
 
-    List<HttpCodeReportItem> listHttpCodes();
+    Page<HttpCodeReportItem> listHttpCodes(Pageable pageable);
 
-    List<PageReportItem> listUrlsForHttpCodes(long httpCodeId);
+    Page<PageReportItem> listUrlsForHttpCodes(long httpCodeId, Pageable pageable);
 
-    List<BrowserReportItem> listBrowserForHttpCodes(long httpCodeId);
+    Page<BrowserReportItem> listBrowserForHttpCodes(long httpCodeId, Pageable pageable);
 
     HttpCode findHttpCodeById(long httpCodeId);
 
-    List<IpNumbersReportItem> listIpNumbersForHttpCodes(long httpCodeId);
+    Page<IpNumbersReportItem> listIpNumbersForHttpCodes(long httpCodeId, Pageable pageable);
 
-    List<PageReportItem> listUrlsForIpNumber(long ipNumberId);
+    Page<PageReportItem> listUrlsForIpNumber(long ipNumberId, Pageable pageable);
 
     Browser findBrowserById(long browserId);
 

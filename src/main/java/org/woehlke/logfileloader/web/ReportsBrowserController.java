@@ -45,11 +45,13 @@ public class ReportsBrowserController {
     }
 
     @RequestMapping(value = "/reports/listBrowser/{browserId}/url")
-    public String listUrlsForBrowser(@PathVariable long browserId, Model model) {
+    public String listUrlsForBrowser(
+            @PathVariable long browserId, Model model,
+            @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable) {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("HTTP-Request for /reports/listBrowser/"+browserId+"/url");
         }
-        List<PageReportItem> listPages = reportsService.listUrlsForBrowser(browserId);
+        Page<PageReportItem> listPages = reportsService.listUrlsForBrowser(browserId,pageable);
         model.addAttribute("listPages", listPages);
         Browser browser =reportsService.findBrowserById(browserId);
         model.addAttribute("browser", browser);

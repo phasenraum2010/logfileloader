@@ -45,11 +45,13 @@ public class ReportsIpNumberController {
     }
 
     @RequestMapping(value = "/reports/listIpNumbers/{ipNumberId}/url")
-    public String listUrlsForIpNumber(@PathVariable long ipNumberId,Model model) {
+    public String listUrlsForIpNumber(
+            @PathVariable long ipNumberId,Model model,
+            @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable) {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("HTTP-Request for /reports/listIpNumbers/"+ipNumberId+"/url");
         }
-        List<PageReportItem> listPages = reportsService.listUrlsForIpNumber(ipNumberId);
+        Page<PageReportItem> listPages = reportsService.listUrlsForIpNumber(ipNumberId,pageable);
         model.addAttribute("listPages", listPages);
         Ip ipNumber = reportsService.findIpById(ipNumberId);
         model.addAttribute("ipNumber", ipNumber);
