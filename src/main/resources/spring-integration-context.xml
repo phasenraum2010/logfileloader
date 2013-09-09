@@ -150,6 +150,9 @@
                output-channel="nullChannel" id="processLogfileLinesChain">
 
         <int:service-activator ref="processLogfileLinesPipeline"
+                               method="getTimeStamp" />
+
+        <int:service-activator ref="processLogfileLinesPipeline"
                                method="getIpNumber" />
 
         <int:service-activator ref="processLogfileLinesPipeline"

@@ -22,7 +22,7 @@ import java.util.Date;
 @MessageEndpoint("processLogfileLinesPipeline")
 public class ProcessLogfileLinesPipeline {
 
-    //private final static Logger LOGGER = LoggerFactory.getLogger(ProcessLogfileLinesPipeline.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ProcessLogfileLinesPipeline.class);
 
     @Inject
     private LogfileLineItemService logfileLineItemService;
@@ -43,22 +43,25 @@ public class ProcessLogfileLinesPipeline {
         String line = event.getLine().getLine();
         String rest = line.split("\\[")[1];
         String datetimeString = rest.split("\\]")[0].split(" ")[0];
-        //LOGGER.info(datetimeString);
+        LOGGER.info("datetimeString: "+datetimeString);
         String timezoneString = rest.split("\\]")[0].split(" ")[1];
-        //LOGGER.info(timezoneString);
+        LOGGER.info("timezoneString: "+timezoneString);
         SimpleDateFormat parserSDF = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss");
+        Date date = null;
         try {
             int timezone = Integer.parseInt(timezoneString);
             Date datetime = parserSDF.parse(datetimeString);
             timezone -= 100; //CEST
             timezone *= 60 * 1000;
-            event.setDatetime(new Date(datetime.getTime() + timezone));
+            long timestamp = datetime.getTime() + timezone;
+            date = new Date(timestamp);
         } catch (NumberFormatException u) {
             u.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        //LOGGER.info(event.toString());
+        event.setDatetime(date);
+        LOGGER.info("### "+event.toString());
         return event;
     }
 
@@ -68,7 +71,7 @@ public class ProcessLogfileLinesPipeline {
         try {
             requestLine = line.split("\"")[1].split(" ")[1];
         } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         event.setRequestLine(requestLine);
         //LOGGER.info(requestLine);
@@ -81,7 +84,7 @@ public class ProcessLogfileLinesPipeline {
         try {
             httpCode = line.split("\"")[2].split(" ")[1];
         } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         event.setHttpCode(httpCode);
         //LOGGER.info(httpCode);
@@ -94,7 +97,7 @@ public class ProcessLogfileLinesPipeline {
         try {
             browser = line.split("\"")[5];
         } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         event.setBrowser(browser);
         //LOGGER.info(browser);
@@ -102,6 +105,7 @@ public class ProcessLogfileLinesPipeline {
     }
 
     public ProcessLogfileLinesEvent pushIntoDatabase(ProcessLogfileLinesEvent event) {
+        LOGGER.info("pushIntoDatabase: "+event.toString());
         Browser browser = new Browser();
         HttpCode httpCode = new HttpCode();
         Ip ip = new Ip();
@@ -116,6 +120,8 @@ public class ProcessLogfileLinesPipeline {
         logfileLineItem.setIp(ip);
         logfileLineItem.setHttpCode(httpCode);
         logfileLineItem.setRequest(request);
+        logfileLineItem.setDay(event.getDatetime());
+        logfileLineItem.setTime(event.getDatetime());
         logfileLineItemService.save(logfileLineItem);
         return event;
     }

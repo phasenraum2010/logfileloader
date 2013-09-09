@@ -1,6 +1,7 @@
 package org.woehlke.logfileloader.core.entities;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,6 +20,14 @@ public class LogfileLineItem {
 
     @Column(nullable = false, columnDefinition = "Text(1000)")
     private String line;
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date day;
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIME)
+    private Date time;
 
     @ManyToOne
     private Ip ip;
@@ -78,6 +87,22 @@ public class LogfileLineItem {
 
     public void setBrowser(Browser browser) {
         this.browser = browser;
+    }
+
+    public Date getDay() {
+        return day;
+    }
+
+    public void setDay(Date day) {
+        this.day = day;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 
     @Override
