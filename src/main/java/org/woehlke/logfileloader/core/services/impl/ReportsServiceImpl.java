@@ -6,10 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.woehlke.logfileloader.core.dao.ReportsDao;
-import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
-import org.woehlke.logfileloader.core.dao.model.HttpCodeReportItem;
-import org.woehlke.logfileloader.core.dao.model.IpNumbersReportItem;
-import org.woehlke.logfileloader.core.dao.model.PageReportItem;
+import org.woehlke.logfileloader.core.dao.model.*;
 import org.woehlke.logfileloader.core.entities.Browser;
 import org.woehlke.logfileloader.core.entities.HttpCode;
 import org.woehlke.logfileloader.core.entities.Ip;
@@ -117,5 +114,10 @@ public class ReportsServiceImpl implements ReportsService {
     @Override
     public Request findRequestById(long urlId) {
         return requestRepository.findOne(urlId);
+    }
+
+    @Override
+    public Page<TimelineDaysItem> getTimelineDays(Pageable pageable) {
+        return reportsDao.getTimelineDays(pageable);
     }
 }

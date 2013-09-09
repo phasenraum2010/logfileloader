@@ -2,10 +2,7 @@ package org.woehlke.logfileloader.core.dao;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
-import org.woehlke.logfileloader.core.dao.model.HttpCodeReportItem;
-import org.woehlke.logfileloader.core.dao.model.IpNumbersReportItem;
-import org.woehlke.logfileloader.core.dao.model.PageReportItem;
+import org.woehlke.logfileloader.core.dao.model.*;
 
 import java.util.List;
 
@@ -37,4 +34,6 @@ public interface ReportsDao {
     Page<IpNumbersReportItem> listIpNumbersForHttpCodes(long httpCodeId, Pageable pageable);
 
     Page<PageReportItem> listUrlsForIpNumber(long ipNumberId, Pageable pageable);
+
+    Page<TimelineDaysItem> getTimelineDays(Pageable pageable);
 }

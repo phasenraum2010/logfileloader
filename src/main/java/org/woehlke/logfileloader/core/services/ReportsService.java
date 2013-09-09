@@ -2,10 +2,7 @@ package org.woehlke.logfileloader.core.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
-import org.woehlke.logfileloader.core.dao.model.HttpCodeReportItem;
-import org.woehlke.logfileloader.core.dao.model.IpNumbersReportItem;
-import org.woehlke.logfileloader.core.dao.model.PageReportItem;
+import org.woehlke.logfileloader.core.dao.model.*;
 import org.woehlke.logfileloader.core.entities.Browser;
 import org.woehlke.logfileloader.core.entities.HttpCode;
 import org.woehlke.logfileloader.core.entities.Ip;
@@ -49,4 +46,6 @@ public interface ReportsService {
     Ip findIpById(long ipNumberId);
 
     Request findRequestById(long urlId);
+
+    Page<TimelineDaysItem> getTimelineDays(Pageable pageable);
 }

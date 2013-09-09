@@ -19,6 +19,7 @@
             <a href="/reports/listBrowser">/reports/listBrowser</a> <br />
             <a href="/reports/listPages">/reports/listPages</a> <br />
             <a href="/reports/listHttpCodes">/reports/listHttpCodes</a> <br />
+            <a href="/reports/timelineDays">/reports/timelineDays</a> <br />
 		</div>
         <script type="text/javascript">
             $(window).load(function(){

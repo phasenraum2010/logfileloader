@@ -7,14 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.woehlke.logfileloader.core.dao.ReportsDao;
-import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
-import org.woehlke.logfileloader.core.dao.model.HttpCodeReportItem;
-import org.woehlke.logfileloader.core.dao.model.IpNumbersReportItem;
-import org.woehlke.logfileloader.core.dao.model.PageReportItem;
-import org.woehlke.logfileloader.core.dao.rowmapper.BrowserReportItemMapper;
-import org.woehlke.logfileloader.core.dao.rowmapper.HttpCodeReportItemMapper;
-import org.woehlke.logfileloader.core.dao.rowmapper.IpNumbersReportItemMapper;
-import org.woehlke.logfileloader.core.dao.rowmapper.PageReportItemMapper;
+import org.woehlke.logfileloader.core.dao.model.*;
+import org.woehlke.logfileloader.core.dao.rowmapper.*;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -143,6 +137,17 @@ public class ReportsDaoImpl implements ReportsDao {
         List<PageReportItem> list = jdbcTemplate.query(sql1, new PageReportItemMapper(), ipNumberId);
         int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
         Page<PageReportItem> page = new PageImpl<PageReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
+        return page;
+    }
+
+    @Override
+    public Page<TimelineDaysItem> getTimelineDays(Pageable pageable) {
+        String sql1 = "select day,count(day) as nr from LINEITEM group by day order by day desc";
+        String sql2 = "select count(nr) from ("+sql1+") as COUNT";
+        long total = jdbcTemplate.queryForLong(sql2);
+        List<TimelineDaysItem> list = jdbcTemplate.query(sql1, new TimelineDaysItemMapper());
+        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        Page<TimelineDaysItem> page = new PageImpl<TimelineDaysItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
         return page;
     }
 }
