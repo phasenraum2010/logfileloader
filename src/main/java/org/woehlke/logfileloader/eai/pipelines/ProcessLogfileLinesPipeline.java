@@ -107,11 +107,13 @@ public class ProcessLogfileLinesPipeline {
     public ProcessLogfileLinesEvent pushIntoDatabase(ProcessLogfileLinesEvent event) {
         LOGGER.info("pushIntoDatabase: "+event.toString());
         Browser browser = new Browser();
+        Day day = new Day();
         HttpCode httpCode = new HttpCode();
         Ip ip = new Ip();
         LogfileLineItem logfileLineItem = new LogfileLineItem();
         Request request = new Request();
         browser.setBrowser(event.getBrowser());
+        day.setDay(event.getDatetime());
         httpCode.setCode(event.getHttpCode());
         ip.setIp(event.getIp());
         request.setRequest(event.getRequestLine());
@@ -120,7 +122,7 @@ public class ProcessLogfileLinesPipeline {
         logfileLineItem.setIp(ip);
         logfileLineItem.setHttpCode(httpCode);
         logfileLineItem.setRequest(request);
-        logfileLineItem.setDay(event.getDatetime());
+        logfileLineItem.setDay(day);
         logfileLineItem.setTime(event.getDatetime());
         logfileLineItemService.save(logfileLineItem);
         return event;

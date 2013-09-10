@@ -21,9 +21,8 @@ public class LogfileLineItem {
     @Column(nullable = false, columnDefinition = "Text(1000)")
     private String line;
 
-    @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date day;
+    @ManyToOne
+    private Day day;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIME)
@@ -89,11 +88,11 @@ public class LogfileLineItem {
         this.browser = browser;
     }
 
-    public Date getDay() {
+    public Day getDay() {
         return day;
     }
 
-    public void setDay(Date day) {
+    public void setDay(Day day) {
         this.day = day;
     }
 

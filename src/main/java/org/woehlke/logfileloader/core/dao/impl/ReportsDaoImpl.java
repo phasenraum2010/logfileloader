@@ -141,13 +141,24 @@ public class ReportsDaoImpl implements ReportsDao {
     }
 
     @Override
-    public Page<TimelineDaysItem> getTimelineDays(Pageable pageable) {
-        String sql1 = "select day,count(day) as nr from LINEITEM group by day order by day desc";
+    public Page<TimelineDaysItem> listDays(Pageable pageable) {
+        String sql1 = "select DAY.id as id,day,count(day) as nr from DAY,LINEITEM where LINEITEM.day_id=DAY.id group by day,id order by day DESC";
         String sql2 = "select count(nr) from ("+sql1+") as COUNT";
         long total = jdbcTemplate.queryForLong(sql2);
         List<TimelineDaysItem> list = jdbcTemplate.query(sql1, new TimelineDaysItemMapper());
         int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
         Page<TimelineDaysItem> page = new PageImpl<TimelineDaysItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
+        return page;
+    }
+
+    @Override
+    public Page<HttpCodeReportItem> listHttpCodesForDay(long dayId, Pageable pageable) {
+        String sql1 = "select HTTPCODE.id as id,code,count(code) as nr from HTTPCODE,LINEITEM where LINEITEM.httpcode_id=HTTPCODE.id and LINEITEM.day_id=? group by code,id order by nr DESC";
+        String sql2 = "select count(nr) from ("+sql1+") as COUNT";
+        long total = jdbcTemplate.queryForLong(sql2,dayId);
+        List<HttpCodeReportItem> list = jdbcTemplate.query(sql1, new HttpCodeReportItemMapper(),dayId);
+        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        Page<HttpCodeReportItem> page = new PageImpl<HttpCodeReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
         return page;
     }
 }

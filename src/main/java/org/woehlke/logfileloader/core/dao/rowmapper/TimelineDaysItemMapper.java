@@ -18,6 +18,7 @@ public class TimelineDaysItemMapper implements RowMapper<TimelineDaysItem> {
     @Override
     public TimelineDaysItem mapRow(ResultSet rs, int rowNum) throws SQLException {
         TimelineDaysItem e = new TimelineDaysItem();
+        e.setId(rs.getLong("id"));
         e.setDay(rs.getDate("day"));
         e.setNr(rs.getInt("nr"));
         return e;

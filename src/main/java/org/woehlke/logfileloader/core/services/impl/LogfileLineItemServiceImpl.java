@@ -34,6 +34,9 @@ public class LogfileLineItemServiceImpl implements LogfileLineItemService {
     @Inject
     private RequestRepository requestRepository;
 
+    @Inject
+    private DayRepository dayRepository;
+
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = false)
     public void save(LogfileLineItem logfileLineItem) {
@@ -57,6 +60,11 @@ public class LogfileLineItemServiceImpl implements LogfileLineItemService {
             request = requestRepository.saveAndFlush(logfileLineItem.getRequest());
         }
         logfileLineItem.setRequest(request);
+        Day day = dayRepository.findByDay(logfileLineItem.getDay().getDay());
+        if(day == null){
+            day =  dayRepository.saveAndFlush(logfileLineItem.getDay());
+        }
+        logfileLineItem.setDay(day);
         logfileLineItemRepository.saveAndFlush(logfileLineItem);
     }
 }

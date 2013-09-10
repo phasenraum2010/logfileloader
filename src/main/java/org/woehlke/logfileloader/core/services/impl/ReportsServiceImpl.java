@@ -7,18 +7,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.woehlke.logfileloader.core.dao.ReportsDao;
 import org.woehlke.logfileloader.core.dao.model.*;
-import org.woehlke.logfileloader.core.entities.Browser;
-import org.woehlke.logfileloader.core.entities.HttpCode;
-import org.woehlke.logfileloader.core.entities.Ip;
-import org.woehlke.logfileloader.core.entities.Request;
-import org.woehlke.logfileloader.core.repositories.BrowserRepository;
-import org.woehlke.logfileloader.core.repositories.HttpCodeRepository;
-import org.woehlke.logfileloader.core.repositories.IpRepository;
-import org.woehlke.logfileloader.core.repositories.RequestRepository;
+import org.woehlke.logfileloader.core.entities.*;
+import org.woehlke.logfileloader.core.repositories.*;
 import org.woehlke.logfileloader.core.services.ReportsService;
 
 import javax.inject.Inject;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -45,6 +38,9 @@ public class ReportsServiceImpl implements ReportsService {
 
     @Inject
     private RequestRepository requestRepository;
+
+    @Inject
+    private DayRepository dayRepository;
 
     @Override
     public Page<IpNumbersReportItem> listIpNumbers(Pageable pageable) {
@@ -117,7 +113,17 @@ public class ReportsServiceImpl implements ReportsService {
     }
 
     @Override
-    public Page<TimelineDaysItem> getTimelineDays(Pageable pageable) {
-        return reportsDao.getTimelineDays(pageable);
+    public Page<TimelineDaysItem> listDays(Pageable pageable) {
+        return reportsDao.listDays(pageable);
+    }
+
+    @Override
+    public Day findDayById(long dayId) {
+        return dayRepository.findOne(dayId);
+    }
+
+    @Override
+    public Page<HttpCodeReportItem> listHttpCodesForDay(long dayId, Pageable pageable) {
+        return reportsDao.listHttpCodesForDay(dayId, pageable);
     }
 }

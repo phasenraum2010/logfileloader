@@ -9,6 +9,7 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <class>org.woehlke.logfileloader.core.entities.LogfileLine</class>
         <class>org.woehlke.logfileloader.core.entities.Browser</class>
+        <class>org.woehlke.logfileloader.core.entities.Day</class>
         <class>org.woehlke.logfileloader.core.entities.HttpCode</class>
         <class>org.woehlke.logfileloader.core.entities.Ip</class>
         <class>org.woehlke.logfileloader.core.entities.LogfileLineItem</class>

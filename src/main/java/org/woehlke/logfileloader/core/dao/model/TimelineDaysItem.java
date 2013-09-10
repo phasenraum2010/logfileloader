@@ -11,8 +11,17 @@ import java.util.Date;
  */
 public class TimelineDaysItem {
 
+    private long id;
     private Date day;
     private int nr;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public Date getDay() {
         return day;
@@ -53,7 +62,8 @@ public class TimelineDaysItem {
     @Override
     public String toString() {
         return "TimelineDaysItem{" +
-                "day=" + day +
+                "id=" + id +
+                ", day=" + day +
                 ", nr=" + nr +
                 '}';
     }

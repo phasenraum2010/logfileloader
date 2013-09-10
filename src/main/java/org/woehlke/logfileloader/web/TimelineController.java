@@ -7,10 +7,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefaults;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.woehlke.logfileloader.core.dao.model.HttpCodeReportItem;
 import org.woehlke.logfileloader.core.dao.model.TimelineDaysItem;
+import org.woehlke.logfileloader.core.entities.Day;
 import org.woehlke.logfileloader.core.services.ReportsService;
-import org.woehlke.logfileloader.eai.service.ManualStartupService;
 
 import javax.inject.Inject;
 
@@ -30,14 +32,29 @@ public class TimelineController {
     private ReportsService reportsService;
 
     @RequestMapping(value = "/reports/timelineDays")
-    public String getDays(
+    public String listDays(
             Model model,
             @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable){
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("HTTP-Request for /reports/timelineDays");
         }
-        Page<TimelineDaysItem> timelineDays = reportsService.getTimelineDays(pageable);
-        model.addAttribute("timelineDays",timelineDays);
-        return "reports/timelineDays";
+        Page<TimelineDaysItem> listDays = reportsService.listDays(pageable);
+        model.addAttribute("listDays",listDays);
+        return "reports/listDays";
+    }
+
+    @RequestMapping(value = "/reports/timelineDays/{dayId}/httpcodes")
+    public String listHttpCodesForDay(
+            @PathVariable long dayId,
+            Model model,
+            @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable){
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("HTTP-Request for /reports/timelineDays/"+dayId+"/httpcodes");
+        }
+        Day day = reportsService.findDayById(dayId);
+        model.addAttribute("day",day);
+        Page<HttpCodeReportItem> listHttpCodes = reportsService.listHttpCodesForDay(dayId, pageable);
+        model.addAttribute("listHttpCodes",listHttpCodes);
+        return "reports/listHttpCodesForDay";
     }
 }

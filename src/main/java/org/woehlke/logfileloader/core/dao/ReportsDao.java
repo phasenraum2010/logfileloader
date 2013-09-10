@@ -35,5 +35,7 @@ public interface ReportsDao {
 
     Page<PageReportItem> listUrlsForIpNumber(long ipNumberId, Pageable pageable);
 
-    Page<TimelineDaysItem> getTimelineDays(Pageable pageable);
+    Page<TimelineDaysItem> listDays(Pageable pageable);
+
+    Page<HttpCodeReportItem> listHttpCodesForDay(long dayId, Pageable pageable);
 }
