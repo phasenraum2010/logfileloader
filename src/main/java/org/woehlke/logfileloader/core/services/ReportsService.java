@@ -49,4 +49,8 @@ public interface ReportsService {
     Day findDayById(long dayId);
 
     Page<HttpCodeReportItem> listHttpCodesForDay(long dayId, Pageable pageable);
+
+    Page<PageReportItem> listUrlsForDay(long dayId, Pageable pageable);
+
+    Page<BrowserReportItem> listBrowserForDay(long dayId, Pageable pageable);
 }

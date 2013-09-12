@@ -161,4 +161,26 @@ public class ReportsDaoImpl implements ReportsDao {
         Page<HttpCodeReportItem> page = new PageImpl<HttpCodeReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
         return page;
     }
+
+    @Override
+    public Page<PageReportItem> listUrlsForDay(long dayId, Pageable pageable) {
+        String sql1 = "select REQUEST.id as id,request,count(request) as nr from REQUEST,LINEITEM where LINEITEM.request_id=REQUEST.id and LINEITEM.day_id=? group by request,id order by nr DESC";
+        String sql2 = "select count(nr) from ("+sql1+") as COUNT";
+        long total = jdbcTemplate.queryForLong(sql2,dayId);
+        List<PageReportItem> list = jdbcTemplate.query(sql1, new PageReportItemMapper(), dayId);
+        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        Page<PageReportItem> page = new PageImpl<PageReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
+        return page;
+    }
+
+    @Override
+    public Page<BrowserReportItem> listBrowserForDay(long dayId, Pageable pageable) {
+        String sql1 = "select BROWSER.id as id,browser,count(browser) as nr from BROWSER,LINEITEM where LINEITEM.browser_id=BROWSER.id and LINEITEM.day_id=? group by browser,id order by nr DESC";
+        String sql2 = "select count(nr) from ("+sql1+") as COUNT";
+        long total = jdbcTemplate.queryForLong(sql2,dayId);
+        List<BrowserReportItem> list = jdbcTemplate.query(sql1, new BrowserReportItemMapper(),dayId);
+        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        Page<BrowserReportItem> page = new PageImpl<BrowserReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
+        return page;
+    }
 }

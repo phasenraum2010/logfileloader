@@ -59,12 +59,12 @@ public class ReportsServiceImpl implements ReportsService {
 
     @Override
     public Page<PageReportItem> listUrlsForBrowser(long browserId, Pageable pageable) {
-        return reportsDao.listUrlsForBrowser(browserId,pageable);
+        return reportsDao.listUrlsForBrowser(browserId, pageable);
     }
 
     @Override
     public Page<BrowserReportItem> listBrowserForUrls(long urlId, Pageable pageable) {
-        return reportsDao.listBrowserForUrls(urlId,pageable);
+        return reportsDao.listBrowserForUrls(urlId, pageable);
     }
 
     @Override
@@ -74,12 +74,12 @@ public class ReportsServiceImpl implements ReportsService {
 
     @Override
     public Page<PageReportItem> listUrlsForHttpCodes(long httpCodeId, Pageable pageable) {
-        return reportsDao.listUrlsForHttpCodes(httpCodeId,pageable);
+        return reportsDao.listUrlsForHttpCodes(httpCodeId, pageable);
     }
 
     @Override
     public Page<BrowserReportItem> listBrowserForHttpCodes(long httpCodeId, Pageable pageable) {
-        return reportsDao.listBrowserForHttpCodes(httpCodeId,pageable);
+        return reportsDao.listBrowserForHttpCodes(httpCodeId, pageable);
     }
 
     @Override
@@ -89,12 +89,12 @@ public class ReportsServiceImpl implements ReportsService {
 
     @Override
     public Page<IpNumbersReportItem> listIpNumbersForHttpCodes(long httpCodeId, Pageable pageable) {
-        return reportsDao.listIpNumbersForHttpCodes(httpCodeId,pageable);
+        return reportsDao.listIpNumbersForHttpCodes(httpCodeId, pageable);
     }
 
     @Override
     public Page<PageReportItem> listUrlsForIpNumber(long ipNumberId, Pageable pageable) {
-        return reportsDao.listUrlsForIpNumber(ipNumberId,pageable);
+        return reportsDao.listUrlsForIpNumber(ipNumberId, pageable);
     }
 
     @Override
@@ -125,5 +125,15 @@ public class ReportsServiceImpl implements ReportsService {
     @Override
     public Page<HttpCodeReportItem> listHttpCodesForDay(long dayId, Pageable pageable) {
         return reportsDao.listHttpCodesForDay(dayId, pageable);
+    }
+
+    @Override
+    public Page<PageReportItem> listUrlsForDay(long dayId, Pageable pageable) {
+        return reportsDao.listUrlsForDay(dayId, pageable);
+    }
+
+    @Override
+    public Page<BrowserReportItem> listBrowserForDay(long dayId, Pageable pageable) {
+        return reportsDao.listBrowserForDay(dayId,pageable);
     }
 }

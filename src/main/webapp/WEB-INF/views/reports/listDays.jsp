@@ -15,7 +15,10 @@
     <table class="table table-striped table-condensed table-bordered">
         <tr><th>ip</th><th>nr</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>
         <c:forEach items="${listDays.content}" var="ip">
-            <tr><td>${ip.day}</td><td>${ip.nr}</td><td><a href="/reports/timelineDays/${ip.id}/httpcodes">HTTP-Codes</a></td><td>URLs</td><td>Browser</td></tr>
+            <tr><td>${ip.day}</td><td>${ip.nr}</td>
+                <td><a href="/reports/timelineDays/${ip.id}/httpcodes">HTTP-Codes</a></td>
+                <td><a href="/reports/timelineDays/${ip.id}/url">URLs</a></td>
+                <td><a href="/reports/timelineDays/${ip.id}/browser">Browser</a></td></tr>
         </c:forEach>
     </table>
     <div class="pagination">

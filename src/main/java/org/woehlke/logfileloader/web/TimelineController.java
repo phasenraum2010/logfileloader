@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
 import org.woehlke.logfileloader.core.dao.model.HttpCodeReportItem;
+import org.woehlke.logfileloader.core.dao.model.PageReportItem;
 import org.woehlke.logfileloader.core.dao.model.TimelineDaysItem;
 import org.woehlke.logfileloader.core.entities.Day;
 import org.woehlke.logfileloader.core.services.ReportsService;
@@ -56,5 +58,35 @@ public class TimelineController {
         Page<HttpCodeReportItem> listHttpCodes = reportsService.listHttpCodesForDay(dayId, pageable);
         model.addAttribute("listHttpCodes",listHttpCodes);
         return "reports/listHttpCodesForDay";
+    }
+
+    @RequestMapping(value = "/reports/timelineDays/{dayId}/url")
+    public String listUrlsForDay(
+            @PathVariable long dayId,
+            Model model,
+            @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable){
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("HTTP-Request for /reports/timelineDays/"+dayId+"/url");
+        }
+        Day day = reportsService.findDayById(dayId);
+        model.addAttribute("day",day);
+        Page<PageReportItem> listPages = reportsService.listUrlsForDay(dayId, pageable);
+        model.addAttribute("listPages", listPages);
+        return "reports/listUrlsForDay";
+    }
+
+    @RequestMapping(value = "/reports/timelineDays/{dayId}/browser")
+    public String listBrowserForDay(
+            @PathVariable long dayId,
+            Model model,
+            @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable){
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("HTTP-Request for /reports/timelineDays/"+dayId+"/browser");
+        }
+        Day day = reportsService.findDayById(dayId);
+        model.addAttribute("day",day);
+        Page<BrowserReportItem> listBrowser = reportsService.listBrowserForDay(dayId, pageable);
+        model.addAttribute("listBrowser", listBrowser);
+        return "reports/listBrowserForDay";
     }
 }

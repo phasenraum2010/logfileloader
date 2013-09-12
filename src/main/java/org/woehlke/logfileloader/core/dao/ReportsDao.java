@@ -38,4 +38,8 @@ public interface ReportsDao {
     Page<TimelineDaysItem> listDays(Pageable pageable);
 
     Page<HttpCodeReportItem> listHttpCodesForDay(long dayId, Pageable pageable);
+
+    Page<PageReportItem> listUrlsForDay(long dayId, Pageable pageable);
+
+    Page<BrowserReportItem> listBrowserForDay(long dayId, Pageable pageable);
 }
