@@ -45,6 +45,7 @@
 </div>
 <script type="text/javascript">
     $(window).load(function(){
+        $('table.highchart').highchartTable();
     });
 </script>
 
