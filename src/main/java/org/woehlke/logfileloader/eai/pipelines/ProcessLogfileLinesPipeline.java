@@ -43,9 +43,9 @@ public class ProcessLogfileLinesPipeline {
         String line = event.getLine().getLine();
         String rest = line.split("\\[")[1];
         String datetimeString = rest.split("\\]")[0].split(" ")[0];
-        LOGGER.info("datetimeString: "+datetimeString);
+        //LOGGER.info("datetimeString: "+datetimeString);
         String timezoneString = rest.split("\\]")[0].split(" ")[1];
-        LOGGER.info("timezoneString: "+timezoneString);
+        //LOGGER.info("timezoneString: "+timezoneString);
         SimpleDateFormat parserSDF = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss");
         Date date = null;
         try {
@@ -56,12 +56,12 @@ public class ProcessLogfileLinesPipeline {
             long timestamp = datetime.getTime() + timezone;
             date = new Date(timestamp);
         } catch (NumberFormatException u) {
-            u.printStackTrace();
+            LOGGER.error(u.getMessage());
         } catch (ParseException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         event.setDatetime(date);
-        LOGGER.info("### "+event.toString());
+        //LOGGER.info("### "+event.toString());
         return event;
     }
 
@@ -71,7 +71,7 @@ public class ProcessLogfileLinesPipeline {
         try {
             requestLine = line.split("\"")[1].split(" ")[1];
         } catch (ArrayIndexOutOfBoundsException e) {
-            //e.printStackTrace();
+            LOGGER.warn(e.getMessage());
         }
         event.setRequestLine(requestLine);
         //LOGGER.info(requestLine);
@@ -84,7 +84,7 @@ public class ProcessLogfileLinesPipeline {
         try {
             httpCode = line.split("\"")[2].split(" ")[1];
         } catch (ArrayIndexOutOfBoundsException e) {
-            //e.printStackTrace();
+            LOGGER.warn(e.getMessage());
         }
         event.setHttpCode(httpCode);
         //LOGGER.info(httpCode);
@@ -97,7 +97,7 @@ public class ProcessLogfileLinesPipeline {
         try {
             browser = line.split("\"")[5];
         } catch (ArrayIndexOutOfBoundsException e) {
-            //e.printStackTrace();
+            LOGGER.warn(e.getMessage());
         }
         event.setBrowser(browser);
         //LOGGER.info(browser);
@@ -105,7 +105,7 @@ public class ProcessLogfileLinesPipeline {
     }
 
     public ProcessLogfileLinesEvent pushIntoDatabase(ProcessLogfileLinesEvent event) {
-        LOGGER.info("pushIntoDatabase: "+event.toString());
+        //LOGGER.info("pushIntoDatabase: "+event.toString());
         Browser browser = new Browser();
         Day day = new Day();
         HttpCode httpCode = new HttpCode();

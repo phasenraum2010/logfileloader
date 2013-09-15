@@ -28,7 +28,7 @@ import java.util.zip.GZIPInputStream;
 @MessageEndpoint("downloadFilePipeline")
 public class DownloadFilePipeline {
 
-    //private final static Logger LOGGER = LoggerFactory.getLogger(DownloadFilePipeline.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(DownloadFilePipeline.class);
 
     @Value("${http.getRequest}")
     private String httpgetRequest;
@@ -65,12 +65,15 @@ public class DownloadFilePipeline {
             InputStream instream = entity1.getContent();
             File file = new File(getTempDirectory() + filename);
             FileOutputStream out = new FileOutputStream(file);
-            while (instream.available() > 0) {
-                out.write(instream.read());
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = instream.read(buf)) > 0) {
+                out.write(buf, 0, len);
             }
             out.close();
+            instream.close();
         } catch (IOException e1) {
-            e1.printStackTrace();
+            LOGGER.warn(e1.getMessage());
         } finally {
             httpget.releaseConnection();
         }
@@ -81,17 +84,17 @@ public class DownloadFilePipeline {
         File fileOut = new File(getTempDirectory() + filename + ".txt");
         File fileIn = new File(getTempDirectory() + filename);
         try {
-            FileOutputStream out = new FileOutputStream(fileOut);
+            OutputStream out = new FileOutputStream(fileOut);
             GZIPInputStream in = new GZIPInputStream(new FileInputStream(fileIn));
-            while (in.available() > 0) {
-                out.write(in.read());
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
             }
             out.close();
             in.close();
-        } catch (java.io.EOFException eofe) {
-            eofe.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.warn(e.getMessage());
         }
         fileIn.delete();
         return filename;
@@ -106,9 +109,9 @@ public class DownloadFilePipeline {
                 lines.add(fileReader.readLine());
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LOGGER.warn(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.warn(e.getMessage());
         }
         file.delete();
         ImportLogfileEvent e = new ImportLogfileEvent();

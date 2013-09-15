@@ -17,7 +17,7 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, columnDefinition = "Text(1000)")
     private String request;
 
     public String getRequest() {
