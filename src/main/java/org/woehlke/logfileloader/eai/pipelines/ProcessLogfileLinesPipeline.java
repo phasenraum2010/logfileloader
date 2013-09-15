@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.integration.annotation.MessageEndpoint;
 import org.woehlke.logfileloader.core.entities.*;
-import org.woehlke.logfileloader.core.services.LogfileLineItemService;
+import org.woehlke.logfileloader.core.services.*;
 import org.woehlke.logfileloader.eai.events.ProcessLogfileLinesEvent;
 
 import javax.inject.Inject;
@@ -26,6 +26,21 @@ public class ProcessLogfileLinesPipeline {
 
     @Inject
     private LogfileLineItemService logfileLineItemService;
+
+    @Inject
+    private BrowserService browserService;
+
+    @Inject
+    private DayService dayService;
+
+    @Inject
+    private HttpCodeService httpCodeService;
+
+    @Inject
+    private IpService ipService;
+
+    @Inject
+    private RequestService requestService;
 
     public ProcessLogfileLinesEvent log(ProcessLogfileLinesEvent event) {
         //LOGGER.info(event.toString());
@@ -62,6 +77,13 @@ public class ProcessLogfileLinesPipeline {
         }
         event.setDatetime(date);
         //LOGGER.info("### "+event.toString());
+        try {
+            if(dayService.find(date)==null){
+                dayService.createOrFetch(date);
+            }
+        } catch (Exception e) {
+            LOGGER.warn(e.getMessage());
+        }
         return event;
     }
 
@@ -74,6 +96,13 @@ public class ProcessLogfileLinesPipeline {
             LOGGER.warn(e.getMessage());
         }
         event.setRequestLine(requestLine);
+        try {
+            if(requestService.find(requestLine)==null){
+                requestService.createOrFetch(requestLine);
+            }
+        } catch (Exception e) {
+            LOGGER.warn(e.getMessage());
+        }
         //LOGGER.info(requestLine);
         return event;
     }
@@ -87,6 +116,13 @@ public class ProcessLogfileLinesPipeline {
             LOGGER.warn(e.getMessage());
         }
         event.setHttpCode(httpCode);
+        try {
+            if(httpCodeService.find(httpCode)==null){
+                httpCodeService.createOrFetch(httpCode);
+            }
+        } catch (Exception e) {
+            LOGGER.warn(e.getMessage());
+        }
         //LOGGER.info(httpCode);
         return event;
     }
@@ -100,30 +136,32 @@ public class ProcessLogfileLinesPipeline {
             LOGGER.warn(e.getMessage());
         }
         event.setBrowser(browser);
+        try {
+            if(browserService.find(browser)==null){
+                browserService.createOrFetch(browser);
+            }
+        } catch (Exception e) {
+            LOGGER.warn(e.getMessage());
+        }
         //LOGGER.info(browser);
         return event;
     }
 
     public ProcessLogfileLinesEvent pushIntoDatabase(ProcessLogfileLinesEvent event) {
         //LOGGER.info("pushIntoDatabase: "+event.toString());
-        Browser browser = new Browser();
-        Day day = new Day();
-        HttpCode httpCode = new HttpCode();
-        Ip ip = new Ip();
         LogfileLineItem logfileLineItem = new LogfileLineItem();
-        Request request = new Request();
-        browser.setBrowser(event.getBrowser());
-        day.setDay(event.getDatetime());
-        httpCode.setCode(event.getHttpCode());
-        ip.setIp(event.getIp());
-        request.setRequest(event.getRequestLine());
         logfileLineItem.setLine(event.getLine().getLine());
+        logfileLineItem.setTime(event.getDatetime());
+        Browser browser = browserService.find(event.getBrowser());
+        Day day = dayService.find(event.getDatetime());
+        HttpCode httpCode = httpCodeService.find(event.getHttpCode());
+        Ip ip = ipService.find(event.getIp());
+        Request request = requestService.find(event.getRequestLine());
         logfileLineItem.setBrowser(browser);
         logfileLineItem.setIp(ip);
         logfileLineItem.setHttpCode(httpCode);
         logfileLineItem.setRequest(request);
         logfileLineItem.setDay(day);
-        logfileLineItem.setTime(event.getDatetime());
         logfileLineItemService.save(logfileLineItem);
         return event;
     }

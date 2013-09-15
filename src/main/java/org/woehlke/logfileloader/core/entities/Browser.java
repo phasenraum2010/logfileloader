@@ -17,7 +17,7 @@ public class Browser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, length=512, unique = true)
     private String browser;
 
     public Long getId() {
