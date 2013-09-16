@@ -40,31 +40,6 @@ public class LogfileLineItemServiceImpl implements LogfileLineItemService {
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = false)
     public void save(LogfileLineItem logfileLineItem) {
-        Browser browser = browserRepository.findByBrowser(logfileLineItem.getBrowser().getBrowser());
-        if (browser == null) {
-            browser = browserRepository.saveAndFlush(logfileLineItem.getBrowser());
-        }
-        logfileLineItem.setBrowser(browser);
-        HttpCode httpCode = httpCodeRepository.findByCode(logfileLineItem.getHttpCode().getCode());
-        if (httpCode == null) {
-            httpCode = httpCodeRepository.saveAndFlush(logfileLineItem.getHttpCode());
-        }
-        logfileLineItem.setHttpCode(httpCode);
-        Ip ip = ipRepository.findByIp(logfileLineItem.getIp().getIp());
-        if (ip == null) {
-            ip = ipRepository.saveAndFlush(logfileLineItem.getIp());
-        }
-        logfileLineItem.setIp(ip);
-        Request request = requestRepository.findByRequest(logfileLineItem.getRequest().getRequest());
-        if (request == null) {
-            request = requestRepository.saveAndFlush(logfileLineItem.getRequest());
-        }
-        logfileLineItem.setRequest(request);
-        Day day = dayRepository.findByDay(logfileLineItem.getDay().getDay());
-        if(day == null){
-            day =  dayRepository.saveAndFlush(logfileLineItem.getDay());
-        }
-        logfileLineItem.setDay(day);
         logfileLineItemRepository.saveAndFlush(logfileLineItem);
     }
 }

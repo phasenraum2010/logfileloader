@@ -16,8 +16,11 @@ import org.springframework.integration.annotation.Aggregator;
 import org.springframework.integration.annotation.CorrelationStrategy;
 import org.springframework.integration.annotation.Filter;
 import org.springframework.integration.annotation.MessageEndpoint;
+import org.woehlke.logfileloader.eai.events.TriggerProcessLogfileLinesEvent;
 import org.woehlke.logfileloader.eai.events.TriggerStartupEvent;
+import org.woehlke.logfileloader.eai.service.ManualStartupService;
 
+import javax.inject.Inject;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,9 @@ public class FetchLogfileMessagingGateway {
 
     @Value("${http.password}")
     private String httpPassword;
+
+    @Inject
+    private ManualStartupService manualStartupService;
 
     public TriggerStartupEvent fetchFilesnames(TriggerStartupEvent e) {
         DefaultHttpClient httpclient = new DefaultHttpClient();
@@ -126,5 +132,9 @@ public class FetchLogfileMessagingGateway {
     public String logOneFilename(String filename) {
         LOGGER.info("logOneFilename: " + filename);
         return filename;
+    }
+
+    public void startPostProcssing(TriggerStartupEvent e) {
+        manualStartupService.processLogfileLines();
     }
 }

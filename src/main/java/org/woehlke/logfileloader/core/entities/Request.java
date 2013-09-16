@@ -10,14 +10,14 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name = "REQUEST")
+@Table(name = "REQUEST",uniqueConstraints={ @UniqueConstraint(columnNames={"request"})})
 public class Request {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, length=512, unique = true)
     private String request;
 
     public String getRequest() {
