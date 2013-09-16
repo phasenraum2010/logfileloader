@@ -137,6 +137,8 @@
                 release-strategy-method="releaseFilenames"/>
         <int:service-activator ref="fetchLogfileMessagingGateway"
                                method="logFilename" />
+        <int:service-activator ref="fetchLogfileMessagingGateway"
+                               method="startPostProcssing" />
     </int:chain>
 
     <int:service-activator

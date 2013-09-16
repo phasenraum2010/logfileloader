@@ -13,7 +13,7 @@ import org.woehlke.logfileloader.core.dao.model.TimelineDaysItem;
  */
 public interface ManualStartupService {
 
-    public void start();
+    void start();
 
     void processLogfileLines();
 
