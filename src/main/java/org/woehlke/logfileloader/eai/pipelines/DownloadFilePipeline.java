@@ -47,7 +47,7 @@ public class DownloadFilePipeline {
 
     private String getTempDirectory() {
         if (System.getProperty("os.name").startsWith("Windows")) {
-            return "C:\\TEMP\\";
+            return "C:"+File.separator+"TEMP"+File.separator;
         }
         return "/tmp/";
     }
@@ -108,12 +108,13 @@ public class DownloadFilePipeline {
             while (fileReader.ready()) {
                 lines.add(fileReader.readLine());
             }
+            fileReader.close();
+            file.delete();
         } catch (FileNotFoundException e) {
             LOGGER.warn(e.getMessage());
         } catch (IOException e) {
             LOGGER.warn(e.getMessage());
         }
-        file.delete();
         ImportLogfileEvent e = new ImportLogfileEvent();
         e.setFilename(filename);
         e.setLines(lines);
