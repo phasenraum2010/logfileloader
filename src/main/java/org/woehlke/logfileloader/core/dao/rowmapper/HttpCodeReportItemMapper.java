@@ -19,7 +19,7 @@ public class HttpCodeReportItemMapper implements RowMapper<HttpCodeReportItem> {
     public HttpCodeReportItem mapRow(ResultSet rs, int rowNum) throws SQLException {
         HttpCodeReportItem c = new HttpCodeReportItem();
         c.setHttpCode(rs.getString("code"));
-        c.setNr(rs.getShort("nr"));
+        c.setNr(rs.getInt("nr"));
         c.setId(rs.getLong("id"));
         return c;
     }

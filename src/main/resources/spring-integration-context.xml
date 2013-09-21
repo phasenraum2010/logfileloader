@@ -73,15 +73,18 @@
 		level="INFO" />
 
     <int:channel id="manualStartupChannel">
-        <int:queue message-store="mongoDbMessageStore" />
+        <!-- <int:queue message-store="mongoDbMessageStore" /> -->
+        <int:queue />
     </int:channel>
 
     <int:channel id="manualTriggerProcessLogfileLinesChannel">
-        <int:queue message-store="mongoDbMessageStore" />
+        <!-- <int:queue message-store="mongoDbMessageStore" />  -->
+        <int:queue />
     </int:channel>
 
     <int:channel id="processLogfileLinesChannel">
-        <int:queue message-store="mongoDbMessageStore" />
+        <!-- <int:queue message-store="mongoDbMessageStore" />  -->
+        <int:queue />
     </int:channel>
 
     <int:chain input-channel="manualStartupChannel"
