@@ -1,5 +1,7 @@
 package org.woehlke.logfileloader.eai.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,7 @@ import javax.inject.Inject;
 @Service
 public class ManualStartupServiceImpl implements ManualStartupService {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(ManualStartupServiceImpl.class);
 
     @Autowired
     @Qualifier("manualStartupChannel")
@@ -35,7 +38,9 @@ public class ManualStartupServiceImpl implements ManualStartupService {
         TriggerStartupEvent e = new TriggerStartupEvent();
         Message<TriggerStartupEvent> message = MessageBuilder
                 .withPayload(e).build();
+        LOGGER.info("about to send Message to start downloads.");
         m.send(manualStartupChannel, message);
+        LOGGER.info("sent Message to start downloads.");
     }
 
     @Override

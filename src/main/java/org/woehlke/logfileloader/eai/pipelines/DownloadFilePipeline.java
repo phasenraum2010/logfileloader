@@ -45,9 +45,9 @@ public class DownloadFilePipeline {
     @Inject
     private LogfileLineService logfileLineService;
 
-    private String getTempDirectory() {
+    protected String getTempDirectory() {
         if (System.getProperty("os.name").startsWith("Windows")) {
-            return "C:\\TEMP\\";
+            return "C:"+File.separator+"TEMP"+File.separator;
         }
         return "/tmp/";
     }
@@ -64,6 +64,7 @@ public class DownloadFilePipeline {
             HttpEntity entity1 = response1.getEntity();
             InputStream instream = entity1.getContent();
             File file = new File(getTempDirectory() + filename);
+            LOGGER.info(file.getAbsolutePath());
             FileOutputStream out = new FileOutputStream(file);
             byte[] buf = new byte[1024];
             int len;
@@ -102,18 +103,20 @@ public class DownloadFilePipeline {
 
     public ImportLogfileEvent importLogfile(String filename) {
         File file = new File(getTempDirectory() + filename + ".txt");
+        LOGGER.info("import: "+file.getAbsolutePath());
         List<String> lines = new ArrayList<String>();
         try {
             BufferedReader fileReader = new BufferedReader(new FileReader(file));
             while (fileReader.ready()) {
                 lines.add(fileReader.readLine());
             }
+            fileReader.close();
+            file.delete();
         } catch (FileNotFoundException e) {
             LOGGER.warn(e.getMessage());
         } catch (IOException e) {
             LOGGER.warn(e.getMessage());
         }
-        file.delete();
         ImportLogfileEvent e = new ImportLogfileEvent();
         e.setFilename(filename);
         e.setLines(lines);

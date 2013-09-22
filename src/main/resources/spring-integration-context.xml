@@ -23,7 +23,8 @@
         http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <context:property-placeholder location="classpath:/logfileloader.properties" />
-    
+
+    <!--
 	<bean id="mongoDbFactory"
 		class="org.springframework.data.mongodb.core.SimpleMongoDbFactory">
 		<constructor-arg>
@@ -36,6 +37,7 @@
 		class="org.springframework.integration.mongodb.store.MongoDbMessageStore">
 		<constructor-arg ref="mongoDbFactory" />
 	</bean>
+	-->
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${javax.persistence.jdbc.driver}"/> 
