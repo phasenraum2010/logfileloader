@@ -17,7 +17,6 @@ import org.woehlke.logfileloader.core.entities.HttpCode;
 import org.woehlke.logfileloader.core.services.ReportsService;
 
 import javax.inject.Inject;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.

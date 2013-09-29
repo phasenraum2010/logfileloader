@@ -36,7 +36,7 @@ public class DashboardController {
     public String listDays(
             Model model){
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/timelineDays");
+            LOGGER.info("HTTP-Request for /reports/dashboard");
         }
         int page=0;
         int size=30;

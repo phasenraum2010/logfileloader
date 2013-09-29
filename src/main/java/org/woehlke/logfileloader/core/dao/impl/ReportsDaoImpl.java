@@ -36,7 +36,7 @@ public class ReportsDaoImpl implements ReportsDao {
         String sql2 = "select count(nr) from ("+sql1+") as COUNT";
         long total = jdbcTemplate.queryForLong(sql2);
         List<IpNumbersReportItem> list = jdbcTemplate.query(sql1, new IpNumbersReportItemMapper());
-        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        int toIndex=pageable.getOffset()+pageable.getPageSize()>list.size()?list.size():pageable.getOffset()+pageable.getPageSize();
         Page<IpNumbersReportItem> page =new PageImpl<IpNumbersReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
         return page;
     }
@@ -47,7 +47,7 @@ public class ReportsDaoImpl implements ReportsDao {
         String sql2 = "select count(nr) from ("+sql1+") as COUNT";
         long total = jdbcTemplate.queryForLong(sql2);
         List<BrowserReportItem> list = jdbcTemplate.query(sql1, new BrowserReportItemMapper());
-        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        int toIndex=pageable.getOffset()+pageable.getPageSize()>list.size()?list.size():pageable.getOffset()+pageable.getPageSize();
         Page<BrowserReportItem> page = new PageImpl<BrowserReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
         return page;
     }
@@ -58,7 +58,7 @@ public class ReportsDaoImpl implements ReportsDao {
         String sql2 = "select count(nr) from ("+sql1+") as COUNT";
         long total = jdbcTemplate.queryForLong(sql2);
         List<PageReportItem> list = jdbcTemplate.query(sql1, new PageReportItemMapper());
-        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        int toIndex=pageable.getOffset()+pageable.getPageSize()>list.size()?list.size():pageable.getOffset()+pageable.getPageSize();
         Page<PageReportItem> page = new PageImpl<PageReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
         return page;
     }
@@ -69,7 +69,7 @@ public class ReportsDaoImpl implements ReportsDao {
         String sql2 = "select count(nr) from ("+sql1+") as COUNT";
         long total = jdbcTemplate.queryForLong(sql2,browserId);
         List<PageReportItem> list = jdbcTemplate.query(sql1, new PageReportItemMapper(), browserId);
-        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        int toIndex=pageable.getOffset()+pageable.getPageSize()>list.size()?list.size():pageable.getOffset()+pageable.getPageSize();
         Page<PageReportItem> page = new PageImpl<PageReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
         return page;
     }
@@ -80,7 +80,7 @@ public class ReportsDaoImpl implements ReportsDao {
         String sql2 = "select count(nr) from ("+sql1+") as COUNT";
         long total = jdbcTemplate.queryForLong(sql2,urlId);
         List<BrowserReportItem> list = jdbcTemplate.query(sql1, new BrowserReportItemMapper(),urlId);
-        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        int toIndex=pageable.getOffset()+pageable.getPageSize()>list.size()?list.size():pageable.getOffset()+pageable.getPageSize();
         Page<BrowserReportItem> page = new PageImpl<BrowserReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
         return page;
     }
@@ -91,7 +91,7 @@ public class ReportsDaoImpl implements ReportsDao {
         String sql2 = "select count(nr) from ("+sql1+") as COUNT";
         long total = jdbcTemplate.queryForLong(sql2);
         List<HttpCodeReportItem> list = jdbcTemplate.query(sql1, new HttpCodeReportItemMapper());
-        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        int toIndex=pageable.getOffset()+pageable.getPageSize()>list.size()?list.size():pageable.getOffset()+pageable.getPageSize();
         Page<HttpCodeReportItem> page = new PageImpl<HttpCodeReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
         return page;
     }
@@ -102,7 +102,7 @@ public class ReportsDaoImpl implements ReportsDao {
         String sql2 = "select count(nr) from ("+sql1+") as COUNT";
         long total = jdbcTemplate.queryForLong(sql2,httpCodeId);
         List<PageReportItem> list = jdbcTemplate.query(sql1, new PageReportItemMapper(), httpCodeId);
-        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        int toIndex=pageable.getOffset()+pageable.getPageSize()>list.size()?list.size():pageable.getOffset()+pageable.getPageSize();
         Page<PageReportItem> page = new PageImpl<PageReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
         return page;
     }
@@ -113,7 +113,7 @@ public class ReportsDaoImpl implements ReportsDao {
         String sql2 = "select count(nr) from ("+sql1+") as COUNT";
         long total = jdbcTemplate.queryForLong(sql2,httpCodeId);
         List<BrowserReportItem> list = jdbcTemplate.query(sql1, new BrowserReportItemMapper(),httpCodeId);
-        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        int toIndex=pageable.getOffset()+pageable.getPageSize()>list.size()?list.size():pageable.getOffset()+pageable.getPageSize();
         Page<BrowserReportItem> page = new PageImpl<BrowserReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
         return page;
     }
@@ -124,7 +124,7 @@ public class ReportsDaoImpl implements ReportsDao {
         String sql2 = "select count(nr) from ("+sql1+") as COUNT";
         long total = jdbcTemplate.queryForLong(sql2,httpCodeId);
         List<IpNumbersReportItem> list = jdbcTemplate.query(sql1, new IpNumbersReportItemMapper(),httpCodeId);
-        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        int toIndex=pageable.getOffset()+pageable.getPageSize()>list.size()?list.size():pageable.getOffset()+pageable.getPageSize();
         Page<IpNumbersReportItem> page = new PageImpl<IpNumbersReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
         return page;
     }
@@ -135,7 +135,7 @@ public class ReportsDaoImpl implements ReportsDao {
         String sql2 = "select count(nr) from ("+sql1+") as COUNT";
         long total = jdbcTemplate.queryForLong(sql2,ipNumberId);
         List<PageReportItem> list = jdbcTemplate.query(sql1, new PageReportItemMapper(), ipNumberId);
-        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        int toIndex=pageable.getOffset()+pageable.getPageSize()>list.size()?list.size():pageable.getOffset()+pageable.getPageSize();
         Page<PageReportItem> page = new PageImpl<PageReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
         return page;
     }
@@ -146,7 +146,7 @@ public class ReportsDaoImpl implements ReportsDao {
         String sql2 = "select count(nr) from ("+sql1+") as COUNT";
         long total = jdbcTemplate.queryForLong(sql2);
         List<TimelineDaysItem> list = jdbcTemplate.query(sql1, new TimelineDaysItemMapper());
-        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        int toIndex=pageable.getOffset()+pageable.getPageSize()>list.size()?list.size():pageable.getOffset()+pageable.getPageSize();
         Page<TimelineDaysItem> page = new PageImpl<TimelineDaysItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
         return page;
     }
@@ -157,7 +157,7 @@ public class ReportsDaoImpl implements ReportsDao {
         String sql2 = "select count(nr) from ("+sql1+") as COUNT";
         long total = jdbcTemplate.queryForLong(sql2,dayId);
         List<HttpCodeReportItem> list = jdbcTemplate.query(sql1, new HttpCodeReportItemMapper(),dayId);
-        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        int toIndex=pageable.getOffset()+pageable.getPageSize()>list.size()?list.size():pageable.getOffset()+pageable.getPageSize();
         Page<HttpCodeReportItem> page = new PageImpl<HttpCodeReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
         return page;
     }
@@ -168,7 +168,7 @@ public class ReportsDaoImpl implements ReportsDao {
         String sql2 = "select count(nr) from ("+sql1+") as COUNT";
         long total = jdbcTemplate.queryForLong(sql2,dayId);
         List<PageReportItem> list = jdbcTemplate.query(sql1, new PageReportItemMapper(), dayId);
-        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        int toIndex=pageable.getOffset()+pageable.getPageSize()>list.size()?list.size():pageable.getOffset()+pageable.getPageSize();
         Page<PageReportItem> page = new PageImpl<PageReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
         return page;
     }
@@ -179,7 +179,7 @@ public class ReportsDaoImpl implements ReportsDao {
         String sql2 = "select count(nr) from ("+sql1+") as COUNT";
         long total = jdbcTemplate.queryForLong(sql2,dayId);
         List<BrowserReportItem> list = jdbcTemplate.query(sql1, new BrowserReportItemMapper(),dayId);
-        int toIndex=(pageable.getOffset()+pageable.getPageSize())>list.size()?list.size():(pageable.getOffset()+pageable.getPageSize());
+        int toIndex=pageable.getOffset()+pageable.getPageSize()>list.size()?list.size():pageable.getOffset()+pageable.getPageSize();
         Page<BrowserReportItem> page = new PageImpl<BrowserReportItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
         return page;
     }
