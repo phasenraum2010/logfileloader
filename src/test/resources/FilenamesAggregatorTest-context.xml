@@ -18,14 +18,30 @@
         <queue/>
     </channel>
 
+
     <chain input-channel="inputChannel"
-               output-channel="outputChannel" id="fetchLogfileChain">
+           output-channel="outputChannel"
+           id="fetchLogfileChainAggrgatorTest">
+
+        <header-enricher>
+            <header name="fetchFilenames" expression="payload"/>
+        </header-enricher>
+
+        <splitter expression="payload.filenames"/>
 
         <service-activator ref="fetchLogfileMessagingGateway"
-                               method="fetchFilesnames" />
-        <filter ref="fetchLogfileMessagingGateway" method="isHttpRequestOk" />
+                               method="logOneFilename" />
+
+        <aggregator
+                ref="fetchLogfileMessagingGateway"
+                method="aggregateFilenames"
+                correlation-strategy="fetchLogfileMessagingGateway"
+                correlation-strategy-method="correlateFilenames"
+                release-strategy="fetchLogfileMessagingGateway"
+                release-strategy-method="releaseFilenames"/>
+
         <service-activator ref="fetchLogfileMessagingGateway"
-                               method="extractFilesnames" />
+                               method="logFilename" />
     </chain>
 
 </beans:beans>
