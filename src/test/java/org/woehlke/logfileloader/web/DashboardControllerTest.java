@@ -22,7 +22,7 @@ public class DashboardControllerTest extends AbstractControllerTest {
     @Test
     public void listDaysTest() throws Exception {
         this.mockMvc.perform(
-                get("/reports/dashboard")).andDo(print())
+                get("/reports/dashboard"))
                 .andExpect(view().name(containsString("reports/dashboard")))
                 .andExpect(model().attributeExists("listDays"))
                 .andExpect(model().attributeExists("listHttpCodes"))
