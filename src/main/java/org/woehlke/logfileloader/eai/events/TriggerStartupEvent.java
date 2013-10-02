@@ -36,4 +36,12 @@ public class TriggerStartupEvent implements Serializable {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "TriggerStartupEvent{" +
+                "directoryContentHtml='" + directoryContentHtml + '\'' +
+                ", filenames=" + filenames +
+                '}';
+    }
 }

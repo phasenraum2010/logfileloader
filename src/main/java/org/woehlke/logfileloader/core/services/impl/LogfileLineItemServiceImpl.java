@@ -20,22 +20,7 @@ import javax.inject.Inject;
 public class LogfileLineItemServiceImpl implements LogfileLineItemService {
 
     @Inject
-    private BrowserRepository browserRepository;
-
-    @Inject
-    private HttpCodeRepository httpCodeRepository;
-
-    @Inject
-    private IpRepository ipRepository;
-
-    @Inject
     private LogfileLineItemRepository logfileLineItemRepository;
-
-    @Inject
-    private RequestRepository requestRepository;
-
-    @Inject
-    private DayRepository dayRepository;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = false)

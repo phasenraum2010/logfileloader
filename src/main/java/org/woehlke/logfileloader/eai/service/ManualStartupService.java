@@ -1,9 +1,5 @@
 package org.woehlke.logfileloader.eai.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.woehlke.logfileloader.core.dao.model.TimelineDaysItem;
-
 /**
  * Created with IntelliJ IDEA.
  * User: tw

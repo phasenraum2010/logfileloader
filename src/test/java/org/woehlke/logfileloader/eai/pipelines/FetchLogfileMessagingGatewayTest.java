@@ -1,8 +1,16 @@
 package org.woehlke.logfileloader.eai.pipelines;
 
+import junit.framework.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.integration.Message;
+import org.springframework.integration.channel.QueueChannel;
+import org.springframework.integration.support.MessageBuilder;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.woehlke.logfileloader.eai.events.TriggerStartupEvent;
 
 import java.util.List;
@@ -14,8 +22,15 @@ import java.util.List;
  * Time: 19:32
  * To change this template use File | Settings | File Templates.
  */
+@ContextConfiguration("classpath:/FetchLogfileMessagingGatewayTest-context.xml")    // default context name is <ClassName>-context.xml
+@RunWith(SpringJUnit4ClassRunner.class)
 public class FetchLogfileMessagingGatewayTest {
 
+   @Autowired
+   QueueChannel outputChannel;
+
+   @Autowired
+   QueueChannel inputChannel;
 
    private final static Logger LOGGER = LoggerFactory.getLogger(FetchLogfileMessagingGatewayTest.class);
 
@@ -73,6 +88,25 @@ public class FetchLogfileMessagingGatewayTest {
         List<String> filenames = e.getFilenames();
         for(String filename:filenames){
             LOGGER.info(filename);
+        }
+    }
+
+    @Test
+    public void fetchFilenamesAndExtractFilesnamesTest(){
+        TriggerStartupEvent e = new TriggerStartupEvent();
+        inputChannel.send(MessageBuilder.withPayload(e).build());
+        Message<?> outMessage = outputChannel.receive();
+        Object out =  outMessage.getPayload();
+        Assert.assertNotNull(out);
+        Assert.assertTrue(out instanceof TriggerStartupEvent);
+        TriggerStartupEvent result = (TriggerStartupEvent) out;
+        String html = result.getDirectoryContentHtml();
+        LOGGER.info(html);
+        for(String filename:result.getFilenames()){
+            LOGGER.info(filename);
+            Assert.assertTrue(filename.startsWith("access.log."));
+            Assert.assertTrue(filename.endsWith(".gz"));
+            Assert.assertTrue(html.contains(filename));
         }
     }
 }

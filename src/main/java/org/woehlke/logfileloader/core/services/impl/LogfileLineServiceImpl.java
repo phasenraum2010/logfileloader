@@ -3,7 +3,6 @@ package org.woehlke.logfileloader.core.services.impl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +11,6 @@ import org.woehlke.logfileloader.core.repositories.LogfileLineRepository;
 import org.woehlke.logfileloader.core.services.LogfileLineService;
 
 import javax.inject.Inject;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.

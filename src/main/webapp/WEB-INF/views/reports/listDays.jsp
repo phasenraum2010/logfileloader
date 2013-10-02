@@ -15,7 +15,7 @@
 <div class="container">
     <h1>List Days</h1>
 
-    <table class="highchart" data-graph-container-before="1" data-graph-type="spline" style="display:none">
+    <table class="highchart" data-graph-container-before="1" data-graph-type="line" style="display:none">
         <thead>
         <tr><th>day</th><th>page impressions</th></tr>
         </thead>

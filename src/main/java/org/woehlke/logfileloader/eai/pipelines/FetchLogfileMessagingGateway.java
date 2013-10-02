@@ -1,6 +1,5 @@
 package org.woehlke.logfileloader.eai.pipelines;
 
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -16,7 +15,6 @@ import org.springframework.integration.annotation.Aggregator;
 import org.springframework.integration.annotation.CorrelationStrategy;
 import org.springframework.integration.annotation.Filter;
 import org.springframework.integration.annotation.MessageEndpoint;
-import org.woehlke.logfileloader.eai.events.TriggerProcessLogfileLinesEvent;
 import org.woehlke.logfileloader.eai.events.TriggerStartupEvent;
 import org.woehlke.logfileloader.eai.service.ManualStartupService;
 
@@ -48,6 +46,7 @@ public class FetchLogfileMessagingGateway {
     private ManualStartupService manualStartupService;
 
     public TriggerStartupEvent fetchFilesnames(TriggerStartupEvent e) {
+        LOGGER.info("fetchFilesnames");
         DefaultHttpClient httpclient = new DefaultHttpClient();
         HttpGet httpget = new HttpGet(httpgetRequest);
         try {
@@ -56,26 +55,31 @@ public class FetchLogfileMessagingGateway {
                     new AuthScope(host),
                     new UsernamePasswordCredentials(httpUser, httpPassword));
             HttpResponse response1 = httpclient.execute(httpget);
+            LOGGER.info("HTTP-StatusCode: "+response1.getStatusLine().getStatusCode());
             HttpEntity entity1 = response1.getEntity();
             InputStream instream = entity1.getContent();
-            BufferedReader in = new BufferedReader(new InputStreamReader(instream));
             StringBuilder sb = new StringBuilder();
-            while (in.ready()) {
-                sb.append(in.readLine());
-                sb.append('\n');
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = instream.read(buf)) > 0) {
+                for(int i=0;i<len;i++){
+                    char c = (char) buf[i];
+                    sb.append(c);
+                }
             }
             e.setDirectoryContentHtml(sb.toString());
         } catch (IOException e1) {
-            e1.printStackTrace();
+            LOGGER.error(e1.getMessage());
         } finally {
             httpget.releaseConnection();
         }
+        LOGGER.info("fetchFilesnames: "+e.toString());
         return e;
     }
 
     @Filter
     public boolean isHttpRequestOk(TriggerStartupEvent e) {
-        return e.getDirectoryContentHtml() != null;
+        return e.getDirectoryContentHtml() != null && !e.getDirectoryContentHtml().isEmpty();
     }
 
     private final static String pattern = "access.log.[0-9.]*.gz";
@@ -91,6 +95,7 @@ public class FetchLogfileMessagingGateway {
             }
         }
         e.setFilenames(filenames);
+        LOGGER.info("extractFilesnames: " + e.toString());
         return e;
     }
 

@@ -4,8 +4,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.woehlke.logfileloader.core.dao.model.*;
 
-import java.util.List;
-
 /**
  * Created with IntelliJ IDEA.
  * User: tw
