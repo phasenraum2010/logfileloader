@@ -49,8 +49,15 @@ public class ProcessLogfileLinesPipeline {
 
     public ProcessLogfileLinesEvent getIpNumber(ProcessLogfileLinesEvent event) {
         String line = event.getLine().getLine();
-        String ip = line.split(" ")[0];
-        event.setIp(ip);
+        String ipString = line.split(" ")[0];
+        try {
+            if(ipService.find(ipString)==null){
+                ipService.createOrFetch(ipString);
+            }
+        } catch (Exception e){
+            LOGGER.error(e.getMessage());
+        }
+        event.setIp(ipString);
         return event;
     }
 

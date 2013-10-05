@@ -4,6 +4,7 @@ import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.springframework.data.domain.Page;
 import org.woehlke.logfileloader.core.entities.Day;
+import org.woehlke.logfileloader.core.entities.Ip;
 
 /**
  * Created with IntelliJ IDEA.
@@ -42,5 +43,10 @@ public class Matchers {
     @Factory
     public static <T> Matcher<Day> isDay(){
         return new IsDay();
+    }
+
+    @Factory
+    public static <T> Matcher<Ip> isIp(){
+        return new IsIp();
     }
 }
