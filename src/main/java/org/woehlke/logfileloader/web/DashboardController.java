@@ -26,7 +26,6 @@ import javax.inject.Inject;
 @Controller
 public class DashboardController {
 
-
     private final static Logger LOGGER = LoggerFactory.getLogger(TimelineController.class);
 
     @Inject
@@ -35,9 +34,7 @@ public class DashboardController {
     @RequestMapping(value = "/reports/dashboard")
     public String listDays(
             Model model){
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/dashboard");
-        }
+        LOGGER.info("/reports/dashboard");
         int page=0;
         int size=30;
         Pageable pageable = new PageRequest(page, size);

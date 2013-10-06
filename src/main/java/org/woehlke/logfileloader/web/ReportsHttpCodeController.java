@@ -37,9 +37,7 @@ public class ReportsHttpCodeController {
     public String listHttpCodes(
             Model model,
             @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/listPages");
-        }
+        LOGGER.info("HTTP-Request for /reports/listPages");
         Page<HttpCodeReportItem> listHttpCodes = reportsService.listHttpCodes(pageable);
         model.addAttribute("listHttpCodes", listHttpCodes);
         return "reports/listHttpCodes";
@@ -49,9 +47,7 @@ public class ReportsHttpCodeController {
     public String listUrlsForHttpCodes(
             @PathVariable long httpCodeId,Model model,
             @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/listHttpCodes/"+httpCodeId+"/url");
-        }
+        LOGGER.info("HTTP-Request for /reports/listHttpCodes/"+httpCodeId+"/url");
         Page<PageReportItem> listPages = reportsService.listUrlsForHttpCodes(httpCodeId,pageable);
         model.addAttribute("listPages", listPages);
         HttpCode httpCode = reportsService.findHttpCodeById(httpCodeId);
@@ -63,9 +59,7 @@ public class ReportsHttpCodeController {
     public String listBrowserForHttpCodes(
             @PathVariable long httpCodeId,Model model,
             @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/listHttpCodes/"+httpCodeId+"/browser");
-        }
+        LOGGER.info("HTTP-Request for /reports/listHttpCodes/"+httpCodeId+"/browser");
         Page<BrowserReportItem> listBrowser = reportsService.listBrowserForHttpCodes(httpCodeId,pageable);
         model.addAttribute("listBrowser", listBrowser);
         HttpCode httpCode = reportsService.findHttpCodeById(httpCodeId);
@@ -77,9 +71,7 @@ public class ReportsHttpCodeController {
     public String listIpNumbersForHttpCodes(
             @PathVariable long httpCodeId,Model model,
             @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/listHttpCodes/"+httpCodeId+"/ip");
-        }
+        LOGGER.info("HTTP-Request for /reports/listHttpCodes/"+httpCodeId+"/ip");
         Page<IpNumbersReportItem> ipNumbersReport =  reportsService.listIpNumbersForHttpCodes(httpCodeId,pageable);
         model.addAttribute("ipNumbersReport", ipNumbersReport);
         HttpCode httpCode = reportsService.findHttpCodeById(httpCodeId);

@@ -23,9 +23,7 @@ public class HomeController {
      */
     @RequestMapping(value = "/")
     public String home(Model model) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /");
-        }
+        LOGGER.info("HTTP-Request for /");
         return "home";
     }
 
@@ -34,9 +32,7 @@ public class HomeController {
      */
     @RequestMapping(value = "/start")
     public String start(Model model) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /startImport");
-        }
+        LOGGER.info("HTTP-Request for /startImport");
         manualStartupService.startImport();
         return "started";
     }
@@ -46,9 +42,7 @@ public class HomeController {
      */
     @RequestMapping(value = "/process")
     public String process(Model model) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /process");
-        }
+        LOGGER.info("HTTP-Request for /process");
         manualStartupService.startPostProcessing();
         ProcessingStatus processingStatus = manualStartupService.getPostProcessingStatus();
         model.addAttribute("processingStatus",processingStatus);
@@ -60,9 +54,7 @@ public class HomeController {
      */
     @RequestMapping(value = "/ajax/processing")
     public String processing(Model model) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /ajax/processing");
-        }
+        LOGGER.info("HTTP-Request for /ajax/processing");
         ProcessingStatus processingStatus = manualStartupService.getPostProcessingStatus();
         model.addAttribute("processingStatus",processingStatus);
         return "processing";

@@ -2,9 +2,9 @@ package org.woehlke.logfileloader.core.model;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
+import org.hamcrest.core.Is;
 import org.springframework.data.domain.Page;
-import org.woehlke.logfileloader.core.entities.Day;
-import org.woehlke.logfileloader.core.entities.Ip;
+import org.woehlke.logfileloader.core.entities.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -48,5 +48,20 @@ public class Matchers {
     @Factory
     public static <T> Matcher<Ip> isIp(){
         return new IsIp();
+    }
+
+    @Factory
+    public static <T> Matcher<Request> isRequest(){
+        return new IsRequest();
+    }
+
+    @Factory
+    public static <T> Matcher<HttpCode> isHttpCode(){
+        return new IsHttpCode();
+    }
+
+    @Factory
+    public static <T> Matcher<Browser> isBrowser(){
+        return new IsBrowser();
     }
 }

@@ -34,9 +34,7 @@ public class ReportsUrlController {
     @RequestMapping(value = "/reports/listPages")
     public String listPages(Model model,
                            @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/listPages page="+pageable.getPageNumber()+" pageSize="+pageable.getPageSize());
-        }
+        LOGGER.info("HTTP-Request for /reports/listPages page="+pageable.getPageNumber()+" pageSize="+pageable.getPageSize());
         Page<PageReportItem> listPages = reportsService.listPages(pageable);
         model.addAttribute("listPages", listPages);
         return "reports/listPages";
@@ -46,9 +44,7 @@ public class ReportsUrlController {
     public String listBrowserForUrls(
             @PathVariable long urlId, Model model,
             @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/listPages/"+urlId+"/browser");
-        }
+        LOGGER.info("HTTP-Request for /reports/listPages/"+urlId+"/browser");
         Page<BrowserReportItem> listBrowser = reportsService.listBrowserForUrls(urlId,pageable);
         model.addAttribute("listBrowser", listBrowser);
         Request request = reportsService.findRequestById(urlId);
