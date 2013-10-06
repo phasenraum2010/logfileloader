@@ -3,6 +3,7 @@ package org.woehlke.logfileloader.core.repositories;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.woehlke.logfileloader.core.entities.LogfileLine;
 
 /**
@@ -17,4 +18,7 @@ public interface LogfileLineRepository extends JpaRepository<LogfileLine, Long> 
     LogfileLine findByLine(String line);
 
     Page<LogfileLine> findByProcessed(boolean processed, Pageable pageable);
+
+    @Query("select COUNT(o) from LogfileLine o where o.processed=false")
+    Long countByProcessedTrue();
 }

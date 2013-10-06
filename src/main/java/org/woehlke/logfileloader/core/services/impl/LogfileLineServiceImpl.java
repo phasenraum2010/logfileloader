@@ -6,8 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.woehlke.logfileloader.core.dao.LogfileImportDao;
 import org.woehlke.logfileloader.core.entities.LogfileLine;
-import org.woehlke.logfileloader.core.repositories.LogfileLineRepository;
+import org.woehlke.logfileloader.core.repositories.*;
 import org.woehlke.logfileloader.core.services.LogfileLineService;
 
 import javax.inject.Inject;
@@ -24,6 +25,27 @@ public class LogfileLineServiceImpl implements LogfileLineService {
 
     @Inject
     private LogfileLineRepository logfileLineRepository;
+
+    @Inject
+    private LogfileImportDao logfileImportDao;
+
+    @Inject
+    private LogfileLineItemRepository logfileLineItemRepository;
+
+    @Inject
+    private RequestRepository requestRepository;
+
+    @Inject
+    private IpRepository ipRepository;
+
+    @Inject
+    private HttpCodeRepository httpCodeRepository;
+
+    @Inject
+    private DayRepository dayRepository;
+
+    @Inject
+    private BrowserRepository browserRepository;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = false)
@@ -45,4 +67,17 @@ public class LogfileLineServiceImpl implements LogfileLineService {
         logfileLine.setProcessed(true);
         return logfileLineRepository.saveAndFlush(logfileLine);
     }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = false)
+    public void resetToUnProcessed() {
+        logfileLineItemRepository.deleteAll();
+        requestRepository.deleteAll();
+        ipRepository.deleteAll();
+        httpCodeRepository.deleteAll();
+        dayRepository.deleteAll();
+        browserRepository.deleteAll();
+        logfileImportDao.setAllLogfileLinesToUnProcessed();
+    }
+
 }

@@ -33,7 +33,9 @@ public class TriggerProcessLogfileLinesPipeline {
     @Inject
     private LogfileLineService logfileLineService;
 
+    /** fetches from Database and sends it into the Queue */
     public TriggerProcessLogfileLinesEvent processLogfileLines(TriggerProcessLogfileLinesEvent event) {
+        logfileLineService.resetToUnProcessed();
         boolean goOn = true;
         final MessagingTemplate m = new MessagingTemplate();
         while (goOn) {
