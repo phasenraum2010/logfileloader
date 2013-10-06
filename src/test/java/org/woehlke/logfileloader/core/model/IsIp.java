@@ -1,4 +1,4 @@
-package org.woehlke.logfileloader.core.dao.model;
+package org.woehlke.logfileloader.core.model;
 
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;

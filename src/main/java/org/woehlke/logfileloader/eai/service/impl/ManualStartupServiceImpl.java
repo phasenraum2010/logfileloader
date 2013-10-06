@@ -9,12 +9,11 @@ import org.springframework.integration.channel.QueueChannel;
 import org.springframework.integration.core.MessagingTemplate;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.stereotype.Service;
-import org.woehlke.logfileloader.core.dao.LogfileImportDao;
+import org.woehlke.logfileloader.core.model.ProcessingStatus;
 import org.woehlke.logfileloader.core.repositories.LogfileLineItemRepository;
 import org.woehlke.logfileloader.core.repositories.LogfileLineRepository;
-import org.woehlke.logfileloader.core.services.LogfileLineService;
-import org.woehlke.logfileloader.eai.events.TriggerProcessLogfileLinesEvent;
-import org.woehlke.logfileloader.eai.events.TriggerStartupEvent;
+import org.woehlke.logfileloader.eai.events.StartPostProcessingEvent;
+import org.woehlke.logfileloader.eai.events.StartLogfilesImportEvent;
 import org.woehlke.logfileloader.eai.service.ManualStartupService;
 
 import javax.inject.Inject;
@@ -36,32 +35,44 @@ public class ManualStartupServiceImpl implements ManualStartupService {
     @Inject
     private LogfileLineRepository logfileLineRepository;
 
+    @Inject
+    private LogfileLineItemRepository logfileLineItemRepository;
+
     @Override
-    public void start() {
+    public void startImport() {
         final MessagingTemplate m = new MessagingTemplate();
-        TriggerStartupEvent e = new TriggerStartupEvent();
-        Message<TriggerStartupEvent> message = MessageBuilder
+        StartLogfilesImportEvent e = new StartLogfilesImportEvent();
+        Message<StartLogfilesImportEvent> message = MessageBuilder
                 .withPayload(e).build();
-        LOGGER.info("about to send Message to start downloads.");
+        LOGGER.info("about to send Message to startImport downloads.");
         m.send(manualStartupChannel, message);
-        LOGGER.info("sent Message to start downloads.");
+        LOGGER.info("sent Message to startImport downloads.");
     }
 
     @Override
-    public void processLogfileLines() {
+    public void startPostProcessing() {
+        final MessagingTemplate m = new MessagingTemplate();
+        StartPostProcessingEvent e = new StartPostProcessingEvent();
+        Message<StartPostProcessingEvent> message = MessageBuilder
+                .withPayload(e).build();
+        LOGGER.info("about to send Message to startImport postprocessing.");
+        m.send(manualTriggerProcessLogfileLinesChannel, message);
+        LOGGER.info("sent Message to startImport postprocessing");
+    }
+
+    @Override
+    public ProcessingStatus getPostProcessingStatus() {
         long sourceLines = logfileLineRepository.countByProcessedTrue();
         long allLines = logfileLineRepository.count();
-        final MessagingTemplate m = new MessagingTemplate();
-        TriggerProcessLogfileLinesEvent e = new TriggerProcessLogfileLinesEvent();
-        e.setAllSourceLines(allLines);
-        e.setSourceLinesToBeProcessed(sourceLines);
-        Message<TriggerProcessLogfileLinesEvent> message = MessageBuilder
-                .withPayload(e).build();
-        LOGGER.info("about to send Message to start postprocessing.");
-        m.send(manualTriggerProcessLogfileLinesChannel, message);
-        LOGGER.info("sent Message to start postprocessing");
+        long allTargetLineItems = logfileLineItemRepository.count();
+        ProcessingStatus o = new ProcessingStatus();
+        o.setSourceLinesToBeProcessed(sourceLines);
+        o.setAllSourceLines(allLines);
+        o.setAllTargetLineItems(allTargetLineItems);
         LOGGER.info("lines to be processed: " + sourceLines);
-        LOGGER.info("total lines: "+allLines);
+        LOGGER.info("total lines: " + allLines);
+        LOGGER.info("target lines: "+allTargetLineItems);
+        return o;
     }
 
 }

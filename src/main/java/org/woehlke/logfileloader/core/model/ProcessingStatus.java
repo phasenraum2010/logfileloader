@@ -1,18 +1,25 @@
-package org.woehlke.logfileloader.eai.events;
+package org.woehlke.logfileloader.core.model;
 
 import java.io.Serializable;
 
 /**
  * Created with IntelliJ IDEA.
  * User: tw
- * Date: 07.09.13
- * Time: 10:07
+ * Date: 06.10.13
+ * Time: 10:22
  * To change this template use File | Settings | File Templates.
  */
-public class TriggerProcessLogfileLinesEvent implements Serializable {
+public class ProcessingStatus implements Serializable {
 
-    long sourceLinesToBeProcessed;
-    long allSourceLines;
+    private long sourceLinesToBeProcessed;
+    private long allSourceLines;
+    private long allTargetLineItems;
+
+    public long getLinesInQueue(){
+        long inProgress = allSourceLines-allTargetLineItems;
+        long notYetInQueue = sourceLinesToBeProcessed;
+        return inProgress-notYetInQueue;
+    }
 
     public long getSourceLinesToBeProcessed() {
         return sourceLinesToBeProcessed;
@@ -30,14 +37,23 @@ public class TriggerProcessLogfileLinesEvent implements Serializable {
         this.allSourceLines = allSourceLines;
     }
 
+    public long getAllTargetLineItems() {
+        return allTargetLineItems;
+    }
+
+    public void setAllTargetLineItems(long allTargetLineItems) {
+        this.allTargetLineItems = allTargetLineItems;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TriggerProcessLogfileLinesEvent)) return false;
+        if (!(o instanceof ProcessingStatus)) return false;
 
-        TriggerProcessLogfileLinesEvent that = (TriggerProcessLogfileLinesEvent) o;
+        ProcessingStatus that = (ProcessingStatus) o;
 
         if (allSourceLines != that.allSourceLines) return false;
+        if (allTargetLineItems != that.allTargetLineItems) return false;
         if (sourceLinesToBeProcessed != that.sourceLinesToBeProcessed) return false;
 
         return true;
@@ -47,14 +63,16 @@ public class TriggerProcessLogfileLinesEvent implements Serializable {
     public int hashCode() {
         int result = (int) (sourceLinesToBeProcessed ^ (sourceLinesToBeProcessed >>> 32));
         result = 31 * result + (int) (allSourceLines ^ (allSourceLines >>> 32));
+        result = 31 * result + (int) (allTargetLineItems ^ (allTargetLineItems >>> 32));
         return result;
     }
 
     @Override
     public String toString() {
-        return "TriggerProcessLogfileLinesEvent{" +
+        return "ProcessingStatus{" +
                 "sourceLinesToBeProcessed=" + sourceLinesToBeProcessed +
                 ", allSourceLines=" + allSourceLines +
+                ", allTargetLineItems=" + allTargetLineItems +
                 '}';
     }
 }

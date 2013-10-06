@@ -10,8 +10,8 @@ import org.springframework.integration.core.MessagingTemplate;
 import org.springframework.integration.support.MessageBuilder;
 import org.woehlke.logfileloader.core.entities.LogfileLine;
 import org.woehlke.logfileloader.core.services.LogfileLineService;
-import org.woehlke.logfileloader.eai.events.ProcessLogfileLinesEvent;
-import org.woehlke.logfileloader.eai.events.TriggerProcessLogfileLinesEvent;
+import org.woehlke.logfileloader.eai.events.ProcessOneLogfileLineEvent;
+import org.woehlke.logfileloader.eai.events.StartPostProcessingEvent;
 
 import javax.inject.Inject;
 
@@ -23,7 +23,7 @@ import javax.inject.Inject;
  * To change this template use File | Settings | File Templates.
  */
 @MessageEndpoint("triggerProcessLogfileLinesPipeline")
-public class TriggerProcessLogfileLinesPipeline {
+public class ResetAndStartPostProcessingPipeline {
 
 
     @Autowired
@@ -34,7 +34,7 @@ public class TriggerProcessLogfileLinesPipeline {
     private LogfileLineService logfileLineService;
 
     /** fetches from Database and sends it into the Queue */
-    public TriggerProcessLogfileLinesEvent processLogfileLines(TriggerProcessLogfileLinesEvent event) {
+    public StartPostProcessingEvent fetchFromDbAndPushToQueue(StartPostProcessingEvent event) {
         logfileLineService.resetToUnProcessed();
         boolean goOn = true;
         final MessagingTemplate m = new MessagingTemplate();
@@ -43,9 +43,9 @@ public class TriggerProcessLogfileLinesPipeline {
             goOn = lines.hasNextPage();
             for (LogfileLine line : lines.getContent()) {
                 line = logfileLineService.setProcessed(line);
-                ProcessLogfileLinesEvent e = new ProcessLogfileLinesEvent();
+                ProcessOneLogfileLineEvent e = new ProcessOneLogfileLineEvent();
                 e.setLine(line);
-                Message<ProcessLogfileLinesEvent> message = MessageBuilder
+                Message<ProcessOneLogfileLineEvent> message = MessageBuilder
                         .withPayload(e).build();
                 m.send(processLogfileLinesChannel, message);
             }

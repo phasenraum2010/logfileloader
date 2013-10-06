@@ -8,10 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
-import org.woehlke.logfileloader.core.dao.model.HttpCodeReportItem;
-import org.woehlke.logfileloader.core.dao.model.PageReportItem;
-import org.woehlke.logfileloader.core.dao.model.TimelineDaysItem;
+import org.woehlke.logfileloader.core.model.BrowserReportItem;
+import org.woehlke.logfileloader.core.model.HttpCodeReportItem;
+import org.woehlke.logfileloader.core.model.PageReportItem;
+import org.woehlke.logfileloader.core.model.TimelineDaysItem;
 import org.woehlke.logfileloader.core.services.ReportsService;
 
 import javax.inject.Inject;

@@ -9,7 +9,7 @@ import org.springframework.integration.support.MessageBuilder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
-import org.woehlke.logfileloader.eai.events.TriggerStartupEvent;
+import org.woehlke.logfileloader.eai.events.StartLogfilesImportEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public class FilenamesSplitterTest {
 
     @Test
     public void splitterTest() throws Exception {
-        TriggerStartupEvent e = new TriggerStartupEvent();
+        StartLogfilesImportEvent e = new StartLogfilesImportEvent();
         List<String> filenames = new ArrayList<String>();
         filenames.add("test01.txt");
         filenames.add("test02.txt");

@@ -17,7 +17,7 @@ import org.springframework.integration.annotation.MessageEndpoint;
 import org.springframework.integration.annotation.Splitter;
 import org.woehlke.logfileloader.core.entities.LogfileLine;
 import org.woehlke.logfileloader.core.services.LogfileLineService;
-import org.woehlke.logfileloader.eai.events.ImportLogfileEvent;
+import org.woehlke.logfileloader.eai.events.ImportOneLogfileEvent;
 
 import javax.inject.Inject;
 import java.io.*;
@@ -26,9 +26,9 @@ import java.util.List;
 import java.util.zip.GZIPInputStream;
 
 @MessageEndpoint("downloadFilePipeline")
-public class DownloadFilePipeline {
+public class ImportOneLogfilePipeline {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(DownloadFilePipeline.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ImportOneLogfilePipeline.class);
 
     @Value("${http.getRequest}")
     private String httpgetRequest;
@@ -101,7 +101,7 @@ public class DownloadFilePipeline {
         return filename;
     }
 
-    public ImportLogfileEvent importLogfile(String filename) {
+    public ImportOneLogfileEvent importLogfile(String filename) {
         File file = new File(getTempDirectory() + filename + ".txt");
         LOGGER.info("import: "+file.getAbsolutePath());
         List<String> lines = new ArrayList<String>();
@@ -117,20 +117,20 @@ public class DownloadFilePipeline {
         } catch (IOException e) {
             LOGGER.warn(e.getMessage());
         }
-        ImportLogfileEvent e = new ImportLogfileEvent();
+        ImportOneLogfileEvent e = new ImportOneLogfileEvent();
         e.setFilename(filename);
         e.setLines(lines);
         return e;
     }
 
     @Splitter
-    public List<String> splitLogfileIntoLines(ImportLogfileEvent e) {
+    public List<String> splitLogfileIntoLines(ImportOneLogfileEvent e) {
         return e.getLines();
     }
 
     @Aggregator
     public String aggregateLines(List<Message<String>> lines) {
-        return ((ImportLogfileEvent) lines.get(0).getHeaders().get("filename")).getFilename();
+        return ((ImportOneLogfileEvent) lines.get(0).getHeaders().get("filename")).getFilename();
     }
 
     @CorrelationStrategy
@@ -139,7 +139,7 @@ public class DownloadFilePipeline {
     }
 
     public boolean releaseLines(List<Message<String>> lines) {
-        ImportLogfileEvent event = (ImportLogfileEvent) lines.get(0).getHeaders().get("filename");
+        ImportOneLogfileEvent event = (ImportOneLogfileEvent) lines.get(0).getHeaders().get("filename");
         List<String> listOfLines = new ArrayList<String>();
         for (Message<String> line : lines) {
             listOfLines.add(line.getPayload());

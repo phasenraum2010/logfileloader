@@ -9,7 +9,7 @@ import org.springframework.integration.channel.QueueChannel;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.woehlke.logfileloader.eai.events.TriggerStartupEvent;
+import org.woehlke.logfileloader.eai.events.StartLogfilesImportEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public class FilenamesAggregatorTest {
 
     @Test
     public void testAggregator() throws Exception {
-        TriggerStartupEvent e = new TriggerStartupEvent();
+        StartLogfilesImportEvent e = new StartLogfilesImportEvent();
         List<String> filenames = new ArrayList<String>();
         filenames.add("test01-aggregator.txt");
         filenames.add("test02-aggregator.txt");
@@ -45,8 +45,8 @@ public class FilenamesAggregatorTest {
         Assert.assertNotNull(outMessage);
         Assert.assertTrue(outMessage.getHeaders().containsKey("fetchFilenames"));
         Object out = outMessage.getPayload();
-        Assert.assertTrue(out instanceof TriggerStartupEvent);
-        TriggerStartupEvent result = (TriggerStartupEvent) out;
+        Assert.assertTrue(out instanceof StartLogfilesImportEvent);
+        StartLogfilesImportEvent result = (StartLogfilesImportEvent) out;
         List<String> filenamesResult = result.getFilenames();
         for(String filename : filenamesResult){
             Assert.assertTrue(filenames.contains(filename));
@@ -55,8 +55,8 @@ public class FilenamesAggregatorTest {
             Assert.assertTrue(filenamesResult.contains(filename));
         }
         Object outHeader = outMessage.getHeaders().get("fetchFilenames");
-        Assert.assertTrue(outHeader instanceof TriggerStartupEvent);
-        TriggerStartupEvent outHeaderResult = (TriggerStartupEvent) outHeader;
+        Assert.assertTrue(outHeader instanceof StartLogfilesImportEvent);
+        StartLogfilesImportEvent outHeaderResult = (StartLogfilesImportEvent) outHeader;
         List<String> outHeaderFilenamesResult = outHeaderResult.getFilenames();
         for(String filename : outHeaderFilenamesResult){
             Assert.assertTrue(filenames.contains(filename));

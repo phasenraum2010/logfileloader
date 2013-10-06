@@ -9,8 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
-import org.woehlke.logfileloader.core.dao.model.PageReportItem;
+import org.woehlke.logfileloader.core.model.BrowserReportItem;
+import org.woehlke.logfileloader.core.model.PageReportItem;
 import org.woehlke.logfileloader.core.entities.Browser;
 import org.woehlke.logfileloader.core.services.ReportsService;
 

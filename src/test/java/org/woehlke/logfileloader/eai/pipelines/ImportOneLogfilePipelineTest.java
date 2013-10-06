@@ -13,13 +13,13 @@ import java.io.*;
  * Time: 15:35
  * To change this template use File | Settings | File Templates.
  */
-public class DownloadFilePipelineTest {
+public class ImportOneLogfilePipelineTest {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(DownloadFilePipelineTest.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ImportOneLogfilePipelineTest.class);
 
     @Test
     public void getTempDirectoryTest() throws IOException {
-        DownloadFilePipeline p = new DownloadFilePipeline();
+        ImportOneLogfilePipeline p = new ImportOneLogfilePipeline();
         String tempDirName = p.getTempDirectory();
         LOGGER.info("tempDirName: "+tempDirName);
         File testFile = new File(tempDirName+"test.txt");

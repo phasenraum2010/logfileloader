@@ -151,7 +151,7 @@
             input-channel="manualTriggerProcessLogfileLinesChannel"
             output-channel="nullChannel"
             ref="triggerProcessLogfileLinesPipeline"
-            method="processLogfileLines" />
+            method="fetchFromDbAndPushToQueue" />
 
     <int:chain input-channel="processLogfileLinesChannel"
                output-channel="nullChannel" id="processLogfileLinesChain">

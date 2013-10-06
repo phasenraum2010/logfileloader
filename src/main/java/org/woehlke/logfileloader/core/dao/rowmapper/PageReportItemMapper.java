@@ -1,7 +1,7 @@
 package org.woehlke.logfileloader.core.dao.rowmapper;
 
 import org.springframework.jdbc.core.RowMapper;
-import org.woehlke.logfileloader.core.dao.model.PageReportItem;
+import org.woehlke.logfileloader.core.model.PageReportItem;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

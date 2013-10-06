@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.woehlke.logfileloader.core.dao.ReportsDao;
-import org.woehlke.logfileloader.core.dao.model.*;
+import org.woehlke.logfileloader.core.model.*;
 import org.woehlke.logfileloader.core.entities.*;
 import org.woehlke.logfileloader.core.repositories.*;
 import org.woehlke.logfileloader.core.services.ReportsService;

@@ -11,7 +11,7 @@ import org.springframework.integration.channel.QueueChannel;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.woehlke.logfileloader.eai.events.TriggerStartupEvent;
+import org.woehlke.logfileloader.eai.events.StartLogfilesImportEvent;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ import java.util.List;
  */
 @ContextConfiguration("classpath:/FetchLogfileMessagingGatewayTest-context.xml")    // default context name is <ClassName>-context.xml
 @RunWith(SpringJUnit4ClassRunner.class)
-public class FetchLogfileMessagingGatewayTest {
+public class ImportAllLogfilesPipelineTest {
 
    @Autowired
    QueueChannel outputChannel;
@@ -32,7 +32,7 @@ public class FetchLogfileMessagingGatewayTest {
    @Autowired
    QueueChannel inputChannel;
 
-   private final static Logger LOGGER = LoggerFactory.getLogger(FetchLogfileMessagingGatewayTest.class);
+   private final static Logger LOGGER = LoggerFactory.getLogger(ImportAllLogfilesPipelineTest.class);
 
    private final String html = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n" +
             "<html>\n" +
@@ -81,9 +81,9 @@ public class FetchLogfileMessagingGatewayTest {
 
     @Test
     public void extractFilesnamesTest(){
-        TriggerStartupEvent e = new TriggerStartupEvent();
+        StartLogfilesImportEvent e = new StartLogfilesImportEvent();
         e.setDirectoryContentHtml(html);
-        FetchLogfileMessagingGateway gw = new FetchLogfileMessagingGateway();
+        ImportAllLogfilesPipeline gw = new ImportAllLogfilesPipeline();
         e=gw.extractFilesnames(e);
         List<String> filenames = e.getFilenames();
         for(String filename:filenames){
@@ -93,13 +93,13 @@ public class FetchLogfileMessagingGatewayTest {
 
     @Test
     public void fetchFilenamesAndExtractFilesnamesTest(){
-        TriggerStartupEvent e = new TriggerStartupEvent();
+        StartLogfilesImportEvent e = new StartLogfilesImportEvent();
         inputChannel.send(MessageBuilder.withPayload(e).build());
         Message<?> outMessage = outputChannel.receive();
         Object out =  outMessage.getPayload();
         Assert.assertNotNull(out);
-        Assert.assertTrue(out instanceof TriggerStartupEvent);
-        TriggerStartupEvent result = (TriggerStartupEvent) out;
+        Assert.assertTrue(out instanceof StartLogfilesImportEvent);
+        StartLogfilesImportEvent result = (StartLogfilesImportEvent) out;
         String html = result.getDirectoryContentHtml();
         LOGGER.info(html);
         for(String filename:result.getFilenames()){

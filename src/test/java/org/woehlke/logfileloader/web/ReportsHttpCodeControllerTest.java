@@ -7,7 +7,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.woehlke.logfileloader.core.dao.model.Matchers.isPageOfHttpCodeReportItem;
+import static org.woehlke.logfileloader.core.model.Matchers.isPageOfHttpCodeReportItem;
 
 /**
  * Created with IntelliJ IDEA.

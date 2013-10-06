@@ -3,7 +3,7 @@ package org.woehlke.logfileloader.eai.events;
 import java.io.Serializable;
 import java.util.List;
 
-public class TriggerStartupEvent implements Serializable {
+public class StartLogfilesImportEvent implements Serializable {
 
     private String directoryContentHtml;
 
@@ -39,7 +39,7 @@ public class TriggerStartupEvent implements Serializable {
 
     @Override
     public String toString() {
-        return "TriggerStartupEvent{" +
+        return "StartLogfilesImportEvent{" +
                 "directoryContentHtml='" + directoryContentHtml + '\'' +
                 ", filenames=" + filenames +
                 '}';

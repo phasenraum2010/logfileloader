@@ -5,12 +5,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.integration.annotation.MessageEndpoint;
 import org.woehlke.logfileloader.core.entities.*;
 import org.woehlke.logfileloader.core.services.*;
-import org.woehlke.logfileloader.eai.events.ProcessLogfileLinesEvent;
+import org.woehlke.logfileloader.eai.events.ProcessOneLogfileLineEvent;
 
 import javax.inject.Inject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,9 +22,9 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 @MessageEndpoint("processLogfileLinesPipeline")
-public class ProcessLogfileLinesPipeline {
+public class PostProcessingPipeline {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ProcessLogfileLinesPipeline.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(PostProcessingPipeline.class);
 
     @Inject
     private LogfileLineItemService logfileLineItemService;
@@ -42,12 +44,12 @@ public class ProcessLogfileLinesPipeline {
     @Inject
     private RequestService requestService;
 
-    public ProcessLogfileLinesEvent log(ProcessLogfileLinesEvent event) {
+    public ProcessOneLogfileLineEvent log(ProcessOneLogfileLineEvent event) {
         //LOGGER.info(event.toString());
         return event;
     }
 
-    public ProcessLogfileLinesEvent getIpNumber(ProcessLogfileLinesEvent event) {
+    public ProcessOneLogfileLineEvent getIpNumber(ProcessOneLogfileLineEvent event) {
         String line = event.getLine().getLine();
         String ipString = line.split(" ")[0];
         try {
@@ -61,40 +63,41 @@ public class ProcessLogfileLinesPipeline {
         return event;
     }
 
-    public ProcessLogfileLinesEvent getTimeStamp(ProcessLogfileLinesEvent event) {
+    public ProcessOneLogfileLineEvent getTimeStamp(ProcessOneLogfileLineEvent event) {
         String line = event.getLine().getLine();
         String rest = line.split("\\[")[1];
         String datetimeString = rest.split("\\]")[0].split(" ")[0];
         //LOGGER.info("datetimeString: "+datetimeString);
         String timezoneString = rest.split("\\]")[0].split(" ")[1];
         //LOGGER.info("timezoneString: "+timezoneString);
-        SimpleDateFormat parserSDF = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss");
-        Date date = null;
-        try {
-            int timezone = Integer.parseInt(timezoneString);
-            Date datetime = parserSDF.parse(datetimeString);
-            timezone -= 100; //CEST
-            timezone *= 60 * 1000;
-            long timestamp = datetime.getTime() + timezone;
-            date = new Date(timestamp);
-        } catch (NumberFormatException u) {
-            LOGGER.error(u.getMessage());
-        } catch (ParseException e) {
-            LOGGER.error(e.getMessage());
-        }
-        event.setDatetime(date);
-        //LOGGER.info("### "+event.toString());
-        try {
-            if(dayService.find(date)==null){
-                dayService.createOrFetch(date);
+        Locale locales[] = {Locale.GERMANY,Locale.ENGLISH};
+        for(final Locale locale:locales){
+            SimpleDateFormat parserSDF = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss", locale);
+            Date date = null;
+            try {
+                int timezone = Integer.parseInt(timezoneString);
+                Date datetime = parserSDF.parse(datetimeString);
+                timezone -= 100; //CEST
+                timezone *= 60 * 1000;
+                long timestamp = datetime.getTime() + timezone;
+                date = new Date(timestamp);
+                event.setDatetime(date);
+                if(dayService.find(date)==null){
+                    dayService.createOrFetch(date);
+                }
+            } catch (NumberFormatException u) {
+                LOGGER.error(u.getMessage());
+            } catch (ParseException e) {
+                LOGGER.error(e.getMessage());
+            } catch (Exception e) {
+                LOGGER.warn(e.getMessage());
             }
-        } catch (Exception e) {
-            LOGGER.warn(e.getMessage());
+            //LOGGER.info("### "+event.toString());
         }
         return event;
     }
 
-    public ProcessLogfileLinesEvent getRequestString(ProcessLogfileLinesEvent event) {
+    public ProcessOneLogfileLineEvent getRequestString(ProcessOneLogfileLineEvent event) {
         String line = event.getLine().getLine();
         String requestLine = "UNDEFINED";
         try {
@@ -114,7 +117,7 @@ public class ProcessLogfileLinesPipeline {
         return event;
     }
 
-    public ProcessLogfileLinesEvent getHttpCode(ProcessLogfileLinesEvent event) {
+    public ProcessOneLogfileLineEvent getHttpCode(ProcessOneLogfileLineEvent event) {
         String line = event.getLine().getLine();
         String httpCode = "UNDEFINED";
         try {
@@ -134,7 +137,7 @@ public class ProcessLogfileLinesPipeline {
         return event;
     }
 
-    public ProcessLogfileLinesEvent getBrowser(ProcessLogfileLinesEvent event) {
+    public ProcessOneLogfileLineEvent getBrowser(ProcessOneLogfileLineEvent event) {
         String line = event.getLine().getLine();
         String browser = "UNDEFINED";
         try {
@@ -154,7 +157,7 @@ public class ProcessLogfileLinesPipeline {
         return event;
     }
 
-    public ProcessLogfileLinesEvent pushIntoDatabase(ProcessLogfileLinesEvent event) {
+    public ProcessOneLogfileLineEvent pushIntoDatabase(ProcessOneLogfileLineEvent event) {
         //LOGGER.info("pushIntoDatabase: "+event.toString());
         LogfileLineItem logfileLineItem = new LogfileLineItem();
         logfileLineItem.setLine(event.getLine().getLine());
