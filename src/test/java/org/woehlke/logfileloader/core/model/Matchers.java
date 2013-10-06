@@ -64,4 +64,9 @@ public class Matchers {
     public static <T> Matcher<Browser> isBrowser(){
         return new IsBrowser();
     }
+
+    @Factory
+    public static <T> Matcher<ProcessingStatus> isProcessingStatus(){
+        return new IsProcessingStatus();
+    }
 }
