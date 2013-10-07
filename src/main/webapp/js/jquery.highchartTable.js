@@ -280,7 +280,7 @@
           labels: {
             rotation: $table.data('graph-yaxis-'+yAxisNum+'-rotation') || 0
           },
-          startOnTick: $table.data('graph-yaxis-'+yAxisNum+'-start-on-tick') !== "0",
+          startOnTick: $table.data('graph-yaxis-'+yAxisNum+'-startImport-on-tick') !== "0",
           endOnTick:   $table.data('graph-yaxis-'+yAxisNum+'-end-on-tick') !== "0",
           stackLabels : {
             enabled: $table.data('graph-yaxis-'+yAxisNum+'-stacklabels-enabled') == '1'
@@ -385,7 +385,7 @@
             enabled:  typeof xAxisLabelsEnabled != 'undefined' ? xAxisLabelsEnabled : true,
             style:    xAxisLabelStyle
           },
-          startOnTick: $table.data('graph-xaxis-start-on-tick'),
+          startOnTick: $table.data('graph-xaxis-startImport-on-tick'),
           endOnTick:   $table.data('graph-xaxis-end-on-tick'),
           min: getXAxisMinMax(table, 'min'),
           max: getXAxisMinMax(table, 'max'),

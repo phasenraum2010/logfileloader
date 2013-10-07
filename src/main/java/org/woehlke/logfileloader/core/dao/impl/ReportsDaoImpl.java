@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.woehlke.logfileloader.core.dao.ReportsDao;
-import org.woehlke.logfileloader.core.dao.model.*;
+import org.woehlke.logfileloader.core.model.*;
 import org.woehlke.logfileloader.core.dao.rowmapper.*;
 
 import javax.sql.DataSource;

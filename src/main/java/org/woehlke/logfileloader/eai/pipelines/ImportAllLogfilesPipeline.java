@@ -15,7 +15,7 @@ import org.springframework.integration.annotation.Aggregator;
 import org.springframework.integration.annotation.CorrelationStrategy;
 import org.springframework.integration.annotation.Filter;
 import org.springframework.integration.annotation.MessageEndpoint;
-import org.woehlke.logfileloader.eai.events.TriggerStartupEvent;
+import org.woehlke.logfileloader.eai.events.StartLogfilesImportEvent;
 import org.woehlke.logfileloader.eai.service.ManualStartupService;
 
 import javax.inject.Inject;
@@ -26,9 +26,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @MessageEndpoint("fetchLogfileMessagingGateway")
-public class FetchLogfileMessagingGateway {
+public class ImportAllLogfilesPipeline {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(FetchLogfileMessagingGateway.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ImportAllLogfilesPipeline.class);
 
     @Value("${http.getRequest}")
     private String httpgetRequest;
@@ -45,7 +45,7 @@ public class FetchLogfileMessagingGateway {
     @Inject
     private ManualStartupService manualStartupService;
 
-    public TriggerStartupEvent fetchFilesnames(TriggerStartupEvent e) {
+    public StartLogfilesImportEvent fetchFilesnames(StartLogfilesImportEvent e) {
         LOGGER.info("fetchFilesnames");
         DefaultHttpClient httpclient = new DefaultHttpClient();
         HttpGet httpget = new HttpGet(httpgetRequest);
@@ -78,13 +78,13 @@ public class FetchLogfileMessagingGateway {
     }
 
     @Filter
-    public boolean isHttpRequestOk(TriggerStartupEvent e) {
+    public boolean isHttpRequestOk(StartLogfilesImportEvent e) {
         return e.getDirectoryContentHtml() != null && !e.getDirectoryContentHtml().isEmpty();
     }
 
     private final static String pattern = "access.log.[0-9.]*.gz";
 
-    public TriggerStartupEvent extractFilesnames(TriggerStartupEvent e) {
+    public StartLogfilesImportEvent extractFilesnames(StartLogfilesImportEvent e) {
         List<String> filenames = new ArrayList<String>();
         String html = e.getDirectoryContentHtml();
         String[] lines = html.split("\n");
@@ -100,13 +100,13 @@ public class FetchLogfileMessagingGateway {
     }
 
     @Filter
-    public boolean hasFilenames(TriggerStartupEvent e) {
+    public boolean hasFilenames(StartLogfilesImportEvent e) {
         return e.getFilenames() != null && e.getFilenames().size() > 0;
     }
 
     @Aggregator
-    public TriggerStartupEvent aggregateFilenames(List<Message<String>> filenames) {
-        TriggerStartupEvent event = (TriggerStartupEvent) filenames.get(0).getHeaders().get("fetchFilenames");
+    public StartLogfilesImportEvent aggregateFilenames(List<Message<String>> filenames) {
+        StartLogfilesImportEvent event = (StartLogfilesImportEvent) filenames.get(0).getHeaders().get("fetchFilenames");
         for (Message<String> filename : filenames) {
             LOGGER.info("aggregateFilenames: " + filename.getPayload());
         }
@@ -119,7 +119,7 @@ public class FetchLogfileMessagingGateway {
     }
 
     public boolean releaseFilenames(List<Message<String>> filenames) {
-        TriggerStartupEvent event = (TriggerStartupEvent) filenames.get(0).getHeaders().get("fetchFilenames");
+        StartLogfilesImportEvent event = (StartLogfilesImportEvent) filenames.get(0).getHeaders().get("fetchFilenames");
         List<String> listOfFilenames = new ArrayList<String>();
         for (Message<String> filename : filenames) {
             listOfFilenames.add(filename.getPayload());
@@ -127,7 +127,7 @@ public class FetchLogfileMessagingGateway {
         return event.isSatisfiedBy(listOfFilenames);
     }
 
-    public TriggerStartupEvent logFilename(TriggerStartupEvent e) {
+    public StartLogfilesImportEvent logFilename(StartLogfilesImportEvent e) {
         for (String filename : e.getFilenames()) {
             LOGGER.info("logFilename: " + filename);
         }
@@ -139,7 +139,7 @@ public class FetchLogfileMessagingGateway {
         return filename;
     }
 
-    public void startPostProcssing(TriggerStartupEvent e) {
-        manualStartupService.processLogfileLines();
+    public void startPostProcssing(StartLogfilesImportEvent e) {
+        manualStartupService.startPostProcessing();
     }
 }

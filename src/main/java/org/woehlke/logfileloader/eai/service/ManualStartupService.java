@@ -1,5 +1,7 @@
 package org.woehlke.logfileloader.eai.service;
 
+import org.woehlke.logfileloader.core.model.ProcessingStatus;
+
 /**
  * Created with IntelliJ IDEA.
  * User: tw
@@ -9,8 +11,9 @@ package org.woehlke.logfileloader.eai.service;
  */
 public interface ManualStartupService {
 
-    void start();
+    void startImport();
 
-    void processLogfileLines();
+    void startPostProcessing();
 
+    ProcessingStatus getPostProcessingStatus();
 }

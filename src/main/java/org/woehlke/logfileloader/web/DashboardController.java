@@ -8,10 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
-import org.woehlke.logfileloader.core.dao.model.HttpCodeReportItem;
-import org.woehlke.logfileloader.core.dao.model.PageReportItem;
-import org.woehlke.logfileloader.core.dao.model.TimelineDaysItem;
+import org.woehlke.logfileloader.core.model.BrowserReportItem;
+import org.woehlke.logfileloader.core.model.HttpCodeReportItem;
+import org.woehlke.logfileloader.core.model.PageReportItem;
+import org.woehlke.logfileloader.core.model.TimelineDaysItem;
 import org.woehlke.logfileloader.core.services.ReportsService;
 
 import javax.inject.Inject;
@@ -26,7 +26,6 @@ import javax.inject.Inject;
 @Controller
 public class DashboardController {
 
-
     private final static Logger LOGGER = LoggerFactory.getLogger(TimelineController.class);
 
     @Inject
@@ -35,9 +34,7 @@ public class DashboardController {
     @RequestMapping(value = "/reports/dashboard")
     public String listDays(
             Model model){
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/dashboard");
-        }
+        LOGGER.info("/reports/dashboard");
         int page=0;
         int size=30;
         Pageable pageable = new PageRequest(page, size);

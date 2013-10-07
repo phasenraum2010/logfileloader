@@ -3,7 +3,7 @@ package org.woehlke.logfileloader.eai.events;
 import java.io.Serializable;
 import java.util.List;
 
-public class ImportLogfileEvent implements Serializable {
+public class ImportOneLogfileEvent implements Serializable {
 
     private String filename;
     private List<String> lines;

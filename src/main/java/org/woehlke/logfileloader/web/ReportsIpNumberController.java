@@ -9,8 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.woehlke.logfileloader.core.dao.model.IpNumbersReportItem;
-import org.woehlke.logfileloader.core.dao.model.PageReportItem;
+import org.woehlke.logfileloader.core.model.IpNumbersReportItem;
+import org.woehlke.logfileloader.core.model.PageReportItem;
 import org.woehlke.logfileloader.core.entities.Ip;
 import org.woehlke.logfileloader.core.services.ReportsService;
 
@@ -35,9 +35,7 @@ public class ReportsIpNumberController {
     public String listIpNumbers(
             Model model,
             @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/listIpNumbers");
-        }
+        LOGGER.info("HTTP-Request for /reports/listIpNumbers");
         Page<IpNumbersReportItem> ipNumbersReport = reportsService.listIpNumbers(pageable);
         model.addAttribute("ipNumbersReport", ipNumbersReport);
         return "reports/listIpNumbers";
@@ -47,9 +45,7 @@ public class ReportsIpNumberController {
     public String listUrlsForIpNumber(
             @PathVariable long ipNumberId,Model model,
             @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/listIpNumbers/"+ipNumberId+"/url");
-        }
+        LOGGER.info("HTTP-Request for /reports/listIpNumbers/"+ipNumberId+"/url");
         Page<PageReportItem> listPages = reportsService.listUrlsForIpNumber(ipNumberId,pageable);
         model.addAttribute("listPages", listPages);
         Ip ipNumber = reportsService.findIpById(ipNumberId);

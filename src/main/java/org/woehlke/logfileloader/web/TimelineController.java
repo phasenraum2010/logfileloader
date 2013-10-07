@@ -9,10 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
-import org.woehlke.logfileloader.core.dao.model.HttpCodeReportItem;
-import org.woehlke.logfileloader.core.dao.model.PageReportItem;
-import org.woehlke.logfileloader.core.dao.model.TimelineDaysItem;
+import org.woehlke.logfileloader.core.model.BrowserReportItem;
+import org.woehlke.logfileloader.core.model.HttpCodeReportItem;
+import org.woehlke.logfileloader.core.model.PageReportItem;
+import org.woehlke.logfileloader.core.model.TimelineDaysItem;
 import org.woehlke.logfileloader.core.entities.Day;
 import org.woehlke.logfileloader.core.services.ReportsService;
 
@@ -37,9 +37,7 @@ public class TimelineController {
     public String listDays(
             Model model,
             @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable){
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/timelineDays");
-        }
+        LOGGER.info("HTTP-Request for /reports/timelineDays");
         Page<TimelineDaysItem> listDays = reportsService.listDays(pageable);
         model.addAttribute("listDays",listDays);
         return "reports/listDays";
@@ -50,9 +48,7 @@ public class TimelineController {
             @PathVariable long dayId,
             Model model,
             @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable){
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/timelineDays/"+dayId+"/httpcodes");
-        }
+        LOGGER.info("HTTP-Request for /reports/timelineDays/"+dayId+"/httpcodes");
         Day day = reportsService.findDayById(dayId);
         model.addAttribute("day",day);
         Page<HttpCodeReportItem> listHttpCodes = reportsService.listHttpCodesForDay(dayId, pageable);
@@ -65,9 +61,7 @@ public class TimelineController {
             @PathVariable long dayId,
             Model model,
             @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable){
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/timelineDays/"+dayId+"/url");
-        }
+        LOGGER.info("HTTP-Request for /reports/timelineDays/"+dayId+"/url");
         Day day = reportsService.findDayById(dayId);
         model.addAttribute("day",day);
         Page<PageReportItem> listPages = reportsService.listUrlsForDay(dayId, pageable);
@@ -80,9 +74,7 @@ public class TimelineController {
             @PathVariable long dayId,
             Model model,
             @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable){
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/timelineDays/"+dayId+"/browser");
-        }
+        LOGGER.info("HTTP-Request for /reports/timelineDays/"+dayId+"/browser");
         Day day = reportsService.findDayById(dayId);
         model.addAttribute("day",day);
         Page<BrowserReportItem> listBrowser = reportsService.listBrowserForDay(dayId, pageable);

@@ -9,8 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.woehlke.logfileloader.core.dao.model.BrowserReportItem;
-import org.woehlke.logfileloader.core.dao.model.PageReportItem;
+import org.woehlke.logfileloader.core.model.BrowserReportItem;
+import org.woehlke.logfileloader.core.model.PageReportItem;
 import org.woehlke.logfileloader.core.entities.Browser;
 import org.woehlke.logfileloader.core.services.ReportsService;
 
@@ -35,9 +35,7 @@ public class ReportsBrowserController {
     public String listBrowser(
             Model model,
             @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/listBrowser");
-        }
+        LOGGER.info("HTTP-Request for /reports/listBrowser");
         Page<BrowserReportItem> listBrowser = reportsService.listBrowser(pageable);
         model.addAttribute("listBrowser", listBrowser);
         return "reports/listBrowser";
@@ -47,9 +45,7 @@ public class ReportsBrowserController {
     public String listUrlsForBrowser(
             @PathVariable long browserId, Model model,
             @PageableDefaults(value = 25, pageNumber = 0) Pageable pageable) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("HTTP-Request for /reports/listBrowser/"+browserId+"/url");
-        }
+        LOGGER.info("HTTP-Request for /reports/listBrowser/"+browserId+"/url");
         Page<PageReportItem> listPages = reportsService.listUrlsForBrowser(browserId,pageable);
         model.addAttribute("listPages", listPages);
         Browser browser =reportsService.findBrowserById(browserId);

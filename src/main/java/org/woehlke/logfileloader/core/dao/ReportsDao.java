@@ -2,7 +2,7 @@ package org.woehlke.logfileloader.core.dao;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.woehlke.logfileloader.core.dao.model.*;
+import org.woehlke.logfileloader.core.model.*;
 
 /**
  * Created with IntelliJ IDEA.

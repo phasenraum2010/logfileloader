@@ -1,24 +1,26 @@
-package org.woehlke.logfileloader.core.dao.model;
+package org.woehlke.logfileloader.core.model;
+
+import java.io.Serializable;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Fert
- * Date: 06.09.13
- * Time: 12:54
+ * User: tw
+ * Date: 04.09.13
+ * Time: 12:34
  * To change this template use File | Settings | File Templates.
  */
-public class HttpCodeReportItem {
+public class IpNumbersReportItem implements Serializable {
 
     private long id;
-    private String httpCode;
+    private String ip;
     private int nr;
 
-    public String getHttpCode() {
-        return httpCode;
+    public String getIp() {
+        return ip;
     }
 
-    public void setHttpCode(String httpCode) {
-        this.httpCode = httpCode;
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
     public int getNr() {
@@ -42,11 +44,11 @@ public class HttpCodeReportItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        HttpCodeReportItem that = (HttpCodeReportItem) o;
+        IpNumbersReportItem that = (IpNumbersReportItem) o;
 
         if (id != that.id) return false;
         if (nr != that.nr) return false;
-        if (!httpCode.equals(that.httpCode)) return false;
+        if (!ip.equals(that.ip)) return false;
 
         return true;
     }
@@ -54,16 +56,16 @@ public class HttpCodeReportItem {
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + httpCode.hashCode();
+        result = 31 * result + ip.hashCode();
         result = 31 * result + nr;
         return result;
     }
 
     @Override
     public String toString() {
-        return "HttpCodeReportItem{" +
+        return "IpNumbersReportItem{" +
                 "id=" + id +
-                ", httpCode='" + httpCode + '\'' +
+                ", ip='" + ip + '\'' +
                 ", nr=" + nr +
                 '}';
     }

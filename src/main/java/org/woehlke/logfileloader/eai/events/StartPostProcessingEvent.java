@@ -9,5 +9,5 @@ import java.io.Serializable;
  * Time: 10:07
  * To change this template use File | Settings | File Templates.
  */
-public class TriggerProcessLogfileLinesEvent implements Serializable {
+public class StartPostProcessingEvent implements Serializable {
 }

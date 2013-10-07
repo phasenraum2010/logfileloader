@@ -12,7 +12,7 @@ import java.util.Date;
  * Time: 15:33
  * To change this template use File | Settings | File Templates.
  */
-public class ProcessLogfileLinesEvent implements Serializable {
+public class ProcessOneLogfileLineEvent implements Serializable {
 
     private LogfileLine line;
 
@@ -76,7 +76,7 @@ public class ProcessLogfileLinesEvent implements Serializable {
 
     @Override
     public String toString() {
-        return "ProcessLogfileLinesEvent{" +
+        return "ProcessOneLogfileLineEvent{" +
                 "line=" + line +
                 ", ip='" + ip + '\'' +
                 ", datetime=" + datetime +
