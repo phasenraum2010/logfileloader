@@ -70,7 +70,7 @@ public class PostProcessingPipeline {
         //LOGGER.info("datetimeString: "+datetimeString);
         String timezoneString = rest.split("\\]")[0].split(" ")[1];
         //LOGGER.info("timezoneString: "+timezoneString);
-        Locale locales[] = {Locale.GERMANY,Locale.ENGLISH};
+        Locale locales[] = {Locale.GERMAN,Locale.ENGLISH};
         for(final Locale locale:locales){
             SimpleDateFormat parserSDF = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss", locale);
             Date date = null;
