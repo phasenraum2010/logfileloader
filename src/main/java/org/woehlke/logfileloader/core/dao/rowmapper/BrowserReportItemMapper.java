@@ -19,7 +19,7 @@ public class BrowserReportItemMapper implements RowMapper<BrowserReportItem> {
     public BrowserReportItem mapRow(ResultSet rs, int rowNum) throws SQLException {
         BrowserReportItem b = new BrowserReportItem();
         b.setBrowser(rs.getString("browser"));
-        b.setNr(rs.getShort("nr"));
+        b.setNr(rs.getInt("nr"));
         b.setId(rs.getLong("id"));
         return b;
     }
