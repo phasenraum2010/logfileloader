@@ -14,6 +14,7 @@
     	<div class="container">
             <a href="/start">Start Logfile Download</a> <br />
             <a href="/process">Start Logfile Processing</a> <br />
+            <a href="/reset">Reset to Unprocessed</a> <br />
             <br />
             <a href="/reports/listIpNumbers">/reports/listIpNumbers</a> <br />
             <a href="/reports/listBrowser">/reports/listBrowser</a> <br />

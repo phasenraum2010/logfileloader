@@ -16,4 +16,6 @@ public interface ManualStartupService {
     void startPostProcessing();
 
     ProcessingStatus getPostProcessingStatus();
+
+    void reset();
 }

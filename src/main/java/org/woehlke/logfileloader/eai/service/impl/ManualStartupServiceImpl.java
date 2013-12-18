@@ -9,9 +9,12 @@ import org.springframework.integration.channel.QueueChannel;
 import org.springframework.integration.core.MessagingTemplate;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.woehlke.logfileloader.core.model.ProcessingStatus;
 import org.woehlke.logfileloader.core.repositories.LogfileLineItemRepository;
 import org.woehlke.logfileloader.core.repositories.LogfileLineRepository;
+import org.woehlke.logfileloader.core.services.LogfileLineService;
 import org.woehlke.logfileloader.eai.events.StartPostProcessingEvent;
 import org.woehlke.logfileloader.eai.events.StartLogfilesImportEvent;
 import org.woehlke.logfileloader.eai.service.ManualStartupService;
@@ -37,6 +40,9 @@ public class ManualStartupServiceImpl implements ManualStartupService {
 
     @Inject
     private LogfileLineItemRepository logfileLineItemRepository;
+
+    @Inject
+    private LogfileLineService logfileLineService;
 
     @Override
     public void startImport() {
@@ -73,6 +79,12 @@ public class ManualStartupServiceImpl implements ManualStartupService {
         LOGGER.info("total lines: " + allLines);
         LOGGER.info("target lines: "+allTargetLineItems);
         return o;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = false)
+    public void reset() {
+        logfileLineService.resetToUnProcessed();
     }
 
 }

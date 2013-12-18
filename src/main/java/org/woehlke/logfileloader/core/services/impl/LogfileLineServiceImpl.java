@@ -63,6 +63,8 @@ public class LogfileLineServiceImpl implements LogfileLineService {
         return logfileLineRepository.findByProcessed(processed, pageable);
     }
 
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = false)
     public LogfileLine setProcessed(LogfileLine logfileLine) {
         logfileLine.setProcessed(true);
         return logfileLineRepository.saveAndFlush(logfileLine);

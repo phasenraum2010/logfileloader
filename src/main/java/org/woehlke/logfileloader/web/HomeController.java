@@ -52,6 +52,16 @@ public class HomeController {
     /**
      * Simply selects the home view to render by returning its name.
      */
+    @RequestMapping(value = "/reset")
+    public String reset(Model model) {
+        LOGGER.info("HTTP-Request for /reset");
+        manualStartupService.reset();
+        return "home";
+    }
+
+    /**
+     * Simply selects the home view to render by returning its name.
+     */
     @RequestMapping(value = "/ajax/processing")
     public String processing(Model model) {
         LOGGER.info("HTTP-Request for /ajax/processing");
