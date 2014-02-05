@@ -22,6 +22,7 @@ import org.woehlke.logfileloader.eai.events.ImportOneLogfileEvent;
 import javax.inject.Inject;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
@@ -103,7 +104,7 @@ public class ImportOneLogfilePipeline {
 
     public ImportOneLogfileEvent importLogfile(String filename) {
         File file = new File(getTempDirectory() + filename + ".txt");
-        LOGGER.info("import: "+file.getAbsolutePath());
+        LOGGER.info("start importing: "+file.getAbsolutePath());
         List<String> lines = new ArrayList<String>();
         try {
             BufferedReader fileReader = new BufferedReader(new FileReader(file));
@@ -117,6 +118,7 @@ public class ImportOneLogfilePipeline {
         } catch (IOException e) {
             LOGGER.warn(e.getMessage());
         }
+        LOGGER.info("finishing importing: "+file.getAbsolutePath());
         ImportOneLogfileEvent e = new ImportOneLogfileEvent();
         e.setFilename(filename);
         e.setLines(lines);
@@ -129,8 +131,8 @@ public class ImportOneLogfilePipeline {
     }
 
     @Aggregator
-    public String aggregateLines(List<Message<String>> lines) {
-        return ((ImportOneLogfileEvent) lines.get(0).getHeaders().get("filename")).getFilename();
+    public String aggregateLines(List<Message<Long>> lines) {
+        return (String) lines.get(0).getHeaders().get("filename");
     }
 
     @CorrelationStrategy
@@ -139,12 +141,11 @@ public class ImportOneLogfilePipeline {
     }
 
     public boolean releaseLines(List<Message<String>> lines) {
-        ImportOneLogfileEvent event = (ImportOneLogfileEvent) lines.get(0).getHeaders().get("filename");
-        List<String> listOfLines = new ArrayList<String>();
-        for (Message<String> line : lines) {
-            listOfLines.add(line.getPayload());
-        }
-        return event.isSatisfiedBy(listOfLines);
+        int sizeDone = lines.size();
+        int sizeAll = (Integer) lines.get(0).getHeaders().get("sizeAll");
+        boolean ok = sizeDone == sizeAll;
+        LOGGER.info("releaseLines: "+ok+" "+sizeDone+" "+sizeAll);
+        return ok;
     }
 
     public String logLine(String line) {
@@ -152,10 +153,13 @@ public class ImportOneLogfilePipeline {
         return line;
     }
 
-    public String pushToDatabase(String line) {
+    public Long pushToDatabase(String line) {
         LogfileLine logfileLine = new LogfileLine();
         logfileLine.setLine(line);
+        long start = new Date().getTime();
         logfileLineService.createIfNotExists(logfileLine);
-        return line;
+        long delta = new Date().getTime() - start;
+        LOGGER.info("saved in "+delta+" ms");
+        return logfileLine.getId();
     }
 }

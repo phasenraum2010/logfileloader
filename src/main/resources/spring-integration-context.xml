@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:int="http://www.springframework.org/schema/integration"
-	xmlns:int-mongodb="http://www.springframework.org/schema/integration/mongodb"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-  	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-	xsi:schemaLocation="http://www.springframework.org/schema/integration
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-mongodb="http://www.springframework.org/schema/integration/mongodb"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/integration
 		http://www.springframework.org/schema/integration/spring-integration.xsd
 		http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -22,106 +22,154 @@
         http://www.springframework.org/schema/data/jpa
         http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-    <context:property-placeholder location="classpath:/logfileloader.properties" />
+    <context:property-placeholder location="classpath:/logfileloader.properties"/>
 
-    <!--
-	<bean id="mongoDbFactory"
-		class="org.springframework.data.mongodb.core.SimpleMongoDbFactory">
-		<constructor-arg>
-			<bean class="com.mongodb.Mongo" />
-		</constructor-arg>
-		<constructor-arg value="test" />
-	</bean>
 
-	<bean id="mongoDbMessageStore"
-		class="org.springframework.integration.mongodb.store.MongoDbMessageStore">
-		<constructor-arg ref="mongoDbFactory" />
-	</bean>
-	-->
+    <bean id="mongoDbFactory"
+          class="org.springframework.data.mongodb.core.SimpleMongoDbFactory">
+        <constructor-arg>
+            <bean class="com.mongodb.Mongo"/>
+        </constructor-arg>
+        <constructor-arg value="test"/>
+    </bean>
 
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="${javax.persistence.jdbc.driver}"/> 
-		<property name="url" value="${javax.persistence.jdbc.url}"/> 
-		<property name="username" value="${javax.persistence.jdbc.username}"/>
-		<property name="password" value="${javax.persistence.jdbc.password}"/>
-	</bean>
-	
-	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-  		<property name="dataSource" ref="dataSource"/>
-  		<property name="persistenceUnitName" value="logfileloader"/>
- 	</bean>
+    <bean id="mongoDbMessageStore"
+          class="org.springframework.integration.mongodb.store.MongoDbMessageStore">
+        <constructor-arg ref="mongoDbFactory"/>
+    </bean>
 
-	<!-- JPA Configuration -->
-	<bean
-		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
-	<bean
-		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
-	<bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
-		<property name="jpaDialect" ref="jpaDialect" />
-	</bean>
 
-	<!-- Transactions -->
-	<tx:annotation-driven transaction-manager="transactionManager" />
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${javax.persistence.jdbc.driver}"/>
+        <property name="url" value="${javax.persistence.jdbc.url}"/>
+        <property name="username" value="${javax.persistence.jdbc.username}"/>
+        <property name="password" value="${javax.persistence.jdbc.password}"/>
+    </bean>
 
-	<int:poller default="true" fixed-rate="500" />
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="persistenceUnitName" value="logfileloader"/>
+    </bean>
 
-	<jpa:repositories base-package="org.woehlke" />
-	 
-	<context:component-scan base-package="org.woehlke" />
+    <!-- JPA Configuration -->
+    <bean
+            class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+    <bean
+            class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+    <bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+        <property name="jpaDialect" ref="jpaDialect"/>
+    </bean>
 
-	<int:logging-channel-adapter id="logger"
-		level="INFO" />
+    <!-- Transactions -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <int:poller default="true" fixed-rate="1000" max-messages-per-poll="1000"/>
+
+    <jpa:repositories base-package="org.woehlke"/>
+
+    <context:component-scan base-package="org.woehlke"/>
+
+    <int:logging-channel-adapter id="logger"
+                                 level="INFO"/>
 
     <int:channel id="manualStartupChannel">
         <!-- <int:queue message-store="mongoDbMessageStore" /> -->
-        <int:queue />
+        <int:queue/>
     </int:channel>
 
     <int:channel id="manualTriggerProcessLogfileLinesChannel">
         <!-- <int:queue message-store="mongoDbMessageStore" />  -->
-        <int:queue />
+        <int:queue/>
     </int:channel>
 
     <int:channel id="processLogfileLinesChannel">
         <!-- <int:queue message-store="mongoDbMessageStore" />  -->
-        <int:queue />
+        <int:queue/>
+    </int:channel>
+
+    <int:channel id="processOneLogfileChannel1">
+        <!-- <int:queue message-store="mongoDbMessageStore" />  -->
+        <int:queue/>
+    </int:channel>
+
+    <int:channel id="processOneLogfileChannel2">
+        <!-- <int:queue message-store="mongoDbMessageStore" />  -->
+        <int:queue/>
+    </int:channel>
+
+    <int:channel id="processOneLogfileChannel3">
+        <!-- <int:queue message-store="mongoDbMessageStore" />  -->
+        <int:queue/>
+    </int:channel>
+
+    <int:channel id="importOneFileChannel">
+        <!-- <int:queue message-store="mongoDbMessageStore" />  -->
+        <int:queue/>
+    </int:channel>
+
+    <int:channel id="importOneLineChannel">
+        <!-- <int:queue message-store="mongoDbMessageStore" />  -->
+        <int:queue/>
+    </int:channel>
+
+    <int:channel id="importOneLineChannel2">
+        <!-- <int:queue message-store="mongoDbMessageStore" />  -->
+        <int:queue/>
     </int:channel>
 
     <int:chain input-channel="manualStartupChannel"
-               output-channel="nullChannel" id="fetchLogfileChain">
-
+               output-channel="processOneLogfileChannel1"
+               id="fetchLogfileChain">
         <int:service-activator ref="fetchLogfileMessagingGateway"
-                               method="fetchFilesnames" />
-        <int:filter ref="fetchLogfileMessagingGateway" method="isHttpRequestOk" />
+                               method="fetchFilesnames"/>
+        <int:filter ref="fetchLogfileMessagingGateway" method="isHttpRequestOk"/>
         <int:service-activator ref="fetchLogfileMessagingGateway"
-                               method="extractFilesnames" />
-        <int:filter ref="fetchLogfileMessagingGateway" method="hasFilenames" />
+                               method="extractFilesnames"/>
+        <int:filter ref="fetchLogfileMessagingGateway" method="hasFilenames"/>
+    </int:chain>
 
+    <int:chain input-channel="processOneLogfileChannel1"
+               output-channel="importOneFileChannel"
+               id="fetchLogfileChain2">
         <int:header-enricher>
             <int:header name="fetchFilenames" expression="payload"/>
         </int:header-enricher>
         <int:splitter expression="payload.filenames"/>
+    </int:chain>
+
+
+    <int:chain
+            input-channel="importOneFileChannel"
+            output-channel="importOneLineChannel">
 
         <int:service-activator ref="fetchLogfileMessagingGateway"
-                               method="logOneFilename" />
+                               method="logOneFilename"/>
         <int:service-activator ref="downloadFilePipeline"
-                               method="downloadFile" />
+                               method="downloadFile"/>
         <int:service-activator ref="downloadFilePipeline"
-                               method="unzip" />
+                               method="unzip"/>
         <int:service-activator ref="downloadFilePipeline"
-                               method="importLogfile" />
+                               method="importLogfile"/>
         <int:header-enricher>
-            <int:header name="filename" expression="payload"/>
+            <int:header name="filename" expression="payload.filename"/>
+            <int:header name="sizeAll" expression="payload.lines.size()"/>
         </int:header-enricher>
         <int:splitter ref="downloadFilePipeline"
-                      method="splitLogfileIntoLines" />
+                      method="splitLogfileIntoLines"/>
+    </int:chain>
 
-        <int:service-activator ref="downloadFilePipeline"
-                               method="logLine" />
-        <int:service-activator ref="downloadFilePipeline"
-                               method="pushToDatabase" />
+
+    <int:service-activator
+            input-channel="importOneLineChannel"
+            output-channel="importOneLineChannel2"
+            ref="downloadFilePipeline"
+            method="pushToDatabase"/>
+
+    <int:chain
+            input-channel="importOneLineChannel2"
+            output-channel="nullChannel">
 
         <int:aggregator
                 ref="downloadFilePipeline"
@@ -129,10 +177,11 @@
                 correlation-strategy="downloadFilePipeline"
                 correlation-strategy-method="correlateLines"
                 release-strategy="downloadFilePipeline"
-                release-strategy-method="releaseLines" />
+                release-strategy-method="releaseLines"/>
+
 
         <int:service-activator ref="fetchLogfileMessagingGateway"
-                               method="logOneFilename" />
+                               method="logOneFilename"/>
         <int:aggregator
                 ref="fetchLogfileMessagingGateway"
                 method="aggregateFilenames"
@@ -140,10 +189,11 @@
                 correlation-strategy-method="correlateFilenames"
                 release-strategy="fetchLogfileMessagingGateway"
                 release-strategy-method="releaseFilenames"/>
+
         <int:service-activator ref="fetchLogfileMessagingGateway"
-                               method="logFilename" />
+                               method="logFilename"/>
         <int:service-activator ref="fetchLogfileMessagingGateway"
-                               method="startPostProcssing" />
+                               method="startPostProcssing"/>
     </int:chain>
 
     <int:service-activator
@@ -151,34 +201,33 @@
             input-channel="manualTriggerProcessLogfileLinesChannel"
             output-channel="nullChannel"
             ref="triggerProcessLogfileLinesPipeline"
-            method="fetchFromDbAndPushToQueue" />
+            method="fetchFromDbAndPushToQueue"/>
 
     <int:chain input-channel="processLogfileLinesChannel"
                output-channel="nullChannel" id="processLogfileLinesChain">
 
         <int:service-activator ref="processLogfileLinesPipeline"
-                               method="getTimeStamp" />
+                               method="getTimeStamp"/>
 
         <int:service-activator ref="processLogfileLinesPipeline"
-                               method="getIpNumber" />
+                               method="getIpNumber"/>
 
         <int:service-activator ref="processLogfileLinesPipeline"
-                               method="getRequestString" />
+                               method="getRequestString"/>
 
         <int:service-activator ref="processLogfileLinesPipeline"
-                               method="getHttpCode" />
+                               method="getHttpCode"/>
 
         <int:service-activator ref="processLogfileLinesPipeline"
-                               method="getBrowser" />
+                               method="getBrowser"/>
 
         <int:service-activator ref="processLogfileLinesPipeline"
-                               method="pushIntoDatabase" />
+                               method="pushIntoDatabase"/>
 
         <int:service-activator ref="processLogfileLinesPipeline"
-                               method="log" />
+                               method="log"/>
 
     </int:chain>
-
 
 
 </beans>

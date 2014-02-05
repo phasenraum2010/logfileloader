@@ -52,7 +52,7 @@ public class LogfileLineServiceImpl implements LogfileLineService {
     public void createIfNotExists(LogfileLine logfileLine) {
         LogfileLine found = logfileLineRepository.findByLine(logfileLine.getLine());
         if (found == null) {
-            logfileLineRepository.saveAndFlush(logfileLine);
+            logfileLine = logfileLineRepository.saveAndFlush(logfileLine);
         }
     }
 

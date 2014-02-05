@@ -9,7 +9,7 @@ import javax.persistence.*;
  * Time: 08:53
  * To change this template use File | Settings | File Templates.
  */
-@Entity
+@Entity()
 @Table(name = "LINE")
 public class LogfileLine {
 
@@ -50,11 +50,10 @@ public class LogfileLine {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof LogfileLine)) return false;
 
         LogfileLine that = (LogfileLine) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (!line.equals(that.line)) return false;
 
         return true;
@@ -62,9 +61,7 @@ public class LogfileLine {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + line.hashCode();
-        return result;
+        return line.hashCode();
     }
 
     @Override
