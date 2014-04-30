@@ -1,7 +1,5 @@
 package org.woehlke.logfileloader.eai.events;
 
-import org.springframework.integration.Message;
-
 import java.io.Serializable;
 import java.util.List;
 

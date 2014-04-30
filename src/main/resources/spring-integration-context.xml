@@ -76,47 +76,47 @@
 
     <int:channel id="manualStartupChannel">
         <!-- <int:queue message-store="mongoDbMessageStore" /> -->
-        <int:queue/>
+        <int:queue capacity="20"/>
     </int:channel>
 
     <int:channel id="manualTriggerProcessLogfileLinesChannel">
         <!-- <int:queue message-store="mongoDbMessageStore" />  -->
-        <int:queue/>
+        <int:queue capacity="20"/>
     </int:channel>
 
     <int:channel id="processLogfileLinesChannel">
         <!-- <int:queue message-store="mongoDbMessageStore" />  -->
-        <int:queue/>
+        <int:queue capacity="20"/>
     </int:channel>
 
     <int:channel id="processOneLogfileChannel1">
         <!-- <int:queue message-store="mongoDbMessageStore" />  -->
-        <int:queue/>
+        <int:queue capacity="20"/>
     </int:channel>
 
     <int:channel id="processOneLogfileChannel2">
         <!-- <int:queue message-store="mongoDbMessageStore" />  -->
-        <int:queue/>
+        <int:queue capacity="20"/>
     </int:channel>
 
     <int:channel id="processOneLogfileChannel3">
         <!-- <int:queue message-store="mongoDbMessageStore" />  -->
-        <int:queue/>
+        <int:queue capacity="20"/>
     </int:channel>
 
     <int:channel id="importOneFileChannel">
         <!-- <int:queue message-store="mongoDbMessageStore" />  -->
-        <int:queue/>
+        <int:queue capacity="20"/>
     </int:channel>
 
     <int:channel id="importOneLineChannel">
         <!-- <int:queue message-store="mongoDbMessageStore" />  -->
-        <int:queue/>
+        <int:queue capacity="20"/>
     </int:channel>
 
     <int:channel id="importOneLineChannel2">
         <!-- <int:queue message-store="mongoDbMessageStore" />  -->
-        <int:queue/>
+        <int:queue capacity="20"/>
     </int:channel>
 
     <int:chain input-channel="manualStartupChannel"
