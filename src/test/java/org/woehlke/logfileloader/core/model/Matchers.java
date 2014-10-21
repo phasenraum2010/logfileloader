@@ -2,7 +2,6 @@ package org.woehlke.logfileloader.core.model;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.hamcrest.core.Is;
 import org.springframework.data.domain.Page;
 import org.woehlke.logfileloader.core.entities.*;
 

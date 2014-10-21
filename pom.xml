@@ -14,16 +14,16 @@
     </prerequisites>
 
     <properties>
-        <org.springframework-version>4.0.4.RELEASE</org.springframework-version>
-        <spring.integration.version>4.0.0.RELEASE</spring.integration.version>
+        <org.springframework-version>4.1.1.RELEASE</org.springframework-version>
+        <spring.integration.version>4.0.4.RELEASE</spring.integration.version>
         <spring-data-jpa.version>1.5.1.RELEASE</spring-data-jpa.version>
         <spring-data-mongodb.version>1.4.1.RELEASE</spring-data-mongodb.version>
         <spring-data-commons-core.version>1.7.1.RELEASE</spring-data-commons-core.version>
         <slf4j.version>1.6.1</slf4j.version>
         <log4j.version>1.2.16</log4j.version>
         <junit.version>4.10</junit.version>
-        <maven.scm.version>1.8.1</maven.scm.version>
-        <org.aspectj-version>1.6.12</org.aspectj-version>
+        <maven.scm.version>1.9.2</maven.scm.version>
+        <org.aspectj-version>1.8.2</org.aspectj-version>
         <hibernate-entitymanager.version>4.3.2.Final</hibernate-entitymanager.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <encoding>UTF-8</encoding>
@@ -183,6 +183,12 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-instrument</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
             <version>${org.springframework-version}</version>
         </dependency>
 
@@ -397,10 +403,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.2</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <compilerArgument>-Xlint:all</compilerArgument>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
@@ -525,7 +531,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.4.1</version>
+                <version>2.5.1</version>
                 <configuration>
                     <preparationGoals>clean</preparationGoals>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
@@ -536,7 +542,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.3</version>
+                <version>3.4</version>
                 <inherited>true</inherited>
                 <configuration>
                     <locales>en</locales>
@@ -550,24 +556,24 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.8</version>
+                <version>2.9</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
+                <version>2.4</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat6-maven-plugin</artifactId>
-                <version>2.1</version>
+                <version>2.2</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.1</version>
+                <version>2.2</version>
                 <configuration>
                     <path>/</path>
                 </configuration>
@@ -585,25 +591,28 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
+                <version>2.10.1</version>
                 <configuration>
                     <links>
-                        <link>http://static.springsource.org/spring/docs/3.2.x/javadoc-api/</link>
+                        <link>http://docs.spring.io/spring/docs/4.1.x/javadoc-api/</link>
                         <link>http://static.springsource.org/spring-integration/api/</link>
                         <link>http://hc.apache.org/httpclient-3.x/apidocs/</link>
-                        <link>http://docs.oracle.com/javase/6/docs/api/</link>
+                        <link>http://docs.oracle.com/javase/8/docs/api/</link>
                     </links>
+                    <javadocVersion>1.8</javadocVersion>
                     <linksource>true</linksource>
                     <maxmemory>1024m</maxmemory>
-                    <source>1.6</source>
+                    <source>1.8</source>
                     <encoding>${encoding}</encoding>
+                    <!-- for jdk 1.8 -->
+                    <additionalparam>-Xdoclint:none</additionalparam>
                 </configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.10</version>
+                <version>2.13</version>
                 <configuration>
                     <encoding>${encoding}</encoding>
                 </configuration>
@@ -612,7 +621,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
-                <version>2.5.2</version>
+                <version>3.0.0</version>
                 <configuration>
                     <onlyAnalyze>org.woehlke.*</onlyAnalyze>
                     <omitVisitors>FindDeadLocalStores</omitVisitors>
@@ -626,17 +635,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>2.3</version>
+                <version>2.4</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>3.2</version>
                 <configuration>
                     <sourceEncoding>${encoding}</sourceEncoding>
                     <minimumTokens>100</minimumTokens>
-                    <targetJdk>1.6</targetJdk>
+                    <targetJdk>1.8</targetJdk>
                     <excludeRoots>
                         <excludeRoot>target</excludeRoot>
                     </excludeRoots>
@@ -655,19 +664,20 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-changes-plugin</artifactId>
-                <version>2.9</version>
+                <version>2.11</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.15</version>
+                <version>2.17</version>
             </plugin>
 
+            <!-- replacement for cobertura -->
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.5.2</version>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.2.201409121644</version>
             </plugin>
 
         </plugins>
