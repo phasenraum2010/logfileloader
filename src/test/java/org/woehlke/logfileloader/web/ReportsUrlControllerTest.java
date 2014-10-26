@@ -48,7 +48,7 @@ public class ReportsUrlControllerTest extends AbstractControllerTest {
      */
     @Test
     public void listBrowserForUrls() throws Exception {
-        PageRequest pageRequest = new PageRequest(1,1);
+        PageRequest pageRequest = new PageRequest(0,1);
         Page<PageReportItem> listPages = reportsService.listPages(pageRequest);
         Assert.assertTrue(listPages.hasContent());
         for(PageReportItem pageItem:listPages.getContent()){

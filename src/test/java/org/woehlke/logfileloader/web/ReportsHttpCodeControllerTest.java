@@ -43,7 +43,7 @@ public class ReportsHttpCodeControllerTest extends AbstractControllerTest  {
      */
     @Test
     public void listUrlsForHttpCodesTest() throws Exception {
-        PageRequest pageRequest = new PageRequest(1,1);
+        PageRequest pageRequest = new PageRequest(0,1);
         Page<HttpCodeReportItem> listHttpCodes = reportsService.listHttpCodes(pageRequest);
         Assert.assertTrue(listHttpCodes.hasContent());
         for(HttpCodeReportItem httpCode:listHttpCodes.getContent()){

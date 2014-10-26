@@ -2,6 +2,8 @@ package org.woehlke.logfileloader.web;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -23,6 +25,9 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/servlet-context.xml")
 public abstract class AbstractControllerTest {
+
+    protected final static Logger LOGGER = LoggerFactory.getLogger(AbstractControllerTest.class);
+
 
     @Inject
     protected WebApplicationContext wac;

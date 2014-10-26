@@ -16,10 +16,10 @@ import static org.woehlke.logfileloader.core.model.Matchers.*;
  * Time: 11:42
  * To change this template use File | Settings | File Templates.
  */
-public class DashboardControllerTest extends AbstractControllerTest {
+public class ReportsDashboardControllerTest extends AbstractControllerTest {
 
     @Test
-    public void listDaysTest() throws Exception {
+    public void dashboardTest() throws Exception {
         this.mockMvc.perform(
                 get("/reports/dashboard"))
                 .andExpect(view().name(containsString("reports/dashboard")))

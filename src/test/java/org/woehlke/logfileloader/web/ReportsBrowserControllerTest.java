@@ -43,7 +43,7 @@ public class ReportsBrowserControllerTest extends AbstractControllerTest {
      */
     @Test
     public void listUrlsForBrowserTest() throws Exception {
-        PageRequest pageRequest = new PageRequest(1,1);
+        PageRequest pageRequest = new PageRequest(0,1);
         Page<BrowserReportItem> listBrowser = reportsService.listBrowser(pageRequest);
         Assert.assertTrue(listBrowser.hasContent());
         for(BrowserReportItem browser:listBrowser.getContent()){

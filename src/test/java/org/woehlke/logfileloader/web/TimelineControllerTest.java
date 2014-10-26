@@ -1,6 +1,7 @@
 package org.woehlke.logfileloader.web;
 
 import junit.framework.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,23 +40,26 @@ public class TimelineControllerTest extends AbstractControllerTest {
 
     @Test
     public void listHttpCodesForDay() throws Exception {
-        PageRequest pageRequest = new PageRequest(1,1);
+        int page = 0;
+        int size = 1;
+        PageRequest pageRequest = new PageRequest(page,size);
         Page<TimelineDaysItem> listDays = reportsService.listDays(pageRequest);
-        Assert.assertTrue(listDays.hasContent());
-        for(TimelineDaysItem daysItem:listDays.getContent()){
-            this.mockMvc.perform(
-                    get("/reports/timelineDays/"+daysItem.getId()+"/httpcodes"))
-                    .andExpect(view().name(containsString("reports/listHttpCodesForDay")))
-                    .andExpect(model().attribute("day", notNullValue()))
-                    .andExpect(model().attribute("day", isDay()))
-                    .andExpect(model().attribute("listHttpCodes", notNullValue()))
-                    .andExpect(model().attribute("listHttpCodes", isPageOfHttpCodeReportItem()));
+        Assert.assertTrue(listDays.getContent().size()>0);
+        for(TimelineDaysItem daysItem:listDays.getContent()) {
+            LOGGER.info(daysItem.toString());
+                this.mockMvc.perform(
+                        get("/reports/timelineDays/" + daysItem.getId() + "/httpcodes"))
+                        .andExpect(view().name(containsString("reports/listHttpCodesForDay")))
+                        .andExpect(model().attribute("day", notNullValue()))
+                        .andExpect(model().attribute("day", isDay()))
+                        .andExpect(model().attribute("listHttpCodes", notNullValue()))
+                        .andExpect(model().attribute("listHttpCodes", isPageOfHttpCodeReportItem()));
         }
     }
 
     @Test
     public void listUrlsForDay() throws Exception {
-        PageRequest pageRequest = new PageRequest(1,1);
+        PageRequest pageRequest = new PageRequest(0,1);
         Page<TimelineDaysItem> listDays = reportsService.listDays(pageRequest);
         Assert.assertTrue(listDays.hasContent());
         for(TimelineDaysItem daysItem:listDays.getContent()){
@@ -71,7 +75,7 @@ public class TimelineControllerTest extends AbstractControllerTest {
 
     @Test
     public void listBrowserForDay() throws Exception {
-        PageRequest pageRequest = new PageRequest(1,1);
+        PageRequest pageRequest = new PageRequest(0,1);
         Page<TimelineDaysItem> listDays = reportsService.listDays(pageRequest);
         Assert.assertTrue(listDays.hasContent());
         for(TimelineDaysItem daysItem:listDays.getContent()){

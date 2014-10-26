@@ -24,7 +24,7 @@ import javax.inject.Inject;
  * To change this template use File | Settings | File Templates.
  */
 @Controller
-public class DashboardController {
+public class ReportsDashboardController {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(TimelineController.class);
 

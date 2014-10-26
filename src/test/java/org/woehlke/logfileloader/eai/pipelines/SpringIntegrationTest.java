@@ -13,8 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.woehlke.spring;
+package org.woehlke.logfileloader.eai.pipelines;
 
 
 
@@ -33,7 +32,7 @@ public class SpringIntegrationTest {
 	public void testSpringIntegrationContextStartup() throws Exception{
 		LOGGER.info("testSpringIntegrationContextStartup");
 		new ClassPathXmlApplicationContext("/spring-integration-context.xml", SpringIntegrationTest.class);
-		Thread.sleep(4000);
+		Thread.sleep(12000);
 	}
 
 }

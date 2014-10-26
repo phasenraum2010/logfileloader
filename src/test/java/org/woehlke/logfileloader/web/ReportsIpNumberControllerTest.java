@@ -39,7 +39,7 @@ public class ReportsIpNumberControllerTest extends AbstractControllerTest {
 
     @Test
     public void listUrlsForIpNumber() throws Exception {
-        PageRequest pageRequest = new PageRequest(1,1);
+        PageRequest pageRequest = new PageRequest(0,1);
         Page<IpNumbersReportItem> ipNumbersReport = reportsService.listIpNumbers(pageRequest);
         Assert.assertTrue(ipNumbersReport.hasContent());
         for(IpNumbersReportItem ipNumbersReportItem :ipNumbersReport.getContent()){

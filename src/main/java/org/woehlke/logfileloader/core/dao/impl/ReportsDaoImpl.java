@@ -146,8 +146,10 @@ public class ReportsDaoImpl implements ReportsDao {
         String sql2 = "select count(nr) from ("+sql1+") as COUNT";
         long total = jdbcTemplate.queryForLong(sql2);
         List<TimelineDaysItem> list = jdbcTemplate.query(sql1, new TimelineDaysItemMapper());
-        int toIndex=pageable.getOffset()+pageable.getPageSize()>list.size()?list.size():pageable.getOffset()+pageable.getPageSize();
-        Page<TimelineDaysItem> page = new PageImpl<TimelineDaysItem>(list.subList(pageable.getOffset(),toIndex),pageable,total);
+        int offset=pageable.getOffset();
+        int pageSize=pageable.getPageSize();
+        int toIndex=(offset+pageSize>list.size())?list.size():(offset+pageSize);
+        Page<TimelineDaysItem> page = new PageImpl<TimelineDaysItem>(list.subList(offset,toIndex),pageable,total);
         return page;
     }
 
