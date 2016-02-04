@@ -29,11 +29,6 @@ GRANT ALL PRIVILEGES ON `logfileloader` . * TO 'logfileloader'@'localhost';
 
 GRANT ALL PRIVILEGES ON `logfileloader\_%` . * TO 'logfileloader'@'localhost';
 
-Setup MongoDB
--------------
-
-TODO
-
 Run
 ---
 

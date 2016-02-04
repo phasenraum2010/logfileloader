@@ -14,7 +14,7 @@ logfileloader
 
 * Runtime Dependencies
 
-    Uses MySQL as local Database and MongoDB as Message Store Service for EAI.
+    Uses MySQL as local Database
 
 * Install
 
@@ -29,10 +29,6 @@ logfileloader
     GRANT ALL PRIVILEGES ON `logfileloader` . * TO 'logfileloader'@'localhost';
 
     GRANT ALL PRIVILEGES ON `logfileloader\_%` . * TO 'logfileloader'@'localhost';
-
-** Setup MongoDB
-
-    TODO
 
 * Run
 
