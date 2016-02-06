@@ -12,7 +12,7 @@
     <bannerLeft>
         <name>logfileloader</name>
         <src>/images/phasenraum_logo.gif</src>
-        <href>http://woehlke.org/p/logfileloader/</href>
+        <href>http://woehlke.org/</href>
     </bannerLeft>
     <body>
         <menu ref="parent"/>
